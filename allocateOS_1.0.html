@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AllocateOS — Poultry Broker Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2435;
+    --border: #2a3148;
+    --accent: #f5a623;
+    --accent2: #4ade80;
+    --danger: #f87171;
+    --text: #e8eaf0;
+    --muted: #6b7899;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+
+  /* AUTH */
+  #auth-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+  .auth-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px 40px;
+    width: 380px;
+    position: relative;
+  }
+  .auth-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .auth-logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .auth-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-family: var(--mono);
+  }
+  .auth-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .auth-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .auth-input:focus { border-color: var(--accent); }
+  .auth-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+  }
+  .auth-btn:hover { opacity: 0.85; }
+  .auth-toggle {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+  .auth-toggle a { color: var(--accent); cursor: pointer; text-decoration: none; }
+  .auth-error {
+    background: rgba(248,113,113,0.1);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 10px 14px;
+    font-size: 12px;
+    font-family: var(--mono);
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  /* APP LAYOUT */
+  #app { display: none; min-height: 100vh; }
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-logo {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .topbar-user {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+  .topbar-logout {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .topbar-logout:hover { border-color: var(--accent); color: var(--accent); }
+
+  .layout { display: flex; min-height: calc(100vh - 52px); }
+  .sidebar {
+    width: 200px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    flex-shrink: 0;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--surface2); }
+  .nav-icon { font-size: 14px; }
+  .nav-section {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--border);
+    padding: 16px 20px 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .main { flex: 1; padding: 28px 32px; overflow-y: auto; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-title {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .page-date {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    padding: 8px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+  .btn-copy { background: var(--surface2); color: var(--accent2); border: 1px solid var(--border); }
+
+  /* SUPPLY BOARD */
+  .supply-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .date-input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    outline: none;
+  }
+  .date-input:focus { border-color: var(--accent); }
+
+  .supply-grid { display: flex; flex-direction: column; gap: 8px; }
+  .supply-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1.5fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+  .supply-card:hover { border-color: var(--accent); }
+  .supply-farm { font-weight: 500; font-size: 14px; }
+  .supply-location { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+  .supply-stat { font-family: var(--mono); font-size: 13px; }
+  .supply-stat-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; margin-bottom: 2px; }
+  .supply-price { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+
+  .status-badge {
+    padding: 3px 8px;
+    font-size: 10px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .status-available { background: rgba(74,222,128,0.1); color: var(--accent2); border: 1px solid rgba(74,222,128,0.3); }
+  .status-partial { background: rgba(245,166,35,0.1); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
+  .status-full { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+
+  .supply-actions { display: flex; gap: 6px; }
+
+  /* VIBER EXPORT */
+  .viber-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .viber-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .viber-output {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    white-space: pre-wrap;
+    line-height: 1.7;
+    min-height: 80px;
+  }
+  .viber-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 32px;
+    width: 520px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+  .form-row { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-select option { background: var(--surface2); }
+  .form-textarea { resize: vertical; min-height: 70px; }
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .data-table td {
+    padding: 12px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:hover td { background: var(--surface2); }
+  .data-table .mono { font-family: var(--mono); }
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* PRICE LOG */
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+  .price-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .price-range { font-family: var(--mono); font-size: 20px; font-weight: 600; color: var(--accent); }
+  .price-source { font-size: 12px; color: var(--muted); }
+  .price-notes { font-size: 12px; color: var(--text); margin-top: 4px; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .empty-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.4; }
+
+  /* LOADING */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.error { border-left-color: var(--danger); }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">AllocateOS</div>
+    <div class="auth-sub">Poultry Broker Operations</div>
+    <div class="auth-error" id="auth-error"></div>
+    <div id="login-form">
+      <label class="auth-label">Email</label>
+      <input type="email" class="auth-input" id="login-email" placeholder="broker@email.com">
+      <label class="auth-label">Password</label>
+      <input type="password" class="auth-input" id="login-password" placeholder="••••••••">
+      <button class="auth-btn" onclick="login()">Sign In</button>
+      <div class="auth-toggle">No account? <a onclick="showRegister()">Register here</a></div>
+    </div>
+    <div id="register-form" style="display:none">
+      <label class="auth-label">Email</label>
+      <input type="email" class="auth-input" id="reg-email" placeholder="broker@email.com">
+      <label class="auth-label">Password</label>
+      <input type="password" class="auth-input" id="reg-password" placeholder="Min 6 characters">
+      <button class="auth-btn" onclick="register()">Create Account</button>
+      <div class="auth-toggle">Have an account? <a onclick="showLogin()">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">AllocateOS</div>
+    <div class="topbar-right">
+      <span class="topbar-user" id="user-email"></span>
+      <button class="topbar-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="nav-section">Operations</div>
+      <div class="nav-item active" onclick="showPage('supply')">
+        <span class="nav-icon">📋</span> Supply Board
+      </div>
+      <div class="nav-item" onclick="showPage('transactions')">
+        <span class="nav-icon">💼</span> Transactions
+      </div>
+      <div class="nav-item" onclick="showPage('pricelog')">
+        <span class="nav-icon">📈</span> Price Log
+      </div>
+      <div class="nav-section">Directory</div>
+      <div class="nav-item" onclick="showPage('suppliers')">
+        <span class="nav-icon">🏭</span> Suppliers
+      </div>
+      <div class="nav-item" onclick="showPage('buyers')">
+        <span class="nav-icon">👥</span> Buyers
+      </div>
+    </div>
+
+    <div class="main">
+
+      <!-- SUPPLY BOARD -->
+      <div class="page active" id="page-supply">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Today's Supply Board</div>
+            <div class="page-date" id="supply-date-label"></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <input type="date" class="date-input" id="supply-date" onchange="loadSupply()">
+            <button class="btn btn-primary" onclick="openSupplyModal()">+ Add Farm</button>
+          </div>
+        </div>
+        <div id="supply-list" class="supply-grid">
+          <div class="loading">Loading supply board...</div>
+        </div>
+        <div class="viber-box" id="viber-section" style="display:none">
+          <div class="viber-title">📱 Viber-Ready Post</div>
+          <div class="viber-output" id="viber-text"></div>
+          <div class="viber-actions">
+            <button class="btn btn-copy btn-sm" onclick="copyViber()">Copy to Clipboard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <div class="page" id="page-transactions">
+        <div class="page-header">
+          <div class="page-title">Transactions</div>
+          <button class="btn btn-primary" onclick="openTxModal()">+ Add Transaction</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th><th>Farm</th><th>Buyer</th><th>Volume</th><th>Price/kg</th><th>Total</th><th>Payment</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tx-list"><tr><td colspan="8" class="loading">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRICE LOG -->
+      <div class="page" id="page-pricelog">
+        <div class="page-header">
+          <div class="page-title">Price Log</div>
+          <button class="btn btn-primary" onclick="openPriceModal()">+ Log Price</button>
+        </div>
+        <div id="price-list"><div class="loading">Loading...</div></div>
+      </div>
+
+      <!-- SUPPLIERS -->
+      <div class="page" id="page-suppliers">
+        <div class="page-header">
+          <div class="page-title">Suppliers</div>
+          <button class="btn btn-primary" onclick="openSupplierModal()">+ Add Supplier</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Farm Name</th><th>Owner</th><th>Contact</th><th>Location</th><th>Type</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="supplier-list"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BUYERS -->
+      <div class="page" id="page-buyers">
+        <div class="page-header">
+          <div class="page-title">Buyers</div>
+          <button class="btn btn-primary" onclick="openBuyerModal()">+ Add Buyer</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Buyer Name</th><th>Contact</th><th>Location</th><th>Usual Volume</th><th>Notes</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="buyer-list"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SUPPLY MODAL -->
+<div class="modal-overlay" id="supply-modal">
+  <div class="modal">
+    <div class="modal-title" id="supply-modal-title">Add Farm to Supply Board</div>
+    <input type="hidden" id="supply-edit-id">
+    <div class="form-row">
+      <label class="form-label">Farm Name *</label>
+      <input type="text" class="form-input" id="s-farm" placeholder="e.g. Green Farm">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Location</label>
+      <input type="text" class="form-input" id="s-location" placeholder="e.g. Maragol, Munoz, Nueva Ecija">
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Heads Available</label>
+        <input type="number" class="form-input" id="s-heads" placeholder="e.g. 10000">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Weight Range (kg)</label>
+        <input type="text" class="form-input" id="s-weight" placeholder="e.g. 1.90kg up / 1.65-1.80kg">
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Price per kg (₱) — Private</label>
+        <input type="number" step="0.01" class="form-input" id="s-price" placeholder="e.g. 180">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="s-status">
+          <option value="Available">Available</option>
+          <option value="Partially Allocated">Partially Allocated</option>
+          <option value="Fully Allocated">Fully Allocated</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Allocated To (Buyer)</label>
+      <input type="text" class="form-input" id="s-allocated" placeholder="Leave blank if not yet allocated">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="s-notes" placeholder="Additional notes..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('supply-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSupply()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSACTION MODAL -->
+<div class="modal-overlay" id="tx-modal">
+  <div class="modal">
+    <div class="modal-title">Add Transaction</div>
+    <input type="hidden" id="tx-edit-id">
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Date *</label>
+        <input type="date" class="form-input" id="tx-date">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Payment Status</label>
+        <select class="form-select" id="tx-payment">
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Partial">Partial</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Farm Name *</label>
+        <input type="text" class="form-input" id="tx-farm" placeholder="Farm name">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Buyer Name *</label>
+        <input type="text" class="form-input" id="tx-buyer" placeholder="Buyer name">
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Volume (heads)</label>
+        <input type="number" class="form-input" id="tx-volume" placeholder="e.g. 500" oninput="calcTotal()">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Price per kg (₱)</label>
+        <input type="number" step="0.01" class="form-input" id="tx-price" placeholder="e.g. 185" oninput="calcTotal()">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Total Amount (₱)</label>
+      <input type="number" step="0.01" class="form-input" id="tx-total" placeholder="Auto-calculated or enter manually">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="tx-notes"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('tx-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTransaction()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRICE LOG MODAL -->
+<div class="modal-overlay" id="price-modal">
+  <div class="modal">
+    <div class="modal-title">Log Market Price</div>
+    <input type="hidden" id="price-edit-id">
+    <div class="form-row">
+      <label class="form-label">Date *</label>
+      <input type="date" class="form-input" id="p-date">
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Price Low (₱/kg)</label>
+        <input type="number" step="0.01" class="form-input" id="p-low" placeholder="e.g. 175">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Price High (₱/kg)</label>
+        <input type="number" step="0.01" class="form-input" id="p-high" placeholder="e.g. 190">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Source</label>
+      <input type="text" class="form-input" id="p-source" placeholder="e.g. Farm calls, market contacts">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="p-notes" placeholder="Market observations..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('price-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePrice()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPLIER MODAL -->
+<div class="modal-overlay" id="supplier-modal">
+  <div class="modal">
+    <div class="modal-title" id="supplier-modal-title">Add Supplier</div>
+    <input type="hidden" id="sup-edit-id">
+    <div class="form-row">
+      <label class="form-label">Farm Name *</label>
+      <input type="text" class="form-input" id="sup-farm">
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Owner Name</label>
+        <input type="text" class="form-input" id="sup-owner">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Contact Number</label>
+        <input type="text" class="form-input" id="sup-contact">
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-input" id="sup-location">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Type</label>
+        <input type="text" class="form-input" id="sup-type" placeholder="e.g. Broiler, Layer">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('supplier-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSupplier()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- BUYER MODAL -->
+<div class="modal-overlay" id="buyer-modal">
+  <div class="modal">
+    <div class="modal-title" id="buyer-modal-title">Add Buyer</div>
+    <input type="hidden" id="buy-edit-id">
+    <div class="form-row">
+      <label class="form-label">Buyer Name *</label>
+      <input type="text" class="form-input" id="buy-name">
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Contact Number</label>
+        <input type="text" class="form-input" id="buy-contact">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-input" id="buy-location">
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-row">
+        <label class="form-label">Usual Volume (heads)</label>
+        <input type="number" class="form-input" id="buy-volume">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Notes</label>
+        <input type="text" class="form-input" id="buy-notes">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('buyer-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBuyer()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://nvncisqfjtygjdsczstb.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52bmNpc3FmanR5Z2pkc2N6c3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODExOTIsImV4cCI6MjA5NDI1NzE5Mn0.pgQ2M0DihCX4CZFvMa8sn4PxQ2xU4EpLrFUIXRNy6Yw';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+// AUTH
+async function login() {
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-password').value;
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { showAuthError(error.message); return; }
+  onLogin(data.user);
+}
+
+async function register() {
+  const email = document.getElementById('reg-email').value;
+  const pass = document.getElementById('reg-password').value;
+  const { data, error } = await sb.auth.signUp({ email, password: pass });
+  if (error) { showAuthError(error.message); return; }
+  showAuthError('Account created! Please sign in.'); showLogin();
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  currentUser = null;
+}
+
+function onLogin(user) {
+  currentUser = user;
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-email').textContent = user.email;
+  initApp();
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+function showRegister() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'block';
+  document.getElementById('auth-error').style.display = 'none';
+}
+function showLogin() {
+  document.getElementById('login-form').style.display = 'block';
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+sb.auth.getSession().then(({ data }) => {
+  if (data.session) onLogin(data.session.user);
+});
+
+// APP INIT
+function initApp() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('supply-date').value = today;
+  document.getElementById('tx-date').value = today;
+  document.getElementById('p-date').value = today;
+  updateDateLabel();
+  loadSupply();
+  loadTransactions();
+  loadPriceLog();
+  loadSuppliers();
+  loadBuyers();
+}
+
+function updateDateLabel() {
+  const d = document.getElementById('supply-date').value;
+  const date = new Date(d + 'T00:00:00');
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('supply-date-label').textContent = date.toLocaleDateString('en-PH', opts);
+}
+
+// NAVIGATION
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// TOAST
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type === 'error' ? ' error' : '');
+  setTimeout(() => el.className = 'toast', 2500);
+}
+
+// MODAL
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+
+// =====================
+// SUPPLY BOARD
+// =====================
+async function loadSupply() {
+  updateDateLabel();
+  const date = document.getElementById('supply-date').value;
+  const { data, error } = await sb.from('supply_board').select('*')
+    .eq('date', date).order('created_at');
+  if (error) { toast('Error loading supply', 'error'); return; }
+  renderSupply(data);
+}
+
+function renderSupply(data) {
+  const el = document.getElementById('supply-list');
+  if (!data.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No supply entries for this date.<br>Click "+ Add Farm" to start building today\'s board.</div>';
+    document.getElementById('viber-section').style.display = 'none';
+    return;
+  }
+  el.innerHTML = data.map(r => `
+    <div class="supply-card">
+      <div>
+        <div class="supply-farm">${r.farm_name}</div>
+        <div class="supply-location">${r.location || ''}</div>
+        ${r.allocated_to ? `<div style="font-size:11px;color:#4ade80;margin-top:3px;font-family:var(--mono)">→ ${r.allocated_to}</div>` : ''}
+      </div>
+      <div>
+        <div class="supply-stat-label">Heads</div>
+        <div class="supply-stat">${r.heads_available ? r.heads_available.toLocaleString() : '—'}</div>
+      </div>
+      <div>
+        <div class="supply-stat-label">Weight</div>
+        <div class="supply-stat">${r.weight_range || '—'}</div>
+      </div>
+      <div>
+        <div class="supply-stat-label">Price/kg (Private)</div>
+        <div class="supply-price">${r.price_per_kg ? '₱' + r.price_per_kg : '—'}</div>
+      </div>
+      <div>
+        <span class="status-badge ${statusClass(r.status)}">${r.status}</span>
+        ${r.notes ? `<div style="font-size:11px;color:var(--muted);margin-top:6px">${r.notes}</div>` : ''}
+      </div>
+      <div class="supply-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editSupply(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSupply('${r.id}')">Del</button>
+      </div>
+    </div>
+  `).join('');
+  generateViber(data);
+  document.getElementById('viber-section').style.display = 'block';
+}
+
+function statusClass(s) {
+  if (s === 'Available') return 'status-available';
+  if (s === 'Partially Allocated') return 'status-partial';
+  return 'status-full';
+}
+
+function generateViber(data) {
+  const date = document.getElementById('supply-date').value;
+  const d = new Date(date + 'T00:00:00');
+  const dayName = d.toLocaleDateString('en-PH', { weekday: 'long' });
+  const monthDay = d.toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' });
+  let text = `Live Sales for ${dayName}\n${monthDay}\n`;
+  data.filter(r => r.status !== 'Fully Allocated').forEach(r => {
+    text += `\n📍${r.farm_name}`;
+    if (r.heads_available) text += `\n${r.heads_available.toLocaleString()} hds / ${r.weight_range || ''}`;
+    else if (r.weight_range) text += `\n${r.weight_range}`;
+    if (r.location) text += `\n${r.location}`;
+  });
+  document.getElementById('viber-text').textContent = text;
+}
+
+function copyViber() {
+  const text = document.getElementById('viber-text').textContent;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard!'));
+}
+
+function openSupplyModal() {
+  document.getElementById('supply-modal-title').textContent = 'Add Farm to Supply Board';
+  document.getElementById('supply-edit-id').value = '';
+  ['s-farm','s-location','s-heads','s-weight','s-price','s-allocated','s-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('s-status').value = 'Available';
+  openModal('supply-modal');
+}
+
+function editSupply(r) {
+  document.getElementById('supply-modal-title').textContent = 'Edit Supply Entry';
+  document.getElementById('supply-edit-id').value = r.id;
+  document.getElementById('s-farm').value = r.farm_name || '';
+  document.getElementById('s-location').value = r.location || '';
+  document.getElementById('s-heads').value = r.heads_available || '';
+  document.getElementById('s-weight').value = r.weight_range || '';
+  document.getElementById('s-price').value = r.price_per_kg || '';
+  document.getElementById('s-status').value = r.status || 'Available';
+  document.getElementById('s-allocated').value = r.allocated_to || '';
+  document.getElementById('s-notes').value = r.notes || '';
+  openModal('supply-modal');
+}
+
+async function saveSupply() {
+  const id = document.getElementById('supply-edit-id').value;
+  const date = document.getElementById('supply-date').value;
+  const payload = {
+    date,
+    farm_name: document.getElementById('s-farm').value,
+    location: document.getElementById('s-location').value,
+    heads_available: document.getElementById('s-heads').value || null,
+    weight_range: document.getElementById('s-weight').value,
+    price_per_kg: document.getElementById('s-price').value || null,
+    status: document.getElementById('s-status').value,
+    allocated_to: document.getElementById('s-allocated').value,
+    notes: document.getElementById('s-notes').value,
+    user_id: currentUser.id
+  };
+  if (!payload.farm_name) { toast('Farm name is required', 'error'); return; }
+  let error;
+  if (id) { ({ error } = await sb.from('supply_board').update(payload).eq('id', id)); }
+  else { ({ error } = await sb.from('supply_board').insert(payload)); }
+  if (error) { toast('Error saving: ' + error.message, 'error'); return; }
+  closeModal('supply-modal');
+  toast('Supply entry saved!');
+  loadSupply();
+}
+
+async function deleteSupply(id) {
+  if (!confirm('Delete this entry?')) return;
+  const { error } = await sb.from('supply_board').delete().eq('id', id);
+  if (error) { toast('Error deleting', 'error'); return; }
+  toast('Deleted');
+  loadSupply();
+}
+
+// =====================
+// TRANSACTIONS
+// =====================
+async function loadTransactions() {
+  const { data, error } = await sb.from('transactions').select('*').order('date', { ascending: false });
+  if (error) return;
+  const el = document.getElementById('tx-list');
+  if (!data.length) { el.innerHTML = '<tr><td colspan="8" class="empty-state">No transactions yet.</td></tr>'; return; }
+  el.innerHTML = data.map(r => `
+    <tr>
+      <td class="mono">${r.date}</td>
+      <td>${r.farm_name}</td>
+      <td>${r.buyer_name}</td>
+      <td class="mono">${r.volume ? r.volume.toLocaleString() : '—'}</td>
+      <td class="mono">${r.price_per_kg ? '₱' + r.price_per_kg : '—'}</td>
+      <td class="mono">${r.total_amount ? '₱' + Number(r.total_amount).toLocaleString() : '—'}</td>
+      <td><span class="status-badge ${r.payment_status === 'Paid' ? 'status-available' : r.payment_status === 'Partial' ? 'status-partial' : 'status-full'}">${r.payment_status}</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteTx('${r.id}')">Del</button></td>
+    </tr>
+  `).join('');
+}
+
+function calcTotal() {
+  const vol = parseFloat(document.getElementById('tx-volume').value);
+  const price = parseFloat(document.getElementById('tx-price').value);
+  if (vol && price) document.getElementById('tx-total').value = (vol * price).toFixed(2);
+}
+
+function openTxModal() {
+  document.getElementById('tx-edit-id').value = '';
+  ['tx-farm','tx-buyer','tx-volume','tx-price','tx-total','tx-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('tx-payment').value = 'Pending';
+  openModal('tx-modal');
+}
+
+async function saveTransaction() {
+  const payload = {
+    date: document.getElementById('tx-date').value,
+    farm_name: document.getElementById('tx-farm').value,
+    buyer_name: document.getElementById('tx-buyer').value,
+    volume: document.getElementById('tx-volume').value || null,
+    price_per_kg: document.getElementById('tx-price').value || null,
+    total_amount: document.getElementById('tx-total').value || null,
+    payment_status: document.getElementById('tx-payment').value,
+    notes: document.getElementById('tx-notes').value,
+    user_id: currentUser.id
+  };
+  if (!payload.farm_name || !payload.buyer_name) { toast('Farm and buyer required', 'error'); return; }
+  const { error } = await sb.from('transactions').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('tx-modal');
+  toast('Transaction saved!');
+  loadTransactions();
+}
+
+async function deleteTx(id) {
+  if (!confirm('Delete this transaction?')) return;
+  await sb.from('transactions').delete().eq('id', id);
+  toast('Deleted'); loadTransactions();
+}
+
+// =====================
+// PRICE LOG
+// =====================
+async function loadPriceLog() {
+  const { data, error } = await sb.from('price_log').select('*').order('date', { ascending: false });
+  if (error) return;
+  const el = document.getElementById('price-list');
+  if (!data.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📈</div>No price entries yet.</div>'; return; }
+  el.innerHTML = data.map(r => `
+    <div class="price-card">
+      <div>
+        <div class="price-date">${r.date}</div>
+      </div>
+      <div>
+        <div class="price-range">₱${r.price_low || '?'} – ₱${r.price_high || '?'}/kg</div>
+        <div class="price-source">${r.source || ''}</div>
+        ${r.notes ? `<div class="price-notes">${r.notes}</div>` : ''}
+      </div>
+      <div>
+        <button class="btn btn-danger btn-sm" onclick="deletePrice('${r.id}')">Del</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openPriceModal() {
+  document.getElementById('price-edit-id').value = '';
+  ['p-low','p-high','p-source','p-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-date').value = new Date().toISOString().split('T')[0];
+  openModal('price-modal');
+}
+
+async function savePrice() {
+  const payload = {
+    date: document.getElementById('p-date').value,
+    price_low: document.getElementById('p-low').value || null,
+    price_high: document.getElementById('p-high').value || null,
+    source: document.getElementById('p-source').value,
+    notes: document.getElementById('p-notes').value,
+    user_id: currentUser.id
+  };
+  const { error } = await sb.from('price_log').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('price-modal');
+  toast('Price logged!');
+  loadPriceLog();
+}
+
+async function deletePrice(id) {
+  if (!confirm('Delete this entry?')) return;
+  await sb.from('price_log').delete().eq('id', id);
+  toast('Deleted'); loadPriceLog();
+}
+
+// =====================
+// SUPPLIERS
+// =====================
+async function loadSuppliers() {
+  const { data, error } = await sb.from('suppliers').select('*').order('farm_name');
+  if (error) return;
+  const el = document.getElementById('supplier-list');
+  if (!data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No suppliers yet.</td></tr>'; return; }
+  el.innerHTML = data.map(r => `
+    <tr>
+      <td><strong>${r.farm_name}</strong></td>
+      <td>${r.owner_name || '—'}</td>
+      <td class="mono">${r.contact_number || '—'}</td>
+      <td>${r.location || '—'}</td>
+      <td>${r.type || '—'}</td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="editSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSupplier('${r.id}')">Del</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openSupplierModal() {
+  document.getElementById('supplier-modal-title').textContent = 'Add Supplier';
+  document.getElementById('sup-edit-id').value = '';
+  ['sup-farm','sup-owner','sup-contact','sup-location','sup-type'].forEach(id => document.getElementById(id).value = '');
+  openModal('supplier-modal');
+}
+
+function editSupplier(r) {
+  document.getElementById('supplier-modal-title').textContent = 'Edit Supplier';
+  document.getElementById('sup-edit-id').value = r.id;
+  document.getElementById('sup-farm').value = r.farm_name || '';
+  document.getElementById('sup-owner').value = r.owner_name || '';
+  document.getElementById('sup-contact').value = r.contact_number || '';
+  document.getElementById('sup-location').value = r.location || '';
+  document.getElementById('sup-type').value = r.type || '';
+  openModal('supplier-modal');
+}
+
+async function saveSupplier() {
+  const id = document.getElementById('sup-edit-id').value;
+  const payload = {
+    farm_name: document.getElementById('sup-farm').value,
+    owner_name: document.getElementById('sup-owner').value,
+    contact_number: document.getElementById('sup-contact').value,
+    location: document.getElementById('sup-location').value,
+    type: document.getElementById('sup-type').value,
+    user_id: currentUser.id
+  };
+  if (!payload.farm_name) { toast('Farm name required', 'error'); return; }
+  let error;
+  if (id) { ({ error } = await sb.from('suppliers').update(payload).eq('id', id)); }
+  else { ({ error } = await sb.from('suppliers').insert(payload)); }
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('supplier-modal');
+  toast('Supplier saved!');
+  loadSuppliers();
+}
+
+async function deleteSupplier(id) {
+  if (!confirm('Delete this supplier?')) return;
+  await sb.from('suppliers').delete().eq('id', id);
+  toast('Deleted'); loadSuppliers();
+}
+
+// =====================
+// BUYERS
+// =====================
+async function loadBuyers() {
+  const { data, error } = await sb.from('buyers').select('*').order('buyer_name');
+  if (error) return;
+  const el = document.getElementById('buyer-list');
+  if (!data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No buyers yet.</td></tr>'; return; }
+  el.innerHTML = data.map(r => `
+    <tr>
+      <td><strong>${r.buyer_name}</strong></td>
+      <td class="mono">${r.contact_number || '—'}</td>
+      <td>${r.location || '—'}</td>
+      <td class="mono">${r.usual_volume ? r.usual_volume.toLocaleString() + ' hds' : '—'}</td>
+      <td>${r.notes || '—'}</td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="editBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteBuyer('${r.id}')">Del</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openBuyerModal() {
+  document.getElementById('buyer-modal-title').textContent = 'Add Buyer';
+  document.getElementById('buy-edit-id').value = '';
+  ['buy-name','buy-contact','buy-location','buy-volume','buy-notes'].forEach(id => document.getElementById(id).value = '');
+  openModal('buyer-modal');
+}
+
+function editBuyer(r) {
+  document.getElementById('buyer-modal-title').textContent = 'Edit Buyer';
+  document.getElementById('buy-edit-id').value = r.id;
+  document.getElementById('buy-name').value = r.buyer_name || '';
+  document.getElementById('buy-contact').value = r.contact_number || '';
+  document.getElementById('buy-location').value = r.location || '';
+  document.getElementById('buy-volume').value = r.usual_volume || '';
+  document.getElementById('buy-notes').value = r.notes || '';
+  openModal('buyer-modal');
+}
+
+async function saveBuyer() {
+  const id = document.getElementById('buy-edit-id').value;
+  const payload = {
+    buyer_name: document.getElementById('buy-name').value,
+    contact_number: document.getElementById('buy-contact').value,
+    location: document.getElementById('buy-location').value,
+    usual_volume: document.getElementById('buy-volume').value || null,
+    notes: document.getElementById('buy-notes').value,
+    user_id: currentUser.id
+  };
+  if (!payload.buyer_name) { toast('Buyer name required', 'error'); return; }
+  let error;
+  if (id) { ({ error } = await sb.from('buyers').update(payload).eq('id', id)); }
+  else { ({ error } = await sb.from('buyers').insert(payload)); }
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('buyer-modal');
+  toast('Buyer saved!');
+  loadBuyers();
+}
+
+async function deleteBuyer(id) {
+  if (!confirm('Delete this buyer?')) return;
+  await sb.from('buyers').delete().eq('id', id);
+  toast('Deleted'); loadBuyers();
+}
+</script>
+</body>
+</html>
