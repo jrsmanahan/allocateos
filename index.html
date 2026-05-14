@@ -1016,19 +1016,20 @@ function renderTxCard(r) {
       </div>`:''}
 
       <!-- PERMITS -->
+      ${r.stage!=='For Confirmation'?`
       <div class="permits-section" id="permits-${r.id}">
         <div class="permits-title">📋 Documents to Send to Farm</div>
         <div class="permits-grid" id="permits-grid-${r.id}">
           <div style="color:var(--muted);font-size:13px">Loading permits...</div>
         </div>
-      </div>
+      </div>`:'<div id="permits-grid-'+r.id+'" style="display:none"></div>'}
 
       <!-- TRUCKS -->
       <div class="truck-assign-section">
         <div class="truck-assign-title">🚛 Trucks — ${isSummary?'Enter Actual Heads Loaded (from tally sheet)':isCompleted?'Final Harvest Summary':isLocked?'Dispatched to '+r.farm_name:'Add the trucks going to '+r.farm_name}</div>
         <div id="truck-rows-${r.id}">${truckRows}</div>
 
-        ${r.stage!=='Trucks Dispatched'&&r.stage!=='For Summary'&&r.stage!=='For Payment'&&r.stage!=='Completed' ? `
+        ${r.stage!=='Trucks Dispatched'&&r.stage!=='For Summary'&&r.stage!=='For Payment'&&r.stage!=='Completed'&&r.stage!=='For Documents' ? `
         <!-- ADD TRUCK ROW -->
         <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:14px">
           <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">Add a Truck</div>
@@ -1045,7 +1046,7 @@ function renderTxCard(r) {
             </div>
             <button class="btn btn-primary btn-sm" style="white-space:nowrap" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
           </div>
-        </div>` : ''}
+        </div>
 
         <!-- COMPACT TOTALS + PRICE -->
         <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
@@ -1057,7 +1058,26 @@ function renderTxCard(r) {
               <input type="number" step="0.01" class="truck-input" id="inline-price-${r.id}" value="${r.price_per_kg||''}" placeholder="e.g. 185" style="width:120px;background:var(--white)" onchange="savePricePerKg('${r.id}',this.value)">
             </div>
           </div>
-        </div>
+        </div>` : ''}
+
+        ${isSummary ? `
+        <!-- COMPACT TOTALS FOR SUMMARY -->
+        <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Active Trucks</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${activeTrucks.length}${trucks.length!==activeTrucks.length?` <span style="font-size:13px;color:var(--red);font-weight:600">(${trucks.length-activeTrucks.length} cancelled)</span>`:''}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Actual Heads Loaded</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${totalHeads.toLocaleString()}</div></div>
+          <div style="margin-left:auto">
+            <div style="font-size:12px;font-weight:600;color:var(--green-dark);margin-bottom:4px">Price / kg (₱)</div>
+            <input type="number" step="0.01" class="truck-input" id="inline-price-${r.id}" value="${r.price_per_kg||''}" placeholder="e.g. 185" style="width:120px;background:var(--white)" onchange="savePricePerKg('${r.id}',this.value)">
+          </div>
+        </div>` : ''}
+
+        ${isCompleted ? `
+        <!-- FINAL TOTALS -->
+        <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Active Trucks</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${activeTrucks.length}${trucks.length!==activeTrucks.length?` <span style="font-size:13px;color:var(--red);font-weight:600">(${trucks.length-activeTrucks.length} cancelled)</span>`:''}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Total Heads Loaded</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${totalHeads.toLocaleString()}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Price / kg</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</div></div>
+        </div>` : ''}
 
       </div>
     </div>
