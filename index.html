@@ -712,18 +712,13 @@ async function uploadFile(file, path) {
 
 function generateDispatchMsg(r) {
   let trucks=[]; try{trucks=r.truck_summary?JSON.parse(r.truck_summary):[];}catch(e){}
-  let msg = `${r.farm_name}`;
+  let msg = r.farm_name;
   if (r.farm_location) msg += `\n${r.farm_location}`;
-  if (r.weight_range) msg += `\n${r.weight_range}`;
+  if (r.weight_range) msg += `\n${r.weight_range} kg`;
   if (r.total_heads) msg += `\n${Number(r.total_heads).toLocaleString()} hds`;
-  if (trucks.length) {
-    trucks.forEach(t=>{
-      let line = `${t.plate}`;
-      if (t.heads) line += `@${Number(t.heads).toLocaleString()}hds`;
-      if (t.price_per_kg) line += `@₱${t.price_per_kg}/kg`;
-      msg += `\n${line}`;
-    });
-  }
+  trucks.forEach(t => {
+    msg += `\n${t.plate} @ ${t.heads?Number(t.heads).toLocaleString()+' hds':'—'}`;
+  });
   return msg;
 }
 
@@ -1064,13 +1059,6 @@ function renderTxCard(r) {
           </div>
         </div>
 
-        <!-- VIBER TRUCK POST -->
-        ${trucks.length ? `
-        <div style="background:var(--white);border:1px solid var(--green-mid);border-left:4px solid var(--green);border-radius:10px;padding:18px;margin-top:14px">
-          <div style="font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px">📱 Viber-Ready — Truck List for Farm</div>
-          <div style="background:var(--surface2);border:1px solid var(--border);padding:14px;font-family:var(--mono);font-size:14px;color:var(--text);white-space:pre-wrap;line-height:1.8;border-radius:7px" id="truck-viber-${r.id}">${generateTruckViberMsg(r,trucks)}</div>
-          <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="copyTruckViber('${r.id}')">📋 Copy to Clipboard</button>
-        </div>` : ''}
       </div>
     </div>
   </div>`;
