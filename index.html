@@ -128,7 +128,7 @@
   .badge-orange { background: var(--orange-light); color: var(--orange); border: 1px solid #fde68a; }
   .badge-red { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
   .badge-blue { background: var(--blue-light); color: var(--blue); border: 1px solid #93c5fd; }
-  .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid #c4b5fd; }
+  .badge-gray { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
   .badge-gray { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
 
   .viber-box { background: var(--white); border: 1px solid var(--green-mid); border-left: 4px solid var(--green); border-radius: 10px; padding: 22px; margin-top: 20px; box-shadow: var(--shadow); }
@@ -168,7 +168,7 @@
   /* TRUCK ASSIGNMENT */
   .truck-assign-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
   .truck-assign-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
-  .truck-row { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-light); }
+  .truck-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
   .truck-row:last-child { border-bottom: none; }
   .truck-plate { font-size: 14px; font-weight: 600; font-family: var(--mono); }
   .truck-permit-link { font-size: 12px; color: var(--green); text-decoration: none; font-weight: 500; }
@@ -431,10 +431,6 @@
       <div class="form-row"><label class="form-label">Heads Available</label><input type="number" class="form-input" id="s-heads" placeholder="e.g. 10000"></div>
       <div class="form-row"><label class="form-label">Weight Range (kg)</label><input type="text" class="form-input" id="s-weight" placeholder="e.g. 1.90kg up"></div>
     </div>
-    <div class="form-row"><label class="form-label">Status</label>
-      <select class="form-select" id="s-status"><option value="Available">Available</option><option value="Partially Allocated">Partially Allocated</option><option value="Fully Allocated">Fully Allocated</option></select>
-    </div>
-    <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="s-notes"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('supply-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveSupply()">Save Entry</button>
@@ -476,7 +472,14 @@
     <div class="form-grid-2">
       <div class="form-row"><label class="form-label">Date *</label><input type="date" class="form-input" id="tx-date"></div>
       <div class="form-row"><label class="form-label">Stage</label>
-        <select class="form-select" id="tx-stage"><option value="For Documents">For Documents</option><option value="For Summary">For Summary</option><option value="For Payment">For Payment</option><option value="Completed">Completed</option></select>
+        <select class="form-select" id="tx-stage">
+          <option value="For Confirmation">For Confirmation</option>
+          <option value="For Documents">For Documents</option>
+          <option value="Trucks Dispatched">Trucks Dispatched</option>
+          <option value="For Summary">For Summary</option>
+          <option value="For Payment">For Payment</option>
+          <option value="Completed">Completed</option>
+        </select>
       </div>
     </div>
     <div class="form-grid-2">
@@ -504,7 +507,14 @@
     <input type="hidden" id="stage-tx-id">
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:15px;font-weight:600" id="stage-tx-info"></div>
     <div class="form-row"><label class="form-label">Move to Stage</label>
-      <select class="form-select" id="stage-next"><option value="For Documents">For Documents</option><option value="For Summary">For Summary</option><option value="For Payment">For Payment</option><option value="Completed">Completed</option></select>
+      <select class="form-select" id="stage-next">
+        <option value="For Confirmation">For Confirmation</option>
+        <option value="For Documents">For Documents</option>
+        <option value="Trucks Dispatched">Trucks Dispatched</option>
+        <option value="For Summary">For Summary</option>
+        <option value="For Payment">For Payment</option>
+        <option value="Completed">Completed</option>
+      </select>
     </div>
     <div class="form-row"><label class="form-label">Notes (optional)</label><textarea class="form-textarea" id="stage-notes" style="min-height:60px"></textarea></div>
     <div class="modal-actions">
@@ -671,15 +681,19 @@ function updateDateLabel(){
   document.getElementById('supply-date-label').textContent=new Date(d+'T00:00:00').toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
 function stageClass(s){
-  if(s==='For Documents') return 'badge-blue';
-  if(s==='For Summary') return 'badge-purple';
-  if(s==='For Payment') return 'badge-orange';
+  if(s==='For Confirmation') return 'badge-blue';
+  if(s==='For Documents') return 'badge-purple';
+  if(s==='Trucks Dispatched') return 'badge-gray';
+  if(s==='For Summary') return 'badge-orange';
+  if(s==='For Payment') return 'badge-red';
   return 'badge-green';
 }
 function stageNextAction(s){
-  if(s==='For Documents') return '📄 Action needed: Send documents to farm';
-  if(s==='For Summary') return '📊 Waiting for harvest summary from farm';
-  if(s==='For Payment') return '💳 Action needed: Send payment to farm';
+  if(s==='For Confirmation') return '📋 Action: Send transaction details to farm and buyer';
+  if(s==='For Documents') return '📄 Action: Send handlers permit + transport permits to farm';
+  if(s==='Trucks Dispatched') return '🚛 Trucks on the way — waiting for harvest window';
+  if(s==='For Summary') return '📊 Loading in progress — waiting for harvest summary from farm';
+  if(s==='For Payment') return '💳 Action: Send payment to farm';
   return '✅ Completed';
 }
 function statusClass(s){
@@ -694,6 +708,28 @@ async function uploadFile(file, path) {
   if (error) return null;
   const {data} = sb.storage.from('buyer-docs').getPublicUrl(path);
   return data.publicUrl;
+}
+
+function generateDispatchMsg(r) {
+  let trucks=[]; try{trucks=r.truck_summary?JSON.parse(r.truck_summary):[];}catch(e){}
+  let msg = `${r.farm_name}`;
+  if (r.farm_location) msg += `\n${r.farm_location}`;
+  if (r.weight_range) msg += `\n${r.weight_range}`;
+  if (r.total_heads) msg += `\n${Number(r.total_heads).toLocaleString()} hds`;
+  if (trucks.length) {
+    trucks.forEach(t=>{
+      let line = `${t.plate}`;
+      if (t.heads) line += `@${Number(t.heads).toLocaleString()}hds`;
+      if (t.price_per_kg) line += `@₱${t.price_per_kg}/kg`;
+      msg += `\n${line}`;
+    });
+  }
+  return msg;
+}
+
+function copyDispatch(txId) {
+  const el = document.getElementById('dispatch-msg-'+txId);
+  if (el) navigator.clipboard.writeText(el.textContent).then(()=>toast('Copied to clipboard!','success'));
 }
 
 // DASHBOARD
@@ -798,8 +834,7 @@ async function carryOverSupply() {
 async function openSupplyModal() {
   document.getElementById('supply-modal-title').textContent='Add Farm to Supply Board';
   document.getElementById('supply-edit-id').value='';
-  ['s-location','s-heads','s-weight','s-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('s-status').value='Available';
+  ['s-location','s-heads','s-weight'].forEach(id=>document.getElementById(id).value='');
   const {data}=await sb.from('suppliers').select('farm_name,location').order('farm_name');
   const sel=document.getElementById('s-farm-select');
   sel.innerHTML='<option value="">Select from your suppliers...</option>';
@@ -817,15 +852,13 @@ async function editSupplyEntry(r) {
   document.getElementById('s-location').value=r.location||'';
   document.getElementById('s-heads').value=r.heads_available||'';
   document.getElementById('s-weight').value=r.weight_range||'';
-  document.getElementById('s-status').value=r.status||'Available';
-  document.getElementById('s-notes').value=r.notes||'';
 }
 
 async function saveSupply() {
   const id=document.getElementById('supply-edit-id').value;
   const farmName=document.getElementById('s-farm-select').value;
   if(!farmName){toast('Please select a farm','error');return;}
-  const payload={date:document.getElementById('supply-date').value,farm_name:farmName,location:document.getElementById('s-location').value,heads_available:document.getElementById('s-heads').value||null,weight_range:document.getElementById('s-weight').value,status:document.getElementById('s-status').value,notes:document.getElementById('s-notes').value,user_id:currentUser.id};
+  const payload={date:document.getElementById('supply-date').value,farm_name:farmName,location:document.getElementById('s-location').value,heads_available:document.getElementById('s-heads').value||null,weight_range:document.getElementById('s-weight').value,status:'Available',notes:null,user_id:currentUser.id};
   let error;
   if(id){({error}=await sb.from('supply_board').update(payload).eq('id',id));}
   else{({error}=await sb.from('supply_board').insert(payload));}
@@ -863,7 +896,7 @@ async function saveAllocation() {
   allocs.push({buyer,volume:volume?parseInt(volume):null,time:new Date().toISOString()});
   const {error:supError}=await sb.from('supply_board').update({status:newStatus,allocations:JSON.stringify(allocs)}).eq('id',supplyId);
   if(supError){toast('Error updating supply: '+supError.message,'error');return;}
-  const {error:txError}=await sb.from('transactions').insert({date:new Date().toISOString().split('T')[0],farm_name:farmName,farm_location:farmLocation,buyer_name:buyer,total_heads:volume?parseInt(volume):(existing.heads_available||null),weight_range:existing.weight_range||null,stage:'For Documents',buyer_payment_status:'Pending',supply_board_id:supplyId,user_id:currentUser.id});
+  const {error:txError}=await sb.from('transactions').insert({date:new Date().toISOString().split('T')[0],farm_name:farmName,farm_location:farmLocation,buyer_name:buyer,total_heads:volume?parseInt(volume):(existing.heads_available||null),weight_range:existing.weight_range||null,stage:'For Confirmation',buyer_payment_status:'Pending',supply_board_id:supplyId,user_id:currentUser.id});
   if(txError){toast('Allocated but transaction error: '+txError.message,'error');}
   else{toast('Allocated to '+buyer+' — transaction created!','success');}
   closeModal('allocate-modal'); loadSupply(); loadTransactions(); loadDashboard();
@@ -893,16 +926,21 @@ function renderTxCard(r) {
         '<span style="font-size:12px;color:var(--muted-light)">No permit on file</span>'}
       </div>
       <div>
-        <input type="number" class="truck-input" placeholder="Heads" value="${t.heads||''}" style="width:100px" onchange="updateTruckField(${idx},'heads',this.value,'${r.id}')">
+        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Heads</div>
+        <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
       </div>
       <div>
-        <input type="number" step="0.01" class="truck-input" placeholder="₱/kg" value="${t.price_per_kg||''}" style="width:110px" onchange="updateTruckField(${idx},'price_per_kg',this.value,'${r.id}')">
-        ${t.heads&&t.price_per_kg?`<div style="font-size:12px;color:var(--green);font-weight:600;margin-top:4px">₱${(parseFloat(t.price_per_kg)*parseInt(t.heads)).toLocaleString()}</div>`:''}
+        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Price / kg</div>
+        <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.price_per_kg?'₱'+t.price_per_kg:'—'}</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Subtotal</div>
+        <div style="font-size:15px;font-weight:700;color:var(--green);font-family:var(--mono)">${t.subtotal?'₱'+Number(t.subtotal).toLocaleString():'—'}</div>
       </div>
       <div>
         <button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕</button>
       </div>
-    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Use the dropdown below to add trucks.</div>';
+    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads and price, then click Add Truck.</div>';
 
   return `
   <div class="tx-card" id="tx-card-${r.id}">
@@ -925,24 +963,13 @@ function renderTxCard(r) {
 
     <div class="tx-detail ${isExpanded?'open':''}" id="tx-detail-${r.id}">
 
-      <!-- INFO BOXES -->
-      <div class="tx-info-grid">
-        <div class="tx-info-box">
-          <div class="tx-info-box-title">🏭 Farm</div>
-          <div class="tx-info-row"><div class="tx-info-label">Name</div><div class="tx-info-value">${r.farm_name}</div></div>
-          <div class="tx-info-row"><div class="tx-info-label">Location</div><div class="tx-info-value">${r.farm_location||'—'}</div></div>
-        </div>
-        <div class="tx-info-box">
-          <div class="tx-info-box-title">👤 Buyer</div>
-          <div class="tx-info-row"><div class="tx-info-label">Name</div><div class="tx-info-value">${r.buyer_name}</div></div>
-          <div class="tx-info-row"><div class="tx-info-label">Payment</div><div class="tx-info-value"><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status}</span></div></div>
-        </div>
-        <div class="tx-info-box">
-          <div class="tx-info-box-title">📦 Allocation</div>
-          <div class="tx-info-row"><div class="tx-info-label">Heads Ordered</div><div class="tx-info-value">${r.total_heads?Number(r.total_heads).toLocaleString()+' heads':'—'}</div></div>
-          <div class="tx-info-row"><div class="tx-info-label">Grand Total</div><div class="tx-info-value" style="color:var(--green);font-weight:700">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div></div>
-        </div>
-      </div>
+      <!-- DISPATCH MESSAGE -->
+      ${r.stage==='For Confirmation'?`
+      <div style="background:var(--white);border:1px solid var(--green-mid);border-left:4px solid var(--green);border-radius:10px;padding:20px;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px">📱 Transaction Details — Copy & Send to Farm and Buyer</div>
+        <div id="dispatch-msg-${r.id}" style="background:var(--surface2);border:1px solid var(--border);padding:16px;font-family:var(--mono);font-size:14px;color:var(--text);white-space:pre-wrap;line-height:1.8;border-radius:7px">${generateDispatchMsg(r)}</div>
+        <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="copyDispatch('${r.id}')">📋 Copy to Clipboard</button>
+      </div>`:''}
 
       <!-- PERMITS -->
       <div class="permits-section" id="permits-${r.id}">
@@ -957,12 +984,26 @@ function renderTxCard(r) {
         <div class="truck-assign-title">🚛 Trucks — Add the trucks going to ${r.farm_name}</div>
         <div id="truck-rows-${r.id}">${truckRows}</div>
 
-        <!-- ADD TRUCK DROPDOWN -->
-        <div class="add-truck-row">
-          <select class="filter-select" id="truck-select-${r.id}" style="width:100%">
-            <option value="">Select a registered truck to add...</option>
-          </select>
-          <button class="btn btn-ghost btn-sm" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
+        <!-- ADD TRUCK ROW -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:14px">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">Add a Truck</div>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:flex-end">
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Truck Plate</div>
+              <select class="truck-input" id="truck-select-${r.id}">
+                <option value="">Select truck...</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Heads</div>
+              <input type="number" class="truck-input" id="truck-heads-input-${r.id}" placeholder="e.g. 2500">
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Price / kg (₱)</div>
+              <input type="number" step="0.01" class="truck-input" id="truck-price-input-${r.id}" placeholder="e.g. 185">
+            </div>
+            <button class="btn btn-primary btn-sm" style="white-space:nowrap" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
+          </div>
         </div>
 
         <!-- TOTALS -->
@@ -1037,16 +1078,27 @@ async function addTruckFromDropdown(txId, buyerName) {
   const sel = document.getElementById('truck-select-'+txId);
   const plate = sel.value;
   const permitUrl = sel.options[sel.selectedIndex]?.dataset?.permitUrl||'';
+  const heads = document.getElementById('truck-heads-input-'+txId)?.value;
+  const price = document.getElementById('truck-price-input-'+txId)?.value;
+
   if (!plate) { toast('Please select a truck','error'); return; }
+  if (!heads) { toast('Please enter heads count','error'); return; }
+  if (!price) { toast('Please enter price per kg','error'); return; }
 
   const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
   let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
 
-  // Check if already added
   if (trucks.find(t=>t.plate===plate)) { toast('This truck is already added','error'); return; }
-  trucks.push({plate, permit_url:permitUrl, heads:null, price_per_kg:null, subtotal:0});
 
-  const {error} = await sb.from('transactions').update({truck_summary:JSON.stringify(trucks)}).eq('id',txId);
+  const headsNum = parseInt(heads);
+  const priceNum = parseFloat(price);
+  const subtotal = headsNum * priceNum;
+  trucks.push({plate, permit_url:permitUrl, heads:headsNum, price_per_kg:priceNum, subtotal});
+
+  const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
+  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
+
+  const {error} = await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null,grand_total_amount:totalAmount||null}).eq('id',txId);
   if (error) { toast('Error: '+error.message,'error'); return; }
   expandedTx[txId] = true;
   toast('Truck added!','success');
@@ -1118,7 +1170,7 @@ function openStageModal(id,farm,buyer,currentStage) {
   document.getElementById('stage-tx-id').value=id;
   document.getElementById('stage-tx-info').textContent=farm+' → '+buyer;
   document.getElementById('stage-notes').value='';
-  const stages=['For Documents','For Summary','For Payment','Completed'];
+  const stages=['For Confirmation','For Documents','Trucks Dispatched','For Summary','For Payment','Completed'];
   document.getElementById('stage-next').value=stages[Math.min(stages.indexOf(currentStage)+1,stages.length-1)];
   openModal('stage-modal');
 }
