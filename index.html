@@ -168,7 +168,7 @@
   /* TRUCK ASSIGNMENT */
   .truck-assign-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
   .truck-assign-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
-  .truck-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+  .truck-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
   .truck-row:last-child { border-bottom: none; }
   .truck-plate { font-size: 14px; font-weight: 600; font-family: var(--mono); }
   .truck-permit-link { font-size: 12px; color: var(--green); text-decoration: none; font-weight: 500; }
@@ -930,17 +930,9 @@ function renderTxCard(r) {
         <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Price / kg</div>
-        <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.price_per_kg?'₱'+t.price_per_kg:'—'}</div>
+        <button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕ Remove</button>
       </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Subtotal</div>
-        <div style="font-size:15px;font-weight:700;color:var(--green);font-family:var(--mono)">${t.subtotal?'₱'+Number(t.subtotal).toLocaleString():'—'}</div>
-      </div>
-      <div>
-        <button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕</button>
-      </div>
-    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads and price, then click Add Truck.</div>';
+    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads, then click Add Truck.</div>';
 
   return `
   <div class="tx-card" id="tx-card-${r.id}">
@@ -987,7 +979,7 @@ function renderTxCard(r) {
         <!-- ADD TRUCK ROW -->
         <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:14px">
           <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">Add a Truck</div>
-          <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:flex-end">
+          <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:10px;align-items:flex-end">
             <div>
               <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Truck Plate</div>
               <select class="truck-input" id="truck-select-${r.id}">
@@ -998,22 +990,21 @@ function renderTxCard(r) {
               <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Heads</div>
               <input type="number" class="truck-input" id="truck-heads-input-${r.id}" placeholder="e.g. 2500">
             </div>
-            <div>
-              <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px">Price / kg (₱)</div>
-              <input type="number" step="0.01" class="truck-input" id="truck-price-input-${r.id}" placeholder="e.g. 185">
-            </div>
             <button class="btn btn-primary btn-sm" style="white-space:nowrap" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
           </div>
         </div>
 
-        <!-- TOTALS -->
-        ${trucks.length ? `
-        <div class="totals-bar">
-          <div><div class="total-item-label">Trucks</div><div class="total-item-value">${trucks.length}</div></div>
-          <div><div class="total-item-label">Total Heads</div><div class="total-item-value">${totalHeads.toLocaleString()}</div></div>
-          <div><div class="total-item-label">Grand Total</div><div class="total-item-value">₱${totalAmount.toLocaleString()}</div></div>
-          <div></div>
-        </div>` : ''}
+        <!-- COMPACT TOTALS + PRICE -->
+        <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Trucks</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${trucks.length}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Total Heads</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${totalHeads.toLocaleString()}</div></div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+            <div>
+              <div style="font-size:12px;font-weight:600;color:var(--green-dark);margin-bottom:4px">Price / kg (₱) — all trucks</div>
+              <input type="number" step="0.01" class="truck-input" id="inline-price-${r.id}" value="${r.price_per_kg||''}" placeholder="e.g. 185" style="width:120px;background:var(--white)" onchange="savePricePerKg('${r.id}',this.value)">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -1079,11 +1070,9 @@ async function addTruckFromDropdown(txId, buyerName) {
   const plate = sel.value;
   const permitUrl = sel.options[sel.selectedIndex]?.dataset?.permitUrl||'';
   const heads = document.getElementById('truck-heads-input-'+txId)?.value;
-  const price = document.getElementById('truck-price-input-'+txId)?.value;
 
   if (!plate) { toast('Please select a truck','error'); return; }
   if (!heads) { toast('Please enter heads count','error'); return; }
-  if (!price) { toast('Please enter price per kg','error'); return; }
 
   const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
   let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
@@ -1091,18 +1080,20 @@ async function addTruckFromDropdown(txId, buyerName) {
   if (trucks.find(t=>t.plate===plate)) { toast('This truck is already added','error'); return; }
 
   const headsNum = parseInt(heads);
-  const priceNum = parseFloat(price);
-  const subtotal = headsNum * priceNum;
-  trucks.push({plate, permit_url:permitUrl, heads:headsNum, price_per_kg:priceNum, subtotal});
+  trucks.push({plate, permit_url:permitUrl, heads:headsNum});
 
   const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
-  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
 
-  const {error} = await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null,grand_total_amount:totalAmount||null}).eq('id',txId);
+  const {error} = await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null}).eq('id',txId);
   if (error) { toast('Error: '+error.message,'error'); return; }
   expandedTx[txId] = true;
   toast('Truck added!','success');
   loadTransactions().then(()=>loadTxPermitsAndTrucks(txId));
+}
+
+async function savePricePerKg(txId, value) {
+  const {error} = await sb.from('transactions').update({price_per_kg: value||null}).eq('id',txId);
+  if (error) toast('Error saving price','error');
 }
 
 async function updateTruckField(idx, field, value, txId) {
@@ -1125,8 +1116,7 @@ async function removeTruckFromTx(txId, idx) {
   let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
   trucks.splice(idx,1);
   const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
-  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
-  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null,grand_total_amount:totalAmount||null}).eq('id',txId);
+  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null}).eq('id',txId);
   expandedTx[txId]=true;
   loadTransactions().then(()=>loadTxPermitsAndTrucks(txId));
 }
