@@ -168,7 +168,7 @@
   /* TRUCK ASSIGNMENT */
   .truck-assign-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
   .truck-assign-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
-  .truck-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+  .truck-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
   .truck-row:last-child { border-bottom: none; }
   .truck-plate { font-size: 14px; font-weight: 600; font-family: var(--mono); }
   .truck-permit-link { font-size: 12px; color: var(--green); text-decoration: none; font-weight: 500; }
@@ -914,26 +914,81 @@ function renderTxCard(r) {
   let trucks=[]; try{trucks=r.truck_summary?JSON.parse(r.truck_summary):[];}catch(e){}
   const isExpanded=expandedTx[r.id];
 
-  // Calculate totals
-  const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
-  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
+  const isLocked = r.stage==='Trucks Dispatched';
+  const isSummary = r.stage==='For Summary';
+  const isCompleted = r.stage==='For Payment'||r.stage==='Completed';
+  const canEdit = !isLocked && !isSummary && !isCompleted;
 
-  const isLocked = r.stage==='Trucks Dispatched'||r.stage==='For Summary'||r.stage==='For Payment'||r.stage==='Completed';
-  const truckRows = trucks.length ? trucks.map((t,idx)=>`
-    <div class="truck-row">
-      <div>
-        <div class="truck-plate">${t.plate||'—'}</div>
-        ${t.permit_url?`<a href="${t.permit_url}" target="_blank" class="truck-permit-link">📄 View Transport Permit</a>`:
-        '<span style="font-size:12px;color:var(--muted-light)">No permit on file</span>'}
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Heads</div>
-        <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
-      </div>
-      <div>
-        ${isLocked ? '' : `<button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕ Remove</button>`}
-      </div>
-    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads, then click Add Truck.</div>';
+  // Totals: for summary, count only active actual heads
+  const activeTrucks = trucks.filter(t=>t.status!=='Cancelled');
+  const totalHeads = isSummary||isCompleted
+    ? activeTrucks.reduce((s,t)=>s+(parseInt(t.actual_heads)||0),0)
+    : trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
+
+  const truckRows = trucks.length ? trucks.map((t,idx)=>{
+    const isCancelled = t.status==='Cancelled';
+    if (isSummary) {
+      // For Summary: show actual heads input + cancel toggle per truck
+      return `
+      <div class="truck-row" style="${isCancelled?'opacity:0.5;background:#fef2f2;':''}">
+        <div>
+          <div class="truck-plate" style="${isCancelled?'text-decoration:line-through;color:var(--muted)':''}">${t.plate||'—'}</div>
+          ${isCancelled
+            ? '<span style="font-size:12px;font-weight:600;color:var(--red)">Cancelled</span>'
+            : (t.permit_url?`<a href="${t.permit_url}" target="_blank" class="truck-permit-link">📄 Permit</a>`:'<span style="font-size:12px;color:var(--muted-light)">No permit</span>')}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Ordered</div>
+          <div style="font-size:14px;font-family:var(--mono);color:var(--muted)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Actual Heads Loaded</div>
+          ${isCancelled
+            ? '<div style="font-size:14px;color:var(--muted)">0</div>'
+            : `<input type="number" class="truck-input" style="width:120px" placeholder="From tally sheet" value="${t.actual_heads||''}" onchange="updateActualHeads('${r.id}',${idx},this.value)">`}
+        </div>
+        <div>
+          <button class="btn btn-xs ${isCancelled?'btn-ghost':'btn-danger'}" onclick="toggleTruckCancel('${r.id}',${idx})">
+            ${isCancelled?'↩ Restore':'✕ Cancel'}
+          </button>
+        </div>
+      </div>`;
+    } else if (isCompleted) {
+      // For Payment / Completed: locked, show actuals
+      return `
+      <div class="truck-row" style="${isCancelled?'opacity:0.5;':''}">
+        <div>
+          <div class="truck-plate" style="${isCancelled?'text-decoration:line-through;color:var(--muted)':''}">${t.plate||'—'}</div>
+          ${isCancelled?'<span style="font-size:12px;font-weight:600;color:var(--red)">Cancelled</span>':''}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Ordered</div>
+          <div style="font-size:14px;font-family:var(--mono);color:var(--muted)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Actual Loaded</div>
+          <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${isCancelled?'0':t.actual_heads?Number(t.actual_heads).toLocaleString():'—'}</div>
+        </div>
+        <div></div>
+      </div>`;
+    } else {
+      // Pre-dispatch: add/remove mode
+      return `
+      <div class="truck-row">
+        <div>
+          <div class="truck-plate">${t.plate||'—'}</div>
+          ${t.permit_url?`<a href="${t.permit_url}" target="_blank" class="truck-permit-link">📄 View Transport Permit</a>`:'<span style="font-size:12px;color:var(--muted-light)">No permit on file</span>'}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--muted-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px">Heads</div>
+          <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
+        </div>
+        <div>
+          ${isLocked?'':`<button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕ Remove</button>`}
+        </div>
+      </div>`;
+    }
+  }).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads, then click Add Truck.</div>';
 
   return `
   <div class="tx-card" id="tx-card-${r.id}">
@@ -975,7 +1030,7 @@ function renderTxCard(r) {
 
       <!-- TRUCKS -->
       <div class="truck-assign-section">
-        <div class="truck-assign-title">🚛 Trucks — ${r.stage==='Trucks Dispatched'||r.stage==='For Summary'||r.stage==='For Payment'||r.stage==='Completed' ? 'Dispatched to '+r.farm_name : 'Add the trucks going to '+r.farm_name}</div>
+        <div class="truck-assign-title">🚛 Trucks — ${isSummary?'Enter Actual Heads Loaded (from tally sheet)':isCompleted?'Final Harvest Summary':isLocked?'Dispatched to '+r.farm_name:'Add the trucks going to '+r.farm_name}</div>
         <div id="truck-rows-${r.id}">${truckRows}</div>
 
         ${r.stage!=='Trucks Dispatched'&&r.stage!=='For Summary'&&r.stage!=='For Payment'&&r.stage!=='Completed' ? `
@@ -999,11 +1054,11 @@ function renderTxCard(r) {
 
         <!-- COMPACT TOTALS + PRICE -->
         <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
-          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Trucks</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${trucks.length}</div></div>
-          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Total Heads</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${totalHeads.toLocaleString()}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">Trucks</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${activeTrucks.length}${trucks.length!==activeTrucks.length?` <span style="font-size:13px;color:var(--red);font-weight:600">(${trucks.length-activeTrucks.length} cancelled)</span>`:''}</div></div>
+          <div><span style="font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.5px">${isSummary||isCompleted?'Actual Heads Loaded':'Total Heads'}</span><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--mono)">${totalHeads.toLocaleString()}</div></div>
           <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
             <div>
-              <div style="font-size:12px;font-weight:600;color:var(--green-dark);margin-bottom:4px">Price / kg (₱) — all trucks</div>
+              <div style="font-size:12px;font-weight:600;color:var(--green-dark);margin-bottom:4px">Price / kg (₱)</div>
               <input type="number" step="0.01" class="truck-input" id="inline-price-${r.id}" value="${r.price_per_kg||''}" placeholder="e.g. 185" style="width:120px;background:var(--white)" onchange="savePricePerKg('${r.id}',this.value)">
             </div>
           </div>
@@ -1105,6 +1160,27 @@ async function addTruckFromDropdown(txId, buyerName) {
 async function savePricePerKg(txId, value) {
   const {error} = await sb.from('transactions').update({price_per_kg: value||null}).eq('id',txId);
   if (error) toast('Error saving price','error');
+}
+
+async function updateActualHeads(txId, idx, value) {
+  const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
+  let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
+  if (trucks[idx]) trucks[idx].actual_heads = value ? parseInt(value) : null;
+  const totalActual = trucks.filter(t=>t.status!=='Cancelled').reduce((s,t)=>s+(parseInt(t.actual_heads)||0),0);
+  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks), grand_total_heads:totalActual||null}).eq('id',txId);
+}
+
+async function toggleTruckCancel(txId, idx) {
+  const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
+  let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
+  if (trucks[idx]) {
+    trucks[idx].status = trucks[idx].status==='Cancelled' ? 'Active' : 'Cancelled';
+    if (trucks[idx].status==='Cancelled') trucks[idx].actual_heads = 0;
+  }
+  const totalActual = trucks.filter(t=>t.status!=='Cancelled').reduce((s,t)=>s+(parseInt(t.actual_heads)||0),0);
+  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks), grand_total_heads:totalActual||null}).eq('id',txId);
+  expandedTx[txId]=true;
+  loadTransactions();
 }
 
 function generateTruckViberMsg(r, trucks) {
