@@ -918,6 +918,7 @@ function renderTxCard(r) {
   const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
   const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
 
+  const isLocked = r.stage==='Trucks Dispatched'||r.stage==='For Summary'||r.stage==='For Payment'||r.stage==='Completed';
   const truckRows = trucks.length ? trucks.map((t,idx)=>`
     <div class="truck-row">
       <div>
@@ -930,7 +931,7 @@ function renderTxCard(r) {
         <div style="font-size:15px;font-weight:600;font-family:var(--mono)">${t.heads?Number(t.heads).toLocaleString():'—'}</div>
       </div>
       <div>
-        <button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕ Remove</button>
+        ${isLocked ? '' : `<button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕ Remove</button>`}
       </div>
     </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Select a truck below and fill in heads, then click Add Truck.</div>';
 
@@ -974,9 +975,10 @@ function renderTxCard(r) {
 
       <!-- TRUCKS -->
       <div class="truck-assign-section">
-        <div class="truck-assign-title">🚛 Trucks — Add the trucks going to ${r.farm_name}</div>
+        <div class="truck-assign-title">🚛 Trucks — ${r.stage==='Trucks Dispatched'||r.stage==='For Summary'||r.stage==='For Payment'||r.stage==='Completed' ? 'Dispatched to '+r.farm_name : 'Add the trucks going to '+r.farm_name}</div>
         <div id="truck-rows-${r.id}">${truckRows}</div>
 
+        ${r.stage!=='Trucks Dispatched'&&r.stage!=='For Summary'&&r.stage!=='For Payment'&&r.stage!=='Completed' ? `
         <!-- ADD TRUCK ROW -->
         <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:14px">
           <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">Add a Truck</div>
@@ -993,7 +995,7 @@ function renderTxCard(r) {
             </div>
             <button class="btn btn-primary btn-sm" style="white-space:nowrap" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
           </div>
-        </div>
+        </div>` : ''}
 
         <!-- COMPACT TOTALS + PRICE -->
         <div style="display:flex;align-items:center;gap:24px;margin-top:14px;padding:12px 16px;background:var(--green-light);border:1px solid var(--green-mid);border-radius:8px;flex-wrap:wrap">
