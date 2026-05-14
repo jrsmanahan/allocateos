@@ -676,6 +676,12 @@ function stageClass(s){
   if(s==='For Payment') return 'badge-orange';
   return 'badge-green';
 }
+function stageNextAction(s){
+  if(s==='For Documents') return '📄 Action needed: Send documents to farm';
+  if(s==='For Summary') return '📊 Waiting for harvest summary from farm';
+  if(s==='For Payment') return '💳 Action needed: Send payment to farm';
+  return '✅ Completed';
+}
 function statusClass(s){
   if(s==='Available') return 'badge-green';
   if(s==='Partially Allocated') return 'badge-orange';
@@ -753,7 +759,9 @@ function renderSupply(data) {
       <div><div class="supply-stat-label">Weight</div><div class="supply-stat">${r.weight_range||'—'}</div></div>
       <div><span class="badge ${statusClass(r.status)}">${r.status}</span></div>
       <div class="supply-actions">
-        <button class="btn btn-primary btn-sm" onclick="openAllocateModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}','${(r.location||'').replace(/'/g,"\\'")}',${r.heads_available||0})">Allocate</button>
+        ${r.status==='Fully Allocated'
+          ? `<button class="btn btn-sm" style="background:#e5e7eb;color:var(--muted-light);cursor:not-allowed" disabled>✓ Fully Allocated</button>`
+          : `<button class="btn btn-primary btn-sm" onclick="openAllocateModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}','${(r.location||'').replace(/'/g,"\\'")}',${r.heads_available||0})">Allocate</button>`}
         <button class="btn btn-ghost btn-sm" onclick="editSupplyEntry(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSupply('${r.id}')">Delete</button>
       </div>
@@ -850,12 +858,12 @@ async function saveAllocation() {
   const volume=document.getElementById('alloc-volume').value;
   const newStatus=document.getElementById('alloc-status').value;
   if(!buyer){toast('Please select a buyer','error');return;}
-  const {data:existing}=await sb.from('supply_board').select('allocations,heads_available').eq('id',supplyId).single();
+  const {data:existing}=await sb.from('supply_board').select('allocations,heads_available,weight_range').eq('id',supplyId).single();
   let allocs=[]; try{allocs=existing.allocations?JSON.parse(existing.allocations):[];}catch(e){}
   allocs.push({buyer,volume:volume?parseInt(volume):null,time:new Date().toISOString()});
   const {error:supError}=await sb.from('supply_board').update({status:newStatus,allocations:JSON.stringify(allocs)}).eq('id',supplyId);
   if(supError){toast('Error updating supply: '+supError.message,'error');return;}
-  const {error:txError}=await sb.from('transactions').insert({date:new Date().toISOString().split('T')[0],farm_name:farmName,farm_location:farmLocation,buyer_name:buyer,total_heads:volume?parseInt(volume):(existing.heads_available||null),stage:'For Documents',buyer_payment_status:'Pending',supply_board_id:supplyId,user_id:currentUser.id});
+  const {error:txError}=await sb.from('transactions').insert({date:new Date().toISOString().split('T')[0],farm_name:farmName,farm_location:farmLocation,buyer_name:buyer,total_heads:volume?parseInt(volume):(existing.heads_available||null),weight_range:existing.weight_range||null,stage:'For Documents',buyer_payment_status:'Pending',supply_board_id:supplyId,user_id:currentUser.id});
   if(txError){toast('Allocated but transaction error: '+txError.message,'error');}
   else{toast('Allocated to '+buyer+' — transaction created!','success');}
   closeModal('allocate-modal'); loadSupply(); loadTransactions(); loadDashboard();
@@ -904,11 +912,11 @@ function renderTxCard(r) {
         <div class="tx-route-sub">${r.date}${r.farm_location?' · '+r.farm_location:''}</div>
       </div>
       <div>
-        <span class="badge ${stageClass(r.stage)}">${r.stage}</span>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Buyer payment: <strong style="color:${r.buyer_payment_status==='Received'?'var(--green)':'var(--orange)'}">${r.buyer_payment_status}</strong></div>
+        <span class="badge ${stageClass(r.stage)}" style="font-size:13px;padding:6px 12px">${r.stage}</span>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">${stageNextAction(r.stage)}</div>
       </div>
-      <div><div class="tx-stat-label">Heads</div><div class="tx-stat">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</div></div>
-      <div><div class="tx-stat-label">Total Amount</div><div class="tx-stat" style="color:var(--green)">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div></div>
+      <div><div class="tx-stat-label">Heads Ordered</div><div class="tx-stat">${r.total_heads?Number(r.total_heads).toLocaleString():'—'}</div></div>
+      <div><div class="tx-stat-label">Weight Requirement</div><div class="tx-stat">${r.weight_range||'—'}</div></div>
       <div class="tx-actions" onclick="event.stopPropagation()">
         <button class="btn btn-primary btn-sm" onclick="openStageModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}','${r.buyer_name.replace(/'/g,"\\'")}','${r.stage}')">→ Advance</button>
         <button class="btn btn-danger btn-sm" onclick="deleteTx('${r.id}')">Delete</button>
@@ -963,23 +971,8 @@ function renderTxCard(r) {
           <div><div class="total-item-label">Trucks</div><div class="total-item-value">${trucks.length}</div></div>
           <div><div class="total-item-label">Total Heads</div><div class="total-item-value">${totalHeads.toLocaleString()}</div></div>
           <div><div class="total-item-label">Grand Total</div><div class="total-item-value">₱${totalAmount.toLocaleString()}</div></div>
-          <div>
-            <div class="total-item-label">Buyer Payment</div>
-            <select class="truck-input" id="inline-buyer-payment-${r.id}" style="width:130px;font-size:13px" onchange="updateBuyerPayment('${r.id}',this.value)">
-              <option value="Pending" ${r.buyer_payment_status==='Pending'?'selected':''}>Pending</option>
-              <option value="Received" ${r.buyer_payment_status==='Received'?'selected':''}>Received</option>
-              <option value="Partial" ${r.buyer_payment_status==='Partial'?'selected':''}>Partial</option>
-            </select>
-          </div>
+          <div></div>
         </div>` : ''}
-
-        <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
-          <div style="flex:1">
-            <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Notes</div>
-            <textarea class="truck-input" id="inline-notes-${r.id}" rows="2" style="resize:vertical">${r.notes||''}</textarea>
-          </div>
-          <button class="btn btn-primary btn-sm" style="align-self:flex-end" onclick="saveTxInline(event,'${r.id}')">💾 Save</button>
-        </div>
       </div>
     </div>
   </div>`;
@@ -1015,11 +1008,15 @@ async function loadTxPermitsAndTrucks(txId) {
     } else {
       permitsHtml += `<span class="permit-pill permit-pill-gray">📋 No Handlers Permit on file</span>`;
     }
-    trucks.forEach(t=>{
+    // Only show permits for trucks actually added to THIS transaction
+    const {data:txFull} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
+    let txTrucks=[]; try{txTrucks=txFull.truck_summary?JSON.parse(txFull.truck_summary):[];}catch(e){}
+    txTrucks.forEach(t=>{
       if(t.permit_url) permitsHtml += `<a href="${t.permit_url}" target="_blank" class="permit-pill">🚛 Transport Permit — ${t.plate}</a>`;
-      else permitsHtml += `<span class="permit-pill permit-pill-gray">🚛 ${t.plate} — No permit</span>`;
+      else permitsHtml += `<span class="permit-pill permit-pill-gray">🚛 ${t.plate} — No permit on file</span>`;
     });
-    permitsGrid.innerHTML = permitsHtml || '<span style="color:var(--muted);font-size:13px">No documents on file for this buyer.</span>';
+    if (!txTrucks.length) permitsHtml += `<span class="permit-pill permit-pill-gray">🚛 No trucks added yet</span>`;
+    permitsGrid.innerHTML = permitsHtml;
   }
 
   // Populate truck dropdown
