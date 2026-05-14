@@ -23,447 +23,134 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
 
-  /* AUTH */
-  #auth-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg);
-  }
-  .auth-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 48px 40px;
-    width: 380px;
-    position: relative;
-  }
-  .auth-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent);
-  }
-  .auth-logo {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
-  }
-  .auth-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 36px;
-    font-family: var(--mono);
-  }
-  .auth-label {
-    font-size: 11px;
-    font-family: var(--mono);
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-    display: block;
-  }
-  .auth-input {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 14px;
-    font-family: var(--mono);
-    font-size: 14px;
-    outline: none;
-    margin-bottom: 16px;
-    transition: border-color 0.2s;
-  }
+  #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .auth-box { background: var(--surface); border: 1px solid var(--border); padding: 48px 40px; width: 380px; position: relative; }
+  .auth-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+  .auth-logo { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  .auth-sub { font-size: 13px; color: var(--muted); margin-bottom: 36px; font-family: var(--mono); }
+  .auth-label { font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
+  .auth-input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; font-family: var(--mono); font-size: 14px; outline: none; margin-bottom: 16px; }
   .auth-input:focus { border-color: var(--accent); }
-  .auth-btn {
-    width: 100%;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: opacity 0.2s;
-    margin-top: 8px;
-  }
-  .auth-btn:hover { opacity: 0.85; }
-  .auth-toggle {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--muted);
-    font-family: var(--mono);
-  }
-  .auth-toggle a { color: var(--accent); cursor: pointer; text-decoration: none; }
-  .auth-error {
-    background: rgba(248,113,113,0.1);
-    border: 1px solid var(--danger);
-    color: var(--danger);
-    padding: 10px 14px;
-    font-size: 12px;
-    font-family: var(--mono);
-    margin-bottom: 16px;
-    display: none;
-  }
+  .auth-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 12px; font-family: var(--mono); font-size: 13px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+  .auth-toggle { text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .auth-toggle a { color: var(--accent); cursor: pointer; }
+  .auth-error { background: rgba(248,113,113,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 10px 14px; font-size: 12px; font-family: var(--mono); margin-bottom: 16px; display: none; }
 
-  /* APP LAYOUT */
   #app { display: none; min-height: 100vh; }
-  .topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .topbar-logo {
-    font-family: var(--mono);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: -0.5px;
-  }
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  .topbar-user {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: var(--mono);
-  }
-  .topbar-logout {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: var(--mono);
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 5px 10px;
-    color: var(--text);
-    transition: border-color 0.2s;
-  }
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .topbar-logo { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--accent); }
+  .topbar-right { display: flex; align-items: center; gap: 20px; }
+  .topbar-user { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .topbar-logout { font-size: 11px; font-family: var(--mono); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; background: none; border: 1px solid var(--border); padding: 5px 10px; color: var(--text); }
   .topbar-logout:hover { border-color: var(--accent); color: var(--accent); }
 
   .layout { display: flex; min-height: calc(100vh - 52px); }
-  .sidebar {
-    width: 200px;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 20px 0;
-    flex-shrink: 0;
-  }
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-left: 3px solid transparent;
-  }
+  .sidebar { width: 200px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 12px; font-family: var(--mono); color: var(--muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.5px; border-left: 3px solid transparent; }
   .nav-item:hover { color: var(--text); background: var(--surface2); }
   .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--surface2); }
-  .nav-icon { font-size: 14px; }
-  .nav-section {
-    font-size: 10px;
-    font-family: var(--mono);
-    color: var(--border);
-    padding: 16px 20px 6px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  .nav-section { font-size: 10px; font-family: var(--mono); color: var(--border); padding: 16px 20px 6px; text-transform: uppercase; letter-spacing: 1px; }
 
   .main { flex: 1; padding: 28px 32px; overflow-y: auto; }
   .page { display: none; }
   .page.active { display: block; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  .page-title { font-family: var(--mono); font-size: 18px; font-weight: 600; color: var(--text); }
+  .page-date { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-  .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-  .page-title {
-    font-family: var(--mono);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .page-date {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  /* BUTTONS */
-  .btn {
-    padding: 8px 16px;
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: opacity 0.2s;
-  }
+  .btn { padding: 8px 16px; font-family: var(--mono); font-size: 12px; font-weight: 500; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 0.5px; transition: opacity 0.2s; }
   .btn:hover { opacity: 0.85; }
   .btn-primary { background: var(--accent); color: #000; }
   .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
   .btn-danger { background: var(--danger); color: #fff; }
+  .btn-green { background: var(--accent2); color: #000; }
   .btn-sm { padding: 5px 10px; font-size: 11px; }
   .btn-copy { background: var(--surface2); color: var(--accent2); border: 1px solid var(--border); }
 
-  /* SUPPLY BOARD */
-  .supply-toolbar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .date-input {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px 12px;
-    font-family: var(--mono);
-    font-size: 12px;
-    outline: none;
-  }
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; }
+  .filter-input, .filter-select { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; font-family: var(--mono); font-size: 12px; outline: none; }
+  .filter-input:focus, .filter-select:focus { border-color: var(--accent); }
+  .filter-select option { background: var(--surface2); }
+  .filter-label { font-size: 11px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .date-input { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; font-family: var(--mono); font-size: 12px; outline: none; }
   .date-input:focus { border-color: var(--accent); }
 
   .supply-grid { display: flex; flex-direction: column; gap: 8px; }
-  .supply-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 16px 20px;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr 1.5fr auto;
-    gap: 16px;
-    align-items: center;
-    transition: border-color 0.2s;
-  }
+  .supply-card { background: var(--surface); border: 1px solid var(--border); padding: 16px 20px; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr 1.2fr auto; gap: 16px; align-items: start; transition: border-color 0.2s; }
   .supply-card:hover { border-color: var(--accent); }
+  .supply-card.carryover { border-left: 3px solid var(--accent); }
   .supply-farm { font-weight: 500; font-size: 14px; }
   .supply-location { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
   .supply-stat { font-family: var(--mono); font-size: 13px; }
   .supply-stat-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; margin-bottom: 2px; }
   .supply-price { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+  .carryover-tag { font-size: 9px; font-family: var(--mono); color: var(--accent); background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3); padding: 2px 6px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .status-badge {
-    padding: 3px 8px;
-    font-size: 10px;
-    font-family: var(--mono);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
+  .status-badge { padding: 3px 8px; font-size: 10px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; border-radius: 2px; white-space: nowrap; }
   .status-available { background: rgba(74,222,128,0.1); color: var(--accent2); border: 1px solid rgba(74,222,128,0.3); }
   .status-partial { background: rgba(245,166,35,0.1); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
   .status-full { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
 
-  .supply-actions { display: flex; gap: 6px; }
+  .supply-actions { display: flex; gap: 4px; flex-direction: column; align-items: flex-end; }
+  .alloc-log { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+  .alloc-entry { font-size: 11px; font-family: var(--mono); color: var(--accent2); background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.2); padding: 3px 8px; display: flex; justify-content: space-between; gap: 12px; }
 
-  /* VIBER EXPORT */
-  .viber-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    padding: 20px;
-    margin-top: 20px;
-  }
-  .viber-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent2);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-  .viber-output {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 16px;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text);
-    white-space: pre-wrap;
-    line-height: 1.7;
-    min-height: 80px;
-  }
+  .viber-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent2); padding: 20px; margin-top: 20px; }
+  .viber-title { font-family: var(--mono); font-size: 11px; color: var(--accent2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .viber-output { background: var(--bg); border: 1px solid var(--border); padding: 16px; font-family: var(--mono); font-size: 13px; color: var(--text); white-space: pre-wrap; line-height: 1.7; min-height: 80px; }
   .viber-actions { display: flex; gap: 8px; margin-top: 12px; }
 
-  /* MODAL */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: none;
-    align-items: center;
-    justify-content: center;
-  }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--accent);
-    padding: 32px;
-    width: 520px;
-    max-width: 95vw;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-title {
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 24px;
-    color: var(--accent);
-  }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 32px; width: 540px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+  .modal-title { font-family: var(--mono); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; color: var(--accent); }
   .form-row { margin-bottom: 16px; }
-  .form-label {
-    display: block;
-    font-size: 10px;
-    font-family: var(--mono);
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-  .form-input, .form-select, .form-textarea {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 9px 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+  .form-label { display: block; font-size: 10px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .form-input, .form-select, .form-textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 9px 12px; font-family: var(--mono); font-size: 13px; outline: none; transition: border-color 0.2s; }
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
   .form-select option { background: var(--surface2); }
   .form-textarea { resize: vertical; min-height: 70px; }
   .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .section-title { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .bank-section { background: rgba(245,166,35,0.05); border: 1px solid rgba(245,166,35,0.2); padding: 16px; }
 
-  /* TABLE */
+  .allocate-modal { width: 420px; }
+  .allocate-farm-name { font-family: var(--mono); font-size: 15px; color: var(--accent); margin-bottom: 4px; }
+  .allocate-available { font-size: 12px; color: var(--muted); font-family: var(--mono); margin-bottom: 20px; }
+
   .data-table { width: 100%; border-collapse: collapse; }
-  .data-table th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 10px;
-    font-family: var(--mono);
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface2);
-  }
-  .data-table td {
-    padding: 12px 14px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
+  .data-table th { text-align: left; padding: 10px 14px; font-size: 10px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .data-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   .data-table tr:hover td { background: var(--surface2); }
   .data-table .mono { font-family: var(--mono); }
-  .table-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
 
-  /* PRICE LOG */
-  .price-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 16px 20px;
-    margin-bottom: 8px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 20px;
-    align-items: center;
-  }
-  .price-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .price-card { background: var(--surface); border: 1px solid var(--border); padding: 16px 20px; margin-bottom: 8px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; }
   .price-range { font-family: var(--mono); font-size: 20px; font-weight: 600; color: var(--accent); }
-  .price-source { font-size: 12px; color: var(--muted); }
-  .price-notes { font-size: 12px; color: var(--text); margin-top: 4px; }
 
-  /* EMPTY STATE */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 13px;
-  }
+  .doc-upload-area { border: 2px dashed var(--border); padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+  .doc-upload-area:hover { border-color: var(--accent); }
+  .doc-upload-label { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .doc-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .doc-item { background: var(--bg); border: 1px solid var(--border); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 12px; }
+  .doc-link { color: var(--accent2); text-decoration: none; }
+  .doc-link:hover { text-decoration: underline; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); font-family: var(--mono); font-size: 13px; }
   .empty-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.4; }
+  .loading { text-align: center; padding: 40px; color: var(--muted); font-family: var(--mono); font-size: 12px; }
 
-  /* LOADING */
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 12px;
-  }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    padding: 12px 20px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text);
-    z-index: 999;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s;
-    pointer-events: none;
-  }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent2); padding: 12px 20px; font-family: var(--mono); font-size: 12px; color: var(--text); z-index: 999; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
   .toast.show { opacity: 1; transform: translateY(0); }
   .toast.error { border-left-color: var(--danger); }
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
 <div id="auth-screen">
   <div class="auth-box">
     <div class="auth-logo">AllocateOS</div>
@@ -479,7 +166,7 @@
     </div>
     <div id="register-form" style="display:none">
       <label class="auth-label">Email</label>
-      <input type="email" class="auth-input" id="reg-email" placeholder="broker@email.com">
+      <input type="email" class="auth-input" id="reg-email">
       <label class="auth-label">Password</label>
       <input type="password" class="auth-input" id="reg-password" placeholder="Min 6 characters">
       <button class="auth-btn" onclick="register()">Create Account</button>
@@ -488,7 +175,6 @@
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="app">
   <div class="topbar">
     <div class="topbar-logo">AllocateOS</div>
@@ -500,24 +186,13 @@
   <div class="layout">
     <div class="sidebar">
       <div class="nav-section">Operations</div>
-      <div class="nav-item active" onclick="showPage('supply')">
-        <span class="nav-icon">📋</span> Supply Board
-      </div>
-      <div class="nav-item" onclick="showPage('transactions')">
-        <span class="nav-icon">💼</span> Transactions
-      </div>
-      <div class="nav-item" onclick="showPage('pricelog')">
-        <span class="nav-icon">📈</span> Price Log
-      </div>
+      <div class="nav-item active" onclick="showPage('supply',this)"><span>📋</span> Supply Board</div>
+      <div class="nav-item" onclick="showPage('transactions',this)"><span>💼</span> Transactions</div>
+      <div class="nav-item" onclick="showPage('pricelog',this)"><span>📈</span> Price Log</div>
       <div class="nav-section">Directory</div>
-      <div class="nav-item" onclick="showPage('suppliers')">
-        <span class="nav-icon">🏭</span> Suppliers
-      </div>
-      <div class="nav-item" onclick="showPage('buyers')">
-        <span class="nav-icon">👥</span> Buyers
-      </div>
+      <div class="nav-item" onclick="showPage('suppliers',this)"><span>🏭</span> Suppliers</div>
+      <div class="nav-item" onclick="showPage('buyers',this)"><span>👥</span> Buyers</div>
     </div>
-
     <div class="main">
 
       <!-- SUPPLY BOARD -->
@@ -527,14 +202,25 @@
             <div class="page-title">Today's Supply Board</div>
             <div class="page-date" id="supply-date-label"></div>
           </div>
-          <div style="display:flex;gap:10px;align-items:center;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <input type="date" class="date-input" id="supply-date" onchange="loadSupply()">
+            <button class="btn btn-ghost" onclick="carryOverSupply()">↩ Carry Over Unsold</button>
             <button class="btn btn-primary" onclick="openSupplyModal()">+ Add Farm</button>
           </div>
         </div>
-        <div id="supply-list" class="supply-grid">
-          <div class="loading">Loading supply board...</div>
+        <div class="filter-bar">
+          <span class="filter-label">Filter:</span>
+          <input type="text" class="filter-input" id="filter-area" placeholder="Area / location..." oninput="applyFilters()" style="width:170px">
+          <input type="text" class="filter-input" id="filter-weight" placeholder="Weight (e.g. 1.9, 2.1)..." oninput="applyFilters()" style="width:180px">
+          <select class="filter-select" id="filter-status" onchange="applyFilters()">
+            <option value="">All Status</option>
+            <option value="Available">Available</option>
+            <option value="Partially Allocated">Partially Allocated</option>
+            <option value="Fully Allocated">Fully Allocated</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="clearFilters()">Clear</button>
         </div>
+        <div id="supply-list" class="supply-grid"><div class="loading">Loading supply board...</div></div>
         <div class="viber-box" id="viber-section" style="display:none">
           <div class="viber-title">📱 Viber-Ready Post</div>
           <div class="viber-output" id="viber-text"></div>
@@ -552,11 +238,7 @@
         </div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead>
-              <tr>
-                <th>Date</th><th>Farm</th><th>Buyer</th><th>Volume</th><th>Price/kg</th><th>Total</th><th>Payment</th><th>Actions</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Date</th><th>Farm</th><th>Buyer</th><th>Volume</th><th>Price/kg</th><th>Total</th><th>Payment</th><th></th></tr></thead>
             <tbody id="tx-list"><tr><td colspan="8" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -579,9 +261,7 @@
         </div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead>
-              <tr><th>Farm Name</th><th>Owner</th><th>Contact</th><th>Location</th><th>Type</th><th>Actions</th></tr>
-            </thead>
+            <thead><tr><th>Farm Name</th><th>Owner</th><th>Contact</th><th>Location</th><th>Bank</th><th></th></tr></thead>
             <tbody id="supplier-list"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -595,9 +275,7 @@
         </div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead>
-              <tr><th>Buyer Name</th><th>Contact</th><th>Location</th><th>Usual Volume</th><th>Notes</th><th>Actions</th></tr>
-            </thead>
+            <thead><tr><th>Buyer Name</th><th>Contact</th><th>Location</th><th>Usual Volume</th><th>Docs</th><th></th></tr></thead>
             <tbody id="buyer-list"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -612,31 +290,15 @@
   <div class="modal">
     <div class="modal-title" id="supply-modal-title">Add Farm to Supply Board</div>
     <input type="hidden" id="supply-edit-id">
-    <div class="form-row">
-      <label class="form-label">Farm Name *</label>
-      <input type="text" class="form-input" id="s-farm" placeholder="e.g. Green Farm">
-    </div>
-    <div class="form-row">
-      <label class="form-label">Location</label>
-      <input type="text" class="form-input" id="s-location" placeholder="e.g. Maragol, Munoz, Nueva Ecija">
+    <div class="form-row"><label class="form-label">Farm Name *</label><input type="text" class="form-input" id="s-farm" placeholder="e.g. Green Farm"></div>
+    <div class="form-row"><label class="form-label">Location / Area</label><input type="text" class="form-input" id="s-location" placeholder="e.g. Maragol, Munoz, Nueva Ecija"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-label">Heads Available</label><input type="number" class="form-input" id="s-heads" placeholder="e.g. 10000"></div>
+      <div class="form-row"><label class="form-label">Weight Range (kg)</label><input type="text" class="form-input" id="s-weight" placeholder="e.g. 1.90kg up"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Heads Available</label>
-        <input type="number" class="form-input" id="s-heads" placeholder="e.g. 10000">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Weight Range (kg)</label>
-        <input type="text" class="form-input" id="s-weight" placeholder="e.g. 1.90kg up / 1.65-1.80kg">
-      </div>
-    </div>
-    <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Price per kg (₱) — Private</label>
-        <input type="number" step="0.01" class="form-input" id="s-price" placeholder="e.g. 180">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Status</label>
+      <div class="form-row"><label class="form-label">Price per kg (₱) — Private</label><input type="number" step="0.01" class="form-input" id="s-price" placeholder="e.g. 180"></div>
+      <div class="form-row"><label class="form-label">Status</label>
         <select class="form-select" id="s-status">
           <option value="Available">Available</option>
           <option value="Partially Allocated">Partially Allocated</option>
@@ -644,14 +306,7 @@
         </select>
       </div>
     </div>
-    <div class="form-row">
-      <label class="form-label">Allocated To (Buyer)</label>
-      <input type="text" class="form-input" id="s-allocated" placeholder="Leave blank if not yet allocated">
-    </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="form-textarea" id="s-notes" placeholder="Additional notes..."></textarea>
-    </div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="s-notes" placeholder="Additional notes..."></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('supply-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveSupply()">Save</button>
@@ -659,53 +314,51 @@
   </div>
 </div>
 
-<!-- TRANSACTION MODAL -->
+<!-- ALLOCATE MODAL -->
+<div class="modal-overlay" id="allocate-modal">
+  <div class="modal allocate-modal">
+    <div class="modal-title">Quick Allocate</div>
+    <input type="hidden" id="alloc-supply-id">
+    <div class="allocate-farm-name" id="alloc-farm-name"></div>
+    <div class="allocate-available" id="alloc-available"></div>
+    <div class="form-row"><label class="form-label">Allocate To (Buyer) *</label>
+      <select class="form-select" id="alloc-buyer"><option value="">Select buyer...</option></select>
+    </div>
+    <div class="form-row"><label class="form-label">Volume to Allocate (heads) — optional</label><input type="number" class="form-input" id="alloc-volume" placeholder="Leave blank = full allocation"></div>
+    <div class="form-row"><label class="form-label">Update Status To</label>
+      <select class="form-select" id="alloc-status">
+        <option value="Partially Allocated">Partially Allocated</option>
+        <option value="Fully Allocated">Fully Allocated</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('allocate-modal')">Cancel</button>
+      <button class="btn btn-green" onclick="saveAllocation()">Allocate</button>
+    </div>
+  </div>
+</div>
+
+<!-- TX MODAL -->
 <div class="modal-overlay" id="tx-modal">
   <div class="modal">
     <div class="modal-title">Add Transaction</div>
     <input type="hidden" id="tx-edit-id">
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Date *</label>
-        <input type="date" class="form-input" id="tx-date">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Payment Status</label>
-        <select class="form-select" id="tx-payment">
-          <option value="Pending">Pending</option>
-          <option value="Paid">Paid</option>
-          <option value="Partial">Partial</option>
-        </select>
+      <div class="form-row"><label class="form-label">Date *</label><input type="date" class="form-input" id="tx-date"></div>
+      <div class="form-row"><label class="form-label">Payment Status</label>
+        <select class="form-select" id="tx-payment"><option value="Pending">Pending</option><option value="Paid">Paid</option><option value="Partial">Partial</option></select>
       </div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Farm Name *</label>
-        <input type="text" class="form-input" id="tx-farm" placeholder="Farm name">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Buyer Name *</label>
-        <input type="text" class="form-input" id="tx-buyer" placeholder="Buyer name">
-      </div>
+      <div class="form-row"><label class="form-label">Farm Name *</label><input type="text" class="form-input" id="tx-farm"></div>
+      <div class="form-row"><label class="form-label">Buyer Name *</label><input type="text" class="form-input" id="tx-buyer"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Volume (heads)</label>
-        <input type="number" class="form-input" id="tx-volume" placeholder="e.g. 500" oninput="calcTotal()">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Price per kg (₱)</label>
-        <input type="number" step="0.01" class="form-input" id="tx-price" placeholder="e.g. 185" oninput="calcTotal()">
-      </div>
+      <div class="form-row"><label class="form-label">Volume (heads)</label><input type="number" class="form-input" id="tx-volume" oninput="calcTotal()"></div>
+      <div class="form-row"><label class="form-label">Price per kg (₱)</label><input type="number" step="0.01" class="form-input" id="tx-price" oninput="calcTotal()"></div>
     </div>
-    <div class="form-row">
-      <label class="form-label">Total Amount (₱)</label>
-      <input type="number" step="0.01" class="form-input" id="tx-total" placeholder="Auto-calculated or enter manually">
-    </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="form-textarea" id="tx-notes"></textarea>
-    </div>
+    <div class="form-row"><label class="form-label">Total Amount (₱)</label><input type="number" step="0.01" class="form-input" id="tx-total"></div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="tx-notes"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('tx-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveTransaction()">Save</button>
@@ -713,33 +366,17 @@
   </div>
 </div>
 
-<!-- PRICE LOG MODAL -->
+<!-- PRICE MODAL -->
 <div class="modal-overlay" id="price-modal">
   <div class="modal">
     <div class="modal-title">Log Market Price</div>
-    <input type="hidden" id="price-edit-id">
-    <div class="form-row">
-      <label class="form-label">Date *</label>
-      <input type="date" class="form-input" id="p-date">
-    </div>
+    <div class="form-row"><label class="form-label">Date *</label><input type="date" class="form-input" id="p-date"></div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Price Low (₱/kg)</label>
-        <input type="number" step="0.01" class="form-input" id="p-low" placeholder="e.g. 175">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Price High (₱/kg)</label>
-        <input type="number" step="0.01" class="form-input" id="p-high" placeholder="e.g. 190">
-      </div>
+      <div class="form-row"><label class="form-label">Price Low (₱/kg)</label><input type="number" step="0.01" class="form-input" id="p-low"></div>
+      <div class="form-row"><label class="form-label">Price High (₱/kg)</label><input type="number" step="0.01" class="form-input" id="p-high"></div>
     </div>
-    <div class="form-row">
-      <label class="form-label">Source</label>
-      <input type="text" class="form-input" id="p-source" placeholder="e.g. Farm calls, market contacts">
-    </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="form-textarea" id="p-notes" placeholder="Market observations..."></textarea>
-    </div>
+    <div class="form-row"><label class="form-label">Source</label><input type="text" class="form-input" id="p-source" placeholder="e.g. Farm calls, market contacts"></div>
+    <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="p-notes"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('price-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="savePrice()">Save</button>
@@ -752,28 +389,25 @@
   <div class="modal">
     <div class="modal-title" id="supplier-modal-title">Add Supplier</div>
     <input type="hidden" id="sup-edit-id">
-    <div class="form-row">
-      <label class="form-label">Farm Name *</label>
-      <input type="text" class="form-input" id="sup-farm">
+    <div class="form-row"><label class="form-label">Farm Name *</label><input type="text" class="form-input" id="sup-farm"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-label">Owner Name</label><input type="text" class="form-input" id="sup-owner"></div>
+      <div class="form-row"><label class="form-label">Contact Number</label><input type="text" class="form-input" id="sup-contact"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Owner Name</label>
-        <input type="text" class="form-input" id="sup-owner">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Contact Number</label>
-        <input type="text" class="form-input" id="sup-contact">
-      </div>
+      <div class="form-row"><label class="form-label">Location</label><input type="text" class="form-input" id="sup-location"></div>
+      <div class="form-row"><label class="form-label">Type</label><input type="text" class="form-input" id="sup-type" placeholder="e.g. Broiler, Layer"></div>
     </div>
-    <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Location</label>
-        <input type="text" class="form-input" id="sup-location">
+    <hr class="section-divider">
+    <div class="section-title">🏦 Bank Details</div>
+    <div class="bank-section">
+      <div class="form-grid-2">
+        <div class="form-row"><label class="form-label">Bank Name</label><input type="text" class="form-input" id="sup-bank-name" placeholder="e.g. BDO, BPI"></div>
+        <div class="form-row"><label class="form-label">Account Name</label><input type="text" class="form-input" id="sup-bank-acct-name"></div>
       </div>
-      <div class="form-row">
-        <label class="form-label">Type</label>
-        <input type="text" class="form-input" id="sup-type" placeholder="e.g. Broiler, Layer">
+      <div class="form-grid-2">
+        <div class="form-row"><label class="form-label">Account Number</label><input type="text" class="form-input" id="sup-bank-acct-num"></div>
+        <div class="form-row"><label class="form-label">Branch</label><input type="text" class="form-input" id="sup-bank-branch"></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -783,39 +417,49 @@
   </div>
 </div>
 
+<!-- SUPPLIER DETAIL MODAL -->
+<div class="modal-overlay" id="supplier-detail-modal">
+  <div class="modal">
+    <div class="modal-title">Supplier Details</div>
+    <div id="supplier-detail-content"></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('supplier-detail-modal')">Close</button></div>
+  </div>
+</div>
+
 <!-- BUYER MODAL -->
 <div class="modal-overlay" id="buyer-modal">
   <div class="modal">
     <div class="modal-title" id="buyer-modal-title">Add Buyer</div>
     <input type="hidden" id="buy-edit-id">
-    <div class="form-row">
-      <label class="form-label">Buyer Name *</label>
-      <input type="text" class="form-input" id="buy-name">
+    <div class="form-row"><label class="form-label">Buyer Name *</label><input type="text" class="form-input" id="buy-name"></div>
+    <div class="form-grid-2">
+      <div class="form-row"><label class="form-label">Contact Number</label><input type="text" class="form-input" id="buy-contact"></div>
+      <div class="form-row"><label class="form-label">Location</label><input type="text" class="form-input" id="buy-location"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Contact Number</label>
-        <input type="text" class="form-input" id="buy-contact">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Location</label>
-        <input type="text" class="form-input" id="buy-location">
-      </div>
+      <div class="form-row"><label class="form-label">Usual Volume (heads)</label><input type="number" class="form-input" id="buy-volume"></div>
+      <div class="form-row"><label class="form-label">Notes</label><input type="text" class="form-input" id="buy-notes"></div>
     </div>
-    <div class="form-grid-2">
-      <div class="form-row">
-        <label class="form-label">Usual Volume (heads)</label>
-        <input type="number" class="form-input" id="buy-volume">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Notes</label>
-        <input type="text" class="form-input" id="buy-notes">
-      </div>
+    <hr class="section-divider">
+    <div class="section-title">📎 Documents</div>
+    <div class="doc-upload-area" onclick="document.getElementById('buy-doc-input').click()">
+      <div class="doc-upload-label">Click to upload documents (PDF, images)</div>
+      <input type="file" id="buy-doc-input" style="display:none" multiple onchange="handleDocUpload(event)">
     </div>
+    <div class="doc-list" id="doc-upload-list"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('buyer-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveBuyer()">Save</button>
     </div>
+  </div>
+</div>
+
+<!-- BUYER DETAIL MODAL -->
+<div class="modal-overlay" id="buyer-detail-modal">
+  <div class="modal">
+    <div class="modal-title">Buyer Details</div>
+    <div id="buyer-detail-content"></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('buyer-detail-modal')">Close</button></div>
   </div>
 </div>
 
@@ -825,10 +469,10 @@
 const SUPABASE_URL = 'https://nvncisqfjtygjdsczstb.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52bmNpc3FmanR5Z2pkc2N6c3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2ODExOTIsImV4cCI6MjA5NDI1NzE5Mn0.pgQ2M0DihCX4CZFvMa8sn4PxQ2xU4EpLrFUIXRNy6Yw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 let currentUser = null;
+let allSupplyData = [];
+let pendingDocFiles = [];
 
-// AUTH
 async function login() {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
@@ -836,22 +480,19 @@ async function login() {
   if (error) { showAuthError(error.message); return; }
   onLogin(data.user);
 }
-
 async function register() {
   const email = document.getElementById('reg-email').value;
   const pass = document.getElementById('reg-password').value;
-  const { data, error } = await sb.auth.signUp({ email, password: pass });
+  const { error } = await sb.auth.signUp({ email, password: pass });
   if (error) { showAuthError(error.message); return; }
   showAuthError('Account created! Please sign in.'); showLogin();
 }
-
 async function logout() {
   await sb.auth.signOut();
   document.getElementById('app').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
   currentUser = null;
 }
-
 function onLogin(user) {
   currentUser = user;
   document.getElementById('auth-screen').style.display = 'none';
@@ -859,115 +500,102 @@ function onLogin(user) {
   document.getElementById('user-email').textContent = user.email;
   initApp();
 }
+function showAuthError(msg) { const el = document.getElementById('auth-error'); el.textContent = msg; el.style.display = 'block'; }
+function showRegister() { document.getElementById('login-form').style.display = 'none'; document.getElementById('register-form').style.display = 'block'; document.getElementById('auth-error').style.display = 'none'; }
+function showLogin() { document.getElementById('login-form').style.display = 'block'; document.getElementById('register-form').style.display = 'none'; document.getElementById('auth-error').style.display = 'none'; }
+sb.auth.getSession().then(({ data }) => { if (data.session) onLogin(data.session.user); });
 
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error');
-  el.textContent = msg; el.style.display = 'block';
-}
-function showRegister() {
-  document.getElementById('login-form').style.display = 'none';
-  document.getElementById('register-form').style.display = 'block';
-  document.getElementById('auth-error').style.display = 'none';
-}
-function showLogin() {
-  document.getElementById('login-form').style.display = 'block';
-  document.getElementById('register-form').style.display = 'none';
-  document.getElementById('auth-error').style.display = 'none';
-}
-
-sb.auth.getSession().then(({ data }) => {
-  if (data.session) onLogin(data.session.user);
-});
-
-// APP INIT
 function initApp() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('supply-date').value = today;
   document.getElementById('tx-date').value = today;
   document.getElementById('p-date').value = today;
   updateDateLabel();
-  loadSupply();
-  loadTransactions();
-  loadPriceLog();
-  loadSuppliers();
-  loadBuyers();
+  loadSupply(); loadTransactions(); loadPriceLog(); loadSuppliers(); loadBuyers();
 }
 
 function updateDateLabel() {
   const d = document.getElementById('supply-date').value;
   const date = new Date(d + 'T00:00:00');
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('supply-date-label').textContent = date.toLocaleDateString('en-PH', opts);
+  document.getElementById('supply-date-label').textContent = date.toLocaleDateString('en-PH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-// NAVIGATION
-function showPage(name) {
+function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  el.classList.add('active');
 }
 
-// TOAST
 function toast(msg, type = 'success') {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className = 'toast show' + (type === 'error' ? ' error' : '');
   setTimeout(() => el.className = 'toast', 2500);
 }
-
-// MODAL
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 
-// =====================
-// SUPPLY BOARD
-// =====================
+// SUPPLY
 async function loadSupply() {
   updateDateLabel();
   const date = document.getElementById('supply-date').value;
-  const { data, error } = await sb.from('supply_board').select('*')
-    .eq('date', date).order('created_at');
+  const { data, error } = await sb.from('supply_board').select('*').eq('date', date).order('created_at');
   if (error) { toast('Error loading supply', 'error'); return; }
-  renderSupply(data);
+  allSupplyData = data;
+  applyFilters();
+}
+
+function applyFilters() {
+  const area = document.getElementById('filter-area').value.toLowerCase();
+  const weight = document.getElementById('filter-weight').value.toLowerCase();
+  const status = document.getElementById('filter-status').value;
+  const filtered = allSupplyData.filter(r => {
+    if (area && !(r.location || '').toLowerCase().includes(area)) return false;
+    if (weight && !(r.weight_range || '').toLowerCase().includes(weight)) return false;
+    if (status && r.status !== status) return false;
+    return true;
+  });
+  renderSupply(filtered);
+}
+
+function clearFilters() {
+  document.getElementById('filter-area').value = '';
+  document.getElementById('filter-weight').value = '';
+  document.getElementById('filter-status').value = '';
+  applyFilters();
 }
 
 function renderSupply(data) {
   const el = document.getElementById('supply-list');
   if (!data.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No supply entries for this date.<br>Click "+ Add Farm" to start building today\'s board.</div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No supply entries for this date.<br>Click "+ Add Farm" to start or use "Carry Over Unsold" from yesterday.</div>';
     document.getElementById('viber-section').style.display = 'none';
     return;
   }
-  el.innerHTML = data.map(r => `
-    <div class="supply-card">
+  el.innerHTML = data.map(r => {
+    let allocs = [];
+    try { allocs = r.allocations ? JSON.parse(r.allocations) : []; } catch(e) {}
+    const allocLog = allocs.map(a => `<div class="alloc-entry"><span>→ ${a.buyer}</span><span>${a.volume ? Number(a.volume).toLocaleString() + ' hds' : 'Full'}</span></div>`).join('');
+    return `
+    <div class="supply-card ${r.is_carryover ? 'carryover' : ''}">
       <div>
-        <div class="supply-farm">${r.farm_name}</div>
+        <div class="supply-farm">${r.farm_name} ${r.is_carryover ? '<span class="carryover-tag">Carried Over</span>' : ''}</div>
         <div class="supply-location">${r.location || ''}</div>
-        ${r.allocated_to ? `<div style="font-size:11px;color:#4ade80;margin-top:3px;font-family:var(--mono)">→ ${r.allocated_to}</div>` : ''}
+        ${r.notes ? `<div style="font-size:11px;color:var(--muted);margin-top:3px">${r.notes}</div>` : ''}
+        ${allocLog ? `<div class="alloc-log">${allocLog}</div>` : ''}
       </div>
-      <div>
-        <div class="supply-stat-label">Heads</div>
-        <div class="supply-stat">${r.heads_available ? r.heads_available.toLocaleString() : '—'}</div>
-      </div>
-      <div>
-        <div class="supply-stat-label">Weight</div>
-        <div class="supply-stat">${r.weight_range || '—'}</div>
-      </div>
-      <div>
-        <div class="supply-stat-label">Price/kg (Private)</div>
-        <div class="supply-price">${r.price_per_kg ? '₱' + r.price_per_kg : '—'}</div>
-      </div>
-      <div>
-        <span class="status-badge ${statusClass(r.status)}">${r.status}</span>
-        ${r.notes ? `<div style="font-size:11px;color:var(--muted);margin-top:6px">${r.notes}</div>` : ''}
-      </div>
+      <div><div class="supply-stat-label">Heads</div><div class="supply-stat">${r.heads_available ? Number(r.heads_available).toLocaleString() : '—'}</div></div>
+      <div><div class="supply-stat-label">Weight</div><div class="supply-stat">${r.weight_range || '—'}</div></div>
+      <div><div class="supply-stat-label">Price/kg (Private)</div><div class="supply-price">${r.price_per_kg ? '₱' + r.price_per_kg : '—'}</div></div>
+      <div><span class="status-badge ${statusClass(r.status)}">${r.status}</span></div>
       <div class="supply-actions">
+        <button class="btn btn-green btn-sm" onclick="openAllocateModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}',${r.heads_available||0})">Allocate</button>
         <button class="btn btn-ghost btn-sm" onclick="editSupply(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSupply('${r.id}')">Del</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   generateViber(data);
   document.getElementById('viber-section').style.display = 'block';
 }
@@ -986,7 +614,7 @@ function generateViber(data) {
   let text = `Live Sales for ${dayName}\n${monthDay}\n`;
   data.filter(r => r.status !== 'Fully Allocated').forEach(r => {
     text += `\n📍${r.farm_name}`;
-    if (r.heads_available) text += `\n${r.heads_available.toLocaleString()} hds / ${r.weight_range || ''}`;
+    if (r.heads_available) text += `\n${Number(r.heads_available).toLocaleString()} hds / ${r.weight_range || ''}`;
     else if (r.weight_range) text += `\n${r.weight_range}`;
     if (r.location) text += `\n${r.location}`;
   });
@@ -994,14 +622,62 @@ function generateViber(data) {
 }
 
 function copyViber() {
-  const text = document.getElementById('viber-text').textContent;
-  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard!'));
+  navigator.clipboard.writeText(document.getElementById('viber-text').textContent).then(() => toast('Copied to clipboard!'));
+}
+
+async function carryOverSupply() {
+  const selectedDate = document.getElementById('supply-date').value;
+  const prev = new Date(selectedDate + 'T00:00:00');
+  prev.setDate(prev.getDate() - 1);
+  const prevStr = prev.toISOString().split('T')[0];
+  const { data: prevData, error } = await sb.from('supply_board').select('*').eq('date', prevStr).neq('status', 'Fully Allocated');
+  if (error || !prevData || !prevData.length) { toast('No unsold supply found from previous day', 'error'); return; }
+  const toInsert = prevData.map(r => ({
+    date: selectedDate, farm_name: r.farm_name, location: r.location,
+    heads_available: r.heads_available, weight_range: r.weight_range,
+    price_per_kg: r.price_per_kg, status: 'Available', notes: r.notes,
+    is_carryover: true, allocations: null, user_id: currentUser.id
+  }));
+  const { error: insertError } = await sb.from('supply_board').insert(toInsert);
+  if (insertError) { toast('Error: ' + insertError.message, 'error'); return; }
+  toast(`${toInsert.length} farm(s) carried over!`);
+  loadSupply();
+}
+
+async function openAllocateModal(supplyId, farmName, heads) {
+  document.getElementById('alloc-supply-id').value = supplyId;
+  document.getElementById('alloc-farm-name').textContent = farmName;
+  document.getElementById('alloc-available').textContent = heads ? `${Number(heads).toLocaleString()} heads available` : 'Volume not specified';
+  document.getElementById('alloc-volume').value = '';
+  document.getElementById('alloc-status').value = 'Partially Allocated';
+  const { data } = await sb.from('buyers').select('buyer_name').order('buyer_name');
+  const select = document.getElementById('alloc-buyer');
+  select.innerHTML = '<option value="">Select buyer...</option>';
+  (data || []).forEach(b => { const o = document.createElement('option'); o.value = b.buyer_name; o.textContent = b.buyer_name; select.appendChild(o); });
+  openModal('allocate-modal');
+}
+
+async function saveAllocation() {
+  const supplyId = document.getElementById('alloc-supply-id').value;
+  const buyer = document.getElementById('alloc-buyer').value;
+  const volume = document.getElementById('alloc-volume').value;
+  const newStatus = document.getElementById('alloc-status').value;
+  if (!buyer) { toast('Please select a buyer', 'error'); return; }
+  const { data: existing } = await sb.from('supply_board').select('allocations').eq('id', supplyId).single();
+  let allocs = [];
+  try { allocs = existing.allocations ? JSON.parse(existing.allocations) : []; } catch(e) {}
+  allocs.push({ buyer, volume: volume ? parseInt(volume) : null, time: new Date().toISOString() });
+  const { error } = await sb.from('supply_board').update({ status: newStatus, allocations: JSON.stringify(allocs) }).eq('id', supplyId);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('allocate-modal');
+  toast(`Allocated to ${buyer}!`);
+  loadSupply();
 }
 
 function openSupplyModal() {
   document.getElementById('supply-modal-title').textContent = 'Add Farm to Supply Board';
   document.getElementById('supply-edit-id').value = '';
-  ['s-farm','s-location','s-heads','s-weight','s-price','s-allocated','s-notes'].forEach(id => document.getElementById(id).value = '');
+  ['s-farm','s-location','s-heads','s-weight','s-price','s-notes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('s-status').value = 'Available';
   openModal('supply-modal');
 }
@@ -1015,7 +691,6 @@ function editSupply(r) {
   document.getElementById('s-weight').value = r.weight_range || '';
   document.getElementById('s-price').value = r.price_per_kg || '';
   document.getElementById('s-status').value = r.status || 'Available';
-  document.getElementById('s-allocated').value = r.allocated_to || '';
   document.getElementById('s-notes').value = r.notes || '';
   openModal('supply-modal');
 }
@@ -1024,14 +699,12 @@ async function saveSupply() {
   const id = document.getElementById('supply-edit-id').value;
   const date = document.getElementById('supply-date').value;
   const payload = {
-    date,
-    farm_name: document.getElementById('s-farm').value,
+    date, farm_name: document.getElementById('s-farm').value,
     location: document.getElementById('s-location').value,
     heads_available: document.getElementById('s-heads').value || null,
     weight_range: document.getElementById('s-weight').value,
     price_per_kg: document.getElementById('s-price').value || null,
     status: document.getElementById('s-status').value,
-    allocated_to: document.getElementById('s-allocated').value,
     notes: document.getElementById('s-notes').value,
     user_id: currentUser.id
   };
@@ -1039,40 +712,30 @@ async function saveSupply() {
   let error;
   if (id) { ({ error } = await sb.from('supply_board').update(payload).eq('id', id)); }
   else { ({ error } = await sb.from('supply_board').insert(payload)); }
-  if (error) { toast('Error saving: ' + error.message, 'error'); return; }
-  closeModal('supply-modal');
-  toast('Supply entry saved!');
-  loadSupply();
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closeModal('supply-modal'); toast('Saved!'); loadSupply();
 }
 
 async function deleteSupply(id) {
   if (!confirm('Delete this entry?')) return;
-  const { error } = await sb.from('supply_board').delete().eq('id', id);
-  if (error) { toast('Error deleting', 'error'); return; }
-  toast('Deleted');
-  loadSupply();
+  await sb.from('supply_board').delete().eq('id', id);
+  toast('Deleted'); loadSupply();
 }
 
-// =====================
 // TRANSACTIONS
-// =====================
 async function loadTransactions() {
-  const { data, error } = await sb.from('transactions').select('*').order('date', { ascending: false });
-  if (error) return;
+  const { data } = await sb.from('transactions').select('*').order('date', { ascending: false });
   const el = document.getElementById('tx-list');
-  if (!data.length) { el.innerHTML = '<tr><td colspan="8" class="empty-state">No transactions yet.</td></tr>'; return; }
+  if (!data || !data.length) { el.innerHTML = '<tr><td colspan="8" class="empty-state">No transactions yet.</td></tr>'; return; }
   el.innerHTML = data.map(r => `
     <tr>
-      <td class="mono">${r.date}</td>
-      <td>${r.farm_name}</td>
-      <td>${r.buyer_name}</td>
-      <td class="mono">${r.volume ? r.volume.toLocaleString() : '—'}</td>
+      <td class="mono">${r.date}</td><td>${r.farm_name}</td><td>${r.buyer_name}</td>
+      <td class="mono">${r.volume ? Number(r.volume).toLocaleString() : '—'}</td>
       <td class="mono">${r.price_per_kg ? '₱' + r.price_per_kg : '—'}</td>
       <td class="mono">${r.total_amount ? '₱' + Number(r.total_amount).toLocaleString() : '—'}</td>
-      <td><span class="status-badge ${r.payment_status === 'Paid' ? 'status-available' : r.payment_status === 'Partial' ? 'status-partial' : 'status-full'}">${r.payment_status}</span></td>
+      <td><span class="status-badge ${r.payment_status==='Paid'?'status-available':r.payment_status==='Partial'?'status-partial':'status-full'}">${r.payment_status}</span></td>
       <td><button class="btn btn-danger btn-sm" onclick="deleteTx('${r.id}')">Del</button></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
 function calcTotal() {
@@ -1082,7 +745,6 @@ function calcTotal() {
 }
 
 function openTxModal() {
-  document.getElementById('tx-edit-id').value = '';
   ['tx-farm','tx-buyer','tx-volume','tx-price','tx-total','tx-notes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
   document.getElementById('tx-payment').value = 'Pending';
@@ -1104,44 +766,33 @@ async function saveTransaction() {
   if (!payload.farm_name || !payload.buyer_name) { toast('Farm and buyer required', 'error'); return; }
   const { error } = await sb.from('transactions').insert(payload);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  closeModal('tx-modal');
-  toast('Transaction saved!');
-  loadTransactions();
+  closeModal('tx-modal'); toast('Transaction saved!'); loadTransactions();
 }
 
 async function deleteTx(id) {
-  if (!confirm('Delete this transaction?')) return;
+  if (!confirm('Delete?')) return;
   await sb.from('transactions').delete().eq('id', id);
   toast('Deleted'); loadTransactions();
 }
 
-// =====================
 // PRICE LOG
-// =====================
 async function loadPriceLog() {
-  const { data, error } = await sb.from('price_log').select('*').order('date', { ascending: false });
-  if (error) return;
+  const { data } = await sb.from('price_log').select('*').order('date', { ascending: false });
   const el = document.getElementById('price-list');
-  if (!data.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📈</div>No price entries yet.</div>'; return; }
+  if (!data || !data.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📈</div>No price entries yet.</div>'; return; }
   el.innerHTML = data.map(r => `
     <div class="price-card">
-      <div>
-        <div class="price-date">${r.date}</div>
-      </div>
+      <div><div style="font-family:var(--mono);font-size:11px;color:var(--muted)">${r.date}</div></div>
       <div>
         <div class="price-range">₱${r.price_low || '?'} – ₱${r.price_high || '?'}/kg</div>
-        <div class="price-source">${r.source || ''}</div>
-        ${r.notes ? `<div class="price-notes">${r.notes}</div>` : ''}
+        <div style="font-size:12px;color:var(--muted)">${r.source || ''}</div>
+        ${r.notes ? `<div style="font-size:12px;margin-top:4px">${r.notes}</div>` : ''}
       </div>
-      <div>
-        <button class="btn btn-danger btn-sm" onclick="deletePrice('${r.id}')">Del</button>
-      </div>
-    </div>
-  `).join('');
+      <div><button class="btn btn-danger btn-sm" onclick="deletePrice('${r.id}')">Del</button></div>
+    </div>`).join('');
 }
 
 function openPriceModal() {
-  document.getElementById('price-edit-id').value = '';
   ['p-low','p-high','p-source','p-notes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('p-date').value = new Date().toISOString().split('T')[0];
   openModal('price-modal');
@@ -1158,44 +809,65 @@ async function savePrice() {
   };
   const { error } = await sb.from('price_log').insert(payload);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  closeModal('price-modal');
-  toast('Price logged!');
-  loadPriceLog();
+  closeModal('price-modal'); toast('Price logged!'); loadPriceLog();
 }
 
 async function deletePrice(id) {
-  if (!confirm('Delete this entry?')) return;
+  if (!confirm('Delete?')) return;
   await sb.from('price_log').delete().eq('id', id);
   toast('Deleted'); loadPriceLog();
 }
 
-// =====================
 // SUPPLIERS
-// =====================
 async function loadSuppliers() {
-  const { data, error } = await sb.from('suppliers').select('*').order('farm_name');
-  if (error) return;
+  const { data } = await sb.from('suppliers').select('*').order('farm_name');
   const el = document.getElementById('supplier-list');
-  if (!data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No suppliers yet.</td></tr>'; return; }
+  if (!data || !data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No suppliers yet.</td></tr>'; return; }
   el.innerHTML = data.map(r => `
     <tr>
       <td><strong>${r.farm_name}</strong></td>
       <td>${r.owner_name || '—'}</td>
       <td class="mono">${r.contact_number || '—'}</td>
       <td>${r.location || '—'}</td>
-      <td>${r.type || '—'}</td>
+      <td>${r.bank_name ? `<span style="color:var(--accent2);font-family:var(--mono);font-size:11px">${r.bank_name}</span>` : '—'}</td>
       <td style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="viewSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button>
         <button class="btn btn-ghost btn-sm" onclick="editSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSupplier('${r.id}')">Del</button>
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
+}
+
+function viewSupplier(r) {
+  document.getElementById('supplier-detail-content').innerHTML = `
+    <div style="display:grid;gap:14px">
+      <div><div class="form-label">Farm Name</div><div style="font-size:16px;font-weight:600">${r.farm_name}</div></div>
+      <div class="form-grid-2">
+        <div><div class="form-label">Owner</div><div>${r.owner_name||'—'}</div></div>
+        <div><div class="form-label">Contact</div><div class="mono">${r.contact_number||'—'}</div></div>
+      </div>
+      <div><div class="form-label">Location</div><div>${r.location||'—'}</div></div>
+      ${r.bank_name ? `
+        <hr class="section-divider">
+        <div class="section-title">🏦 Bank Details</div>
+        <div class="bank-section">
+          <div class="form-grid-2">
+            <div><div class="form-label">Bank</div><div>${r.bank_name}</div></div>
+            <div><div class="form-label">Account Name</div><div>${r.bank_account_name||'—'}</div></div>
+          </div>
+          <div class="form-grid-2">
+            <div><div class="form-label">Account Number</div><div class="mono" style="font-size:16px;color:var(--accent)">${r.bank_account_number||'—'}</div></div>
+            <div><div class="form-label">Branch</div><div>${r.bank_branch||'—'}</div></div>
+          </div>
+        </div>` : ''}
+    </div>`;
+  openModal('supplier-detail-modal');
 }
 
 function openSupplierModal() {
   document.getElementById('supplier-modal-title').textContent = 'Add Supplier';
   document.getElementById('sup-edit-id').value = '';
-  ['sup-farm','sup-owner','sup-contact','sup-location','sup-type'].forEach(id => document.getElementById(id).value = '');
+  ['sup-farm','sup-owner','sup-contact','sup-location','sup-type','sup-bank-name','sup-bank-acct-name','sup-bank-acct-num','sup-bank-branch'].forEach(id => document.getElementById(id).value = '');
   openModal('supplier-modal');
 }
 
@@ -1207,6 +879,10 @@ function editSupplier(r) {
   document.getElementById('sup-contact').value = r.contact_number || '';
   document.getElementById('sup-location').value = r.location || '';
   document.getElementById('sup-type').value = r.type || '';
+  document.getElementById('sup-bank-name').value = r.bank_name || '';
+  document.getElementById('sup-bank-acct-name').value = r.bank_account_name || '';
+  document.getElementById('sup-bank-acct-num').value = r.bank_account_number || '';
+  document.getElementById('sup-bank-branch').value = r.bank_branch || '';
   openModal('supplier-modal');
 }
 
@@ -1218,6 +894,10 @@ async function saveSupplier() {
     contact_number: document.getElementById('sup-contact').value,
     location: document.getElementById('sup-location').value,
     type: document.getElementById('sup-type').value,
+    bank_name: document.getElementById('sup-bank-name').value,
+    bank_account_name: document.getElementById('sup-bank-acct-name').value,
+    bank_account_number: document.getElementById('sup-bank-acct-num').value,
+    bank_branch: document.getElementById('sup-bank-branch').value,
     user_id: currentUser.id
   };
   if (!payload.farm_name) { toast('Farm name required', 'error'); return; }
@@ -1225,44 +905,71 @@ async function saveSupplier() {
   if (id) { ({ error } = await sb.from('suppliers').update(payload).eq('id', id)); }
   else { ({ error } = await sb.from('suppliers').insert(payload)); }
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  closeModal('supplier-modal');
-  toast('Supplier saved!');
-  loadSuppliers();
+  closeModal('supplier-modal'); toast('Supplier saved!'); loadSuppliers();
 }
 
 async function deleteSupplier(id) {
-  if (!confirm('Delete this supplier?')) return;
+  if (!confirm('Delete?')) return;
   await sb.from('suppliers').delete().eq('id', id);
   toast('Deleted'); loadSuppliers();
 }
 
-// =====================
 // BUYERS
-// =====================
 async function loadBuyers() {
-  const { data, error } = await sb.from('buyers').select('*').order('buyer_name');
-  if (error) return;
+  const { data } = await sb.from('buyers').select('*').order('buyer_name');
   const el = document.getElementById('buyer-list');
-  if (!data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No buyers yet.</td></tr>'; return; }
-  el.innerHTML = data.map(r => `
+  if (!data || !data.length) { el.innerHTML = '<tr><td colspan="6" class="empty-state">No buyers yet.</td></tr>'; return; }
+  el.innerHTML = data.map(r => {
+    let docs = [];
+    try { docs = r.documents ? JSON.parse(r.documents) : []; } catch(e) {}
+    return `
     <tr>
       <td><strong>${r.buyer_name}</strong></td>
-      <td class="mono">${r.contact_number || '—'}</td>
-      <td>${r.location || '—'}</td>
-      <td class="mono">${r.usual_volume ? r.usual_volume.toLocaleString() + ' hds' : '—'}</td>
-      <td>${r.notes || '—'}</td>
+      <td class="mono">${r.contact_number||'—'}</td>
+      <td>${r.location||'—'}</td>
+      <td class="mono">${r.usual_volume ? Number(r.usual_volume).toLocaleString()+' hds' : '—'}</td>
+      <td>${docs.length ? `<span style="color:var(--accent2);font-family:var(--mono);font-size:11px">${docs.length} file(s)</span>` : '—'}</td>
       <td style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="viewBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button>
         <button class="btn btn-ghost btn-sm" onclick="editBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteBuyer('${r.id}')">Del</button>
       </td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
+}
+
+function viewBuyer(r) {
+  let docs = [];
+  try { docs = r.documents ? JSON.parse(r.documents) : []; } catch(e) {}
+  document.getElementById('buyer-detail-content').innerHTML = `
+    <div style="display:grid;gap:14px">
+      <div><div class="form-label">Buyer Name</div><div style="font-size:16px;font-weight:600">${r.buyer_name}</div></div>
+      <div class="form-grid-2">
+        <div><div class="form-label">Contact</div><div class="mono">${r.contact_number||'—'}</div></div>
+        <div><div class="form-label">Location</div><div>${r.location||'—'}</div></div>
+      </div>
+      <div><div class="form-label">Usual Volume</div><div>${r.usual_volume ? Number(r.usual_volume).toLocaleString()+' heads' : '—'}</div></div>
+      ${r.notes ? `<div><div class="form-label">Notes</div><div>${r.notes}</div></div>` : ''}
+      ${docs.length ? `
+        <hr class="section-divider">
+        <div class="section-title">📎 Documents</div>
+        <div class="doc-list">${docs.map(d=>`<div class="doc-item"><a class="doc-link" href="${d.url}" target="_blank">📄 ${d.name}</a></div>`).join('')}</div>` : ''}
+    </div>`;
+  openModal('buyer-detail-modal');
+}
+
+function handleDocUpload(event) {
+  pendingDocFiles = Array.from(event.target.files);
+  const list = document.getElementById('doc-upload-list');
+  list.innerHTML = pendingDocFiles.map(f => `<div class="doc-item">📄 ${f.name} <span style="color:var(--muted);font-size:10px">${(f.size/1024).toFixed(1)} KB</span></div>`).join('');
 }
 
 function openBuyerModal() {
   document.getElementById('buyer-modal-title').textContent = 'Add Buyer';
   document.getElementById('buy-edit-id').value = '';
   ['buy-name','buy-contact','buy-location','buy-volume','buy-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('doc-upload-list').innerHTML = '';
+  pendingDocFiles = [];
   openModal('buyer-modal');
 }
 
@@ -1274,17 +981,34 @@ function editBuyer(r) {
   document.getElementById('buy-location').value = r.location || '';
   document.getElementById('buy-volume').value = r.usual_volume || '';
   document.getElementById('buy-notes').value = r.notes || '';
+  let docs = [];
+  try { docs = r.documents ? JSON.parse(r.documents) : []; } catch(e) {}
+  document.getElementById('doc-upload-list').innerHTML = docs.map(d=>`<div class="doc-item"><a class="doc-link" href="${d.url}" target="_blank">📄 ${d.name}</a></div>`).join('');
+  pendingDocFiles = [];
   openModal('buyer-modal');
 }
 
 async function saveBuyer() {
   const id = document.getElementById('buy-edit-id').value;
+  let existingDocs = [];
+  if (id) {
+    const { data: ex } = await sb.from('buyers').select('documents').eq('id', id).single();
+    try { existingDocs = ex.documents ? JSON.parse(ex.documents) : []; } catch(e) {}
+  }
+  for (const file of pendingDocFiles) {
+    const filePath = `buyers/${currentUser.id}/${Date.now()}_${file.name}`;
+    const { error: upErr } = await sb.storage.from('buyer-docs').upload(filePath, file);
+    if (upErr) { toast('Upload error: ' + upErr.message, 'error'); continue; }
+    const { data: urlData } = sb.storage.from('buyer-docs').getPublicUrl(filePath);
+    existingDocs.push({ name: file.name, url: urlData.publicUrl, path: filePath });
+  }
   const payload = {
     buyer_name: document.getElementById('buy-name').value,
     contact_number: document.getElementById('buy-contact').value,
     location: document.getElementById('buy-location').value,
     usual_volume: document.getElementById('buy-volume').value || null,
     notes: document.getElementById('buy-notes').value,
+    documents: JSON.stringify(existingDocs),
     user_id: currentUser.id
   };
   if (!payload.buyer_name) { toast('Buyer name required', 'error'); return; }
@@ -1292,13 +1016,11 @@ async function saveBuyer() {
   if (id) { ({ error } = await sb.from('buyers').update(payload).eq('id', id)); }
   else { ({ error } = await sb.from('buyers').insert(payload)); }
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  closeModal('buyer-modal');
-  toast('Buyer saved!');
-  loadBuyers();
+  closeModal('buyer-modal'); toast('Buyer saved!'); loadBuyers();
 }
 
 async function deleteBuyer(id) {
-  if (!confirm('Delete this buyer?')) return;
+  if (!confirm('Delete?')) return;
   await sb.from('buyers').delete().eq('id', id);
   toast('Deleted'); loadBuyers();
 }
