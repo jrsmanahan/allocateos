@@ -94,7 +94,6 @@
   .dash-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
   .dash-value { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
   .dash-sub { font-size: 13px; color: var(--muted); }
-
   .dash-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .dash-panel { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px; box-shadow: var(--shadow); }
   .dash-panel-title { font-size: 13px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); }
@@ -115,10 +114,10 @@
   .supply-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1.2fr auto; gap: 16px; align-items: start; box-shadow: var(--shadow); transition: border-color 0.2s; }
   .supply-card:hover { border-color: var(--green); }
   .supply-card.carryover { border-left: 4px solid var(--orange); }
-  .supply-farm { font-size: 15px; font-weight: 600; color: var(--text); }
+  .supply-farm { font-size: 15px; font-weight: 600; }
   .supply-location { font-size: 13px; color: var(--muted); margin-top: 2px; }
   .supply-stat-label { font-size: 11px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-  .supply-stat { font-size: 15px; font-weight: 600; color: var(--text); font-family: var(--mono); }
+  .supply-stat { font-size: 15px; font-weight: 600; font-family: var(--mono); }
   .carryover-tag { font-size: 10px; font-weight: 600; color: var(--orange); background: var(--orange-light); border: 1px solid #fde68a; padding: 2px 7px; border-radius: 4px; margin-left: 6px; }
   .supply-actions { display: flex; gap: 6px; flex-direction: column; align-items: flex-end; }
   .alloc-log { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
@@ -130,6 +129,7 @@
   .badge-red { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
   .badge-blue { background: var(--blue-light); color: var(--blue); border: 1px solid #93c5fd; }
   .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid #c4b5fd; }
+  .badge-gray { background: #f3f4f6; color: var(--muted); border: 1px solid var(--border); }
 
   .viber-box { background: var(--white); border: 1px solid var(--green-mid); border-left: 4px solid var(--green); border-radius: 10px; padding: 22px; margin-top: 20px; box-shadow: var(--shadow); }
   .viber-title { font-size: 13px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
@@ -140,31 +140,54 @@
   .tx-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; box-shadow: var(--shadow); overflow: hidden; }
   .tx-card-header { padding: 18px 22px; display: grid; grid-template-columns: 2.5fr 1.5fr 1fr 1fr auto; gap: 16px; align-items: center; cursor: pointer; transition: background 0.15s; }
   .tx-card-header:hover { background: #f9fafb; }
-  .tx-route { font-size: 15px; font-weight: 600; color: var(--text); }
+  .tx-route { font-size: 15px; font-weight: 600; }
   .tx-route-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
   .tx-stat-label { font-size: 11px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
   .tx-stat { font-size: 15px; font-weight: 600; font-family: var(--mono); }
   .tx-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 
-  /* TX DETAIL PANEL */
-  .tx-detail { display: none; border-top: 1px solid var(--border-light); padding: 22px; background: #fafbfa; }
+  .tx-detail { display: none; border-top: 1px solid var(--border-light); padding: 24px; background: #fafbfa; }
   .tx-detail.open { display: block; }
-  .tx-detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .tx-detail-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .tx-detail-section-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
-  .tx-detail-row { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
-  .tx-detail-row:last-child { margin-bottom: 0; }
-  .tx-detail-label { font-size: 11px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 0.4px; }
-  .tx-detail-value { font-size: 14px; font-weight: 500; color: var(--text); }
 
-  /* TRUCK ENTRY */
-  .truck-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 16px; }
-  .truck-table { width: 100%; border-collapse: collapse; }
-  .truck-table th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-  .truck-table td { padding: 8px 12px; font-size: 13px; border-bottom: 1px solid var(--border-light); }
-  .truck-table tr:last-child td { border-bottom: none; }
-  .truck-input { width: 100%; background: var(--white); border: 1.5px solid var(--border); color: var(--text); padding: 7px 10px; font-family: var(--sans); font-size: 13px; outline: none; border-radius: 5px; }
+  .tx-info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .tx-info-box { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .tx-info-box-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+  .tx-info-row { margin-bottom: 8px; }
+  .tx-info-row:last-child { margin-bottom: 0; }
+  .tx-info-label { font-size: 11px; font-weight: 600; color: var(--muted-light); text-transform: uppercase; letter-spacing: 0.4px; }
+  .tx-info-value { font-size: 14px; font-weight: 500; color: var(--text); }
+
+  /* PERMITS SECTION */
+  .permits-section { background: var(--white); border: 1px solid var(--green-mid); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .permits-title { font-size: 12px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+  .permits-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .permit-pill { display: flex; align-items: center; gap: 8px; background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 6px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: var(--green-dark); text-decoration: none; cursor: pointer; }
+  .permit-pill:hover { background: var(--green-mid); }
+  .permit-pill-gray { background: #f3f4f6; border: 1px solid var(--border); color: var(--muted); }
+
+  /* TRUCK ASSIGNMENT */
+  .truck-assign-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .truck-assign-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
+  .truck-row { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-light); }
+  .truck-row:last-child { border-bottom: none; }
+  .truck-plate { font-size: 14px; font-weight: 600; font-family: var(--mono); }
+  .truck-permit-link { font-size: 12px; color: var(--green); text-decoration: none; font-weight: 500; }
+  .truck-permit-link:hover { text-decoration: underline; }
+  .truck-input { width: 100%; background: var(--white); border: 1.5px solid var(--border); color: var(--text); padding: 8px 10px; font-family: var(--sans); font-size: 14px; outline: none; border-radius: 6px; }
   .truck-input:focus { border-color: var(--green); }
+
+  .add-truck-row { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-light); align-items: center; }
+
+  /* TOTALS BAR */
+  .totals-bar { background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 8px; padding: 16px 20px; margin-top: 14px; display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .total-item-label { font-size: 11px; font-weight: 600; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .total-item-value { font-size: 18px; font-weight: 700; color: var(--green); font-family: var(--mono); }
+
+  /* BUYER DETAIL */
+  .buyer-trucks-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .buyer-trucks-table th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .buyer-trucks-table td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+  .buyer-trucks-table tr:last-child td { border-bottom: none; }
 
   /* TABLES */
   .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
@@ -181,30 +204,36 @@
   .fin-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 22px; box-shadow: var(--shadow); }
   .fin-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
   .fin-value { font-size: 24px; font-weight: 700; font-family: var(--mono); }
-  .fin-filters { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+  .fin-filters { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
 
   /* MODALS */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 36px; width: 580px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+  .modal { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 36px; width: 600px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
   .modal-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
   .form-row { margin-bottom: 18px; }
   .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 7px; }
   .form-input, .form-select, .form-textarea { width: 100%; background: var(--white); border: 1.5px solid var(--border); color: var(--text); padding: 10px 14px; font-family: var(--sans); font-size: 14px; outline: none; border-radius: 7px; transition: border-color 0.2s; }
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,163,74,0.08); }
-  .form-textarea { resize: vertical; min-height: 80px; }
+  .form-textarea { resize: vertical; min-height: 70px; }
   .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-light); }
   .section-divider { border: none; border-top: 1px solid var(--border-light); margin: 22px 0; }
   .section-title { font-size: 13px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
   .bank-section { background: #f0fdf4; border: 1px solid var(--green-mid); border-radius: 8px; padding: 18px; }
 
-  .doc-upload-area { border: 2px dashed var(--border); padding: 24px; text-align: center; cursor: pointer; border-radius: 8px; background: var(--surface2); transition: all 0.2s; }
+  .doc-upload-area { border: 2px dashed var(--border); padding: 20px; text-align: center; cursor: pointer; border-radius: 8px; background: var(--surface2); transition: all 0.2s; }
   .doc-upload-area:hover { border-color: var(--green); background: var(--green-light); }
   .doc-upload-label { font-size: 14px; color: var(--muted); }
-  .doc-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .doc-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
   .doc-item { background: var(--surface2); border: 1px solid var(--border); padding: 9px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; border-radius: 6px; }
   .doc-link { color: var(--green); text-decoration: none; font-weight: 500; }
+
+  /* TRUCK REGISTRY IN BUYER MODAL */
+  .truck-registry { margin-top: 4px; }
+  .truck-registry-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 14px; margin-bottom: 10px; }
+  .truck-registry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .truck-registry-plate { font-size: 15px; font-weight: 700; font-family: var(--mono); color: var(--text); }
 
   .empty-state { text-align: center; padding: 60px 20px; }
   .empty-icon { font-size: 40px; margin-bottom: 14px; opacity: 0.5; }
@@ -219,7 +248,6 @@
   .detail-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
   .detail-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .detail-value { font-size: 15px; color: var(--text); font-weight: 500; }
-
   .info-note { background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 7px; padding: 10px 14px; font-size: 13px; color: var(--green-dark); margin-bottom: 16px; }
 </style>
 </head>
@@ -228,10 +256,7 @@
 <!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-box">
-    <div class="auth-logo-wrap">
-      <div class="auth-logo">AllocateOS</div>
-      <span class="auth-version">v1.2</span>
-    </div>
+    <div class="auth-logo-wrap"><div class="auth-logo">AllocateOS</div><span class="auth-version">v1.3</span></div>
     <div class="auth-sub">Poultry Broker Operations System</div>
     <div class="auth-error" id="auth-error"></div>
     <div id="login-form">
@@ -243,10 +268,8 @@
       <div class="auth-toggle">No account yet? <a onclick="showRegister()">Register here</a></div>
     </div>
     <div id="register-form" style="display:none">
-      <label class="auth-label">Email Address</label>
-      <input type="email" class="auth-input" id="reg-email">
-      <label class="auth-label">Password</label>
-      <input type="password" class="auth-input" id="reg-password" placeholder="Minimum 6 characters">
+      <label class="auth-label">Email Address</label><input type="email" class="auth-input" id="reg-email">
+      <label class="auth-label">Password</label><input type="password" class="auth-input" id="reg-password" placeholder="Minimum 6 characters">
       <button class="auth-btn" onclick="register()">Create Account</button>
       <div class="auth-toggle">Already have an account? <a onclick="showLogin()">Sign in</a></div>
     </div>
@@ -256,10 +279,7 @@
 <!-- APP -->
 <div id="app">
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-logo">AllocateOS</div>
-      <span class="topbar-version">v1.2</span>
-    </div>
+    <div class="topbar-left"><div class="topbar-logo">AllocateOS</div><span class="topbar-version">v1.3</span></div>
     <div class="topbar-right">
       <span class="topbar-user" id="user-email"></span>
       <button class="topbar-logout" onclick="logout()">Sign Out</button>
@@ -283,56 +303,24 @@
       <!-- DASHBOARD -->
       <div class="page active" id="page-dashboard">
         <div class="page-header">
-          <div>
-            <div class="page-title" id="dash-greeting">Good morning! 👋</div>
-            <div class="page-sub" id="dash-date"></div>
-          </div>
+          <div><div class="page-title" id="dash-greeting">Good morning! 👋</div><div class="page-sub" id="dash-date"></div></div>
         </div>
         <div class="dash-grid">
-          <div class="dash-card">
-            <div class="dash-card-icon">🐔</div>
-            <div class="dash-label">Supply Available Today</div>
-            <div class="dash-value" style="color:var(--green)" id="dash-supply">—</div>
-            <div class="dash-sub" id="dash-supply-sub">farms with stock</div>
-          </div>
-          <div class="dash-card">
-            <div class="dash-card-icon">📊</div>
-            <div class="dash-label">Today's Price Range</div>
-            <div class="dash-value" style="color:var(--orange);font-size:20px;margin-top:6px" id="dash-price">—</div>
-            <div class="dash-sub">₱ per kg (from price log)</div>
-          </div>
-          <div class="dash-card">
-            <div class="dash-card-icon">📤</div>
-            <div class="dash-label">Pending Payables</div>
-            <div class="dash-value" style="color:var(--blue)" id="dash-payables">—</div>
-            <div class="dash-sub">transactions in progress</div>
-          </div>
-          <div class="dash-card">
-            <div class="dash-card-icon">📥</div>
-            <div class="dash-label">Pending Receivables</div>
-            <div class="dash-value" style="color:var(--purple)" id="dash-receivables">—</div>
-            <div class="dash-sub">buyer payments pending</div>
-          </div>
+          <div class="dash-card"><div class="dash-card-icon">🐔</div><div class="dash-label">Supply Available Today</div><div class="dash-value" style="color:var(--green)" id="dash-supply">—</div><div class="dash-sub" id="dash-supply-sub">farms with stock</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📊</div><div class="dash-label">Today's Price Range</div><div class="dash-value" style="color:var(--orange);font-size:20px;margin-top:6px" id="dash-price">—</div><div class="dash-sub">₱ per kg</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📤</div><div class="dash-label">Pending Payables</div><div class="dash-value" style="color:var(--blue)" id="dash-payables">—</div><div class="dash-sub">transactions in progress</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📥</div><div class="dash-label">Pending Receivables</div><div class="dash-value" style="color:var(--purple)" id="dash-receivables">—</div><div class="dash-sub">buyer payments pending</div></div>
         </div>
         <div class="dash-row">
-          <div class="dash-panel">
-            <div class="dash-panel-title">📋 Active Transactions</div>
-            <div id="dash-pending-list"><div class="loading">Loading...</div></div>
-          </div>
-          <div class="dash-panel">
-            <div class="dash-panel-title">📦 Today's Supply</div>
-            <div id="dash-supply-list"><div class="loading">Loading...</div></div>
-          </div>
+          <div class="dash-panel"><div class="dash-panel-title">📋 Active Transactions</div><div id="dash-pending-list"><div class="loading">Loading...</div></div></div>
+          <div class="dash-panel"><div class="dash-panel-title">📦 Today's Supply</div><div id="dash-supply-list"><div class="loading">Loading...</div></div></div>
         </div>
       </div>
 
       <!-- SUPPLY BOARD -->
       <div class="page" id="page-supply">
         <div class="page-header">
-          <div>
-            <div class="page-title">Supply Board</div>
-            <div class="page-sub" id="supply-date-label"></div>
-          </div>
+          <div><div class="page-title">Supply Board</div><div class="page-sub" id="supply-date-label"></div></div>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <input type="date" class="date-input" id="supply-date" onchange="loadSupply()">
             <button class="btn btn-ghost" onclick="carryOverSupply()">↩ Carry Over Unsold</button>
@@ -351,7 +339,7 @@
           </select>
           <button class="btn btn-ghost btn-sm" onclick="clearFilters()">Clear</button>
         </div>
-        <div id="supply-list" class="supply-grid"><div class="loading">Loading supply board...</div></div>
+        <div id="supply-list" class="supply-grid"><div class="loading">Loading...</div></div>
         <div class="viber-box" id="viber-section" style="display:none">
           <div class="viber-title">📱 Viber-Ready Post</div>
           <div class="viber-output" id="viber-text"></div>
@@ -398,7 +386,7 @@
         </div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead><tr><th>Date</th><th>Farm</th><th>Buyer</th><th>Heads</th><th>Price/kg</th><th>Farm Total</th><th>Buyer Payment</th></tr></thead>
+            <thead><tr><th>Date</th><th>Farm</th><th>Buyer</th><th>Heads</th><th>Price/kg</th><th>Total</th><th>Buyer Payment</th></tr></thead>
             <tbody id="fin-list"><tr><td colspan="7" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -406,10 +394,7 @@
 
       <!-- SUPPLIERS -->
       <div class="page" id="page-suppliers">
-        <div class="page-header">
-          <div class="page-title">Suppliers</div>
-          <button class="btn btn-primary" onclick="openSupplierModal()">+ Add Supplier</button>
-        </div>
+        <div class="page-header"><div class="page-title">Suppliers</div><button class="btn btn-primary" onclick="openSupplierModal()">+ Add Supplier</button></div>
         <div class="table-wrap">
           <table class="data-table">
             <thead><tr><th>Farm Name</th><th>Owner</th><th>Contact</th><th>Location</th><th>Bank</th><th>Actions</th></tr></thead>
@@ -420,14 +405,11 @@
 
       <!-- BUYERS -->
       <div class="page" id="page-buyers">
-        <div class="page-header">
-          <div class="page-title">Buyers</div>
-          <button class="btn btn-primary" onclick="openBuyerModal()">+ Add Buyer</button>
-        </div>
+        <div class="page-header"><div class="page-title">Buyers</div><button class="btn btn-primary" onclick="openBuyerModal()">+ Add Buyer</button></div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead><tr><th>Buyer Name</th><th>Contact</th><th>Location</th><th>Usual Volume</th><th>Documents</th><th>Actions</th></tr></thead>
-            <tbody id="buyer-list"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
+            <thead><tr><th>Buyer Name</th><th>Contact</th><th>Location</th><th>Usual Volume</th><th>Trucks</th><th>Permits</th><th>Actions</th></tr></thead>
+            <tbody id="buyer-list"><tr><td colspan="7" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -441,26 +423,16 @@
   <div class="modal">
     <div class="modal-title" id="supply-modal-title">Add Farm to Supply Board</div>
     <input type="hidden" id="supply-edit-id">
-    <div class="form-row">
-      <label class="form-label">Farm Name *</label>
-      <select class="form-select" id="s-farm-select" onchange="onFarmSelect()">
-        <option value="">Select from your suppliers...</option>
-      </select>
+    <div class="form-row"><label class="form-label">Farm Name *</label>
+      <select class="form-select" id="s-farm-select" onchange="onFarmSelect()"><option value="">Select from your suppliers...</option></select>
     </div>
-    <div class="form-row">
-      <label class="form-label">Location / Area</label>
-      <input type="text" class="form-input" id="s-location" placeholder="Auto-filled from supplier, or type manually">
-    </div>
+    <div class="form-row"><label class="form-label">Location / Area</label><input type="text" class="form-input" id="s-location" placeholder="Auto-filled from supplier"></div>
     <div class="form-grid-2">
       <div class="form-row"><label class="form-label">Heads Available</label><input type="number" class="form-input" id="s-heads" placeholder="e.g. 10000"></div>
       <div class="form-row"><label class="form-label">Weight Range (kg)</label><input type="text" class="form-input" id="s-weight" placeholder="e.g. 1.90kg up"></div>
     </div>
     <div class="form-row"><label class="form-label">Status</label>
-      <select class="form-select" id="s-status">
-        <option value="Available">Available</option>
-        <option value="Partially Allocated">Partially Allocated</option>
-        <option value="Fully Allocated">Fully Allocated</option>
-      </select>
+      <select class="form-select" id="s-status"><option value="Available">Available</option><option value="Partially Allocated">Partially Allocated</option><option value="Fully Allocated">Fully Allocated</option></select>
     </div>
     <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="s-notes"></textarea></div>
     <div class="modal-actions">
@@ -484,16 +456,11 @@
     <div class="form-row"><label class="form-label">Select Buyer *</label>
       <select class="form-select" id="alloc-buyer"><option value="">Choose a buyer...</option></select>
     </div>
-    <div class="form-row"><label class="form-label">Volume to Allocate (heads) — leave blank for full</label>
-      <input type="number" class="form-input" id="alloc-volume">
-    </div>
+    <div class="form-row"><label class="form-label">Volume to Allocate (heads) — leave blank for full</label><input type="number" class="form-input" id="alloc-volume"></div>
     <div class="form-row"><label class="form-label">Update Status To</label>
-      <select class="form-select" id="alloc-status">
-        <option value="Partially Allocated">Partially Allocated</option>
-        <option value="Fully Allocated">Fully Allocated</option>
-      </select>
+      <select class="form-select" id="alloc-status"><option value="Partially Allocated">Partially Allocated</option><option value="Fully Allocated">Fully Allocated</option></select>
     </div>
-    <div class="info-note">✅ Allocating will automatically create a transaction in the <strong>Transactions</strong> tab at stage <strong>"For Documents"</strong>.</div>
+    <div class="info-note">✅ This will automatically create a transaction in <strong>For Documents</strong> stage.</div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('allocate-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveAllocation()">Confirm Allocation</button>
@@ -501,20 +468,15 @@
   </div>
 </div>
 
-<!-- TRANSACTION MODAL (manual) -->
+<!-- TX MODAL (manual) -->
 <div class="modal-overlay" id="tx-modal">
   <div class="modal">
-    <div class="modal-title" id="tx-modal-title">New Transaction</div>
+    <div class="modal-title">New Transaction</div>
     <input type="hidden" id="tx-edit-id">
     <div class="form-grid-2">
       <div class="form-row"><label class="form-label">Date *</label><input type="date" class="form-input" id="tx-date"></div>
       <div class="form-row"><label class="form-label">Stage</label>
-        <select class="form-select" id="tx-stage">
-          <option value="For Documents">For Documents</option>
-          <option value="For Summary">For Summary</option>
-          <option value="For Payment">For Payment</option>
-          <option value="Completed">Completed</option>
-        </select>
+        <select class="form-select" id="tx-stage"><option value="For Documents">For Documents</option><option value="For Summary">For Summary</option><option value="For Payment">For Payment</option><option value="Completed">Completed</option></select>
       </div>
     </div>
     <div class="form-grid-2">
@@ -522,18 +484,10 @@
       <div class="form-row"><label class="form-label">Buyer Name *</label><input type="text" class="form-input" id="tx-buyer"></div>
     </div>
     <div class="form-grid-2">
-      <div class="form-row"><label class="form-label">Total Heads (Ordered)</label><input type="number" class="form-input" id="tx-heads"></div>
+      <div class="form-row"><label class="form-label">Total Heads</label><input type="number" class="form-input" id="tx-heads"></div>
       <div class="form-row"><label class="form-label">Buyer Payment Status</label>
-        <select class="form-select" id="tx-buyer-payment">
-          <option value="Pending">Pending</option>
-          <option value="Received">Received</option>
-          <option value="Partial">Partial</option>
-        </select>
+        <select class="form-select" id="tx-buyer-payment"><option value="Pending">Pending</option><option value="Received">Received</option><option value="Partial">Partial</option></select>
       </div>
-    </div>
-    <div class="form-grid-2">
-      <div class="form-row"><label class="form-label">Price per kg (₱)</label><input type="number" step="0.01" class="form-input" id="tx-price"></div>
-      <div class="form-row"><label class="form-label">Grand Total Amount (₱)</label><input type="number" step="0.01" class="form-input" id="tx-grand-total"></div>
     </div>
     <div class="form-row"><label class="form-label">Notes</label><textarea class="form-textarea" id="tx-notes"></textarea></div>
     <div class="modal-actions">
@@ -550,12 +504,7 @@
     <input type="hidden" id="stage-tx-id">
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:15px;font-weight:600" id="stage-tx-info"></div>
     <div class="form-row"><label class="form-label">Move to Stage</label>
-      <select class="form-select" id="stage-next">
-        <option value="For Documents">For Documents</option>
-        <option value="For Summary">For Summary</option>
-        <option value="For Payment">For Payment</option>
-        <option value="Completed">Completed</option>
-      </select>
+      <select class="form-select" id="stage-next"><option value="For Documents">For Documents</option><option value="For Summary">For Summary</option><option value="For Payment">For Payment</option><option value="Completed">Completed</option></select>
     </div>
     <div class="form-row"><label class="form-label">Notes (optional)</label><textarea class="form-textarea" id="stage-notes" style="min-height:60px"></textarea></div>
     <div class="modal-actions">
@@ -580,7 +529,7 @@
     <div class="section-title">🏦 Bank Details</div>
     <div class="bank-section">
       <div class="form-grid-2">
-        <div class="form-row"><label class="form-label">Bank Name</label><input type="text" class="form-input" id="sup-bank-name" placeholder="e.g. BDO, BPI, Metrobank"></div>
+        <div class="form-row"><label class="form-label">Bank Name</label><input type="text" class="form-input" id="sup-bank-name" placeholder="e.g. BDO, BPI"></div>
         <div class="form-row"><label class="form-label">Account Name</label><input type="text" class="form-input" id="sup-bank-acct-name"></div>
       </div>
       <div class="form-grid-2">
@@ -597,9 +546,7 @@
 
 <!-- SUPPLIER DETAIL -->
 <div class="modal-overlay" id="supplier-detail-modal">
-  <div class="modal">
-    <div class="modal-title">Supplier Details</div>
-    <div id="supplier-detail-content"></div>
+  <div class="modal"><div class="modal-title">Supplier Details</div><div id="supplier-detail-content"></div>
     <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('supplier-detail-modal')">Close</button></div>
   </div>
 </div>
@@ -618,13 +565,20 @@
       <div class="form-row"><label class="form-label">Usual Volume (heads)</label><input type="number" class="form-input" id="buy-volume"></div>
       <div class="form-row"><label class="form-label">Notes</label><input type="text" class="form-input" id="buy-notes"></div>
     </div>
+
     <hr class="section-divider">
-    <div class="section-title">📎 Documents</div>
-    <div class="doc-upload-area" onclick="document.getElementById('buy-doc-input').click()">
-      <div class="doc-upload-label">📂 Click here to upload documents (PDF, images)</div>
-      <input type="file" id="buy-doc-input" style="display:none" multiple onchange="handleDocUpload(event)">
+    <div class="section-title">📋 Handlers Permit</div>
+    <div class="doc-upload-area" onclick="document.getElementById('buy-handlers-input').click()">
+      <div class="doc-upload-label">📂 Upload Handlers Permit (PDF or image)</div>
+      <input type="file" id="buy-handlers-input" style="display:none" accept="image/*,.pdf" onchange="handleHandlersUpload(event)">
     </div>
-    <div class="doc-list" id="doc-upload-list"></div>
+    <div class="doc-list" id="handlers-permit-list"></div>
+
+    <hr class="section-divider">
+    <div class="section-title">🚛 Registered Trucks</div>
+    <div class="truck-registry" id="truck-registry-list"></div>
+    <button class="btn btn-ghost btn-sm" onclick="addTruckField()" style="margin-top:8px">+ Add Truck</button>
+
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('buyer-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveBuyer()">Save Buyer</button>
@@ -634,9 +588,7 @@
 
 <!-- BUYER DETAIL -->
 <div class="modal-overlay" id="buyer-detail-modal">
-  <div class="modal">
-    <div class="modal-title">Buyer Details</div>
-    <div id="buyer-detail-content"></div>
+  <div class="modal"><div class="modal-title">Buyer Details</div><div id="buyer-detail-content"></div>
     <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('buyer-detail-modal')">Close</button></div>
   </div>
 </div>
@@ -649,46 +601,47 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentUser = null;
 let allSupplyData = [];
-let allSuppliers = [];
-let pendingDocFiles = [];
 let expandedTx = {};
+let pendingHandlersFile = null;
+let pendingTruckPermitFiles = {};
+let truckFieldCount = 0;
+let editingTrucks = []; // trucks being edited in the modal
 
 // AUTH
 async function login() {
-  const {data, error} = await sb.auth.signInWithPassword({email: document.getElementById('login-email').value, password: document.getElementById('login-password').value});
-  if (error) { showAuthError(error.message); return; }
+  const {data,error} = await sb.auth.signInWithPassword({email:document.getElementById('login-email').value,password:document.getElementById('login-password').value});
+  if (error){showAuthError(error.message);return;}
   onLogin(data.user);
 }
 async function register() {
-  const {error} = await sb.auth.signUp({email: document.getElementById('reg-email').value, password: document.getElementById('reg-password').value});
-  if (error) { showAuthError(error.message); return; }
+  const {error} = await sb.auth.signUp({email:document.getElementById('reg-email').value,password:document.getElementById('reg-password').value});
+  if (error){showAuthError(error.message);return;}
   showAuthError('Account created! Please sign in.'); showLogin();
 }
 async function logout() {
   await sb.auth.signOut();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-  currentUser = null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('auth-screen').style.display='flex';
+  currentUser=null;
 }
 function onLogin(user) {
-  currentUser = user;
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('user-email').textContent = user.email;
+  currentUser=user;
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('user-email').textContent=user.email;
   initApp();
 }
-function showAuthError(msg) { const el = document.getElementById('auth-error'); el.textContent = msg; el.style.display = 'block'; }
-function showRegister() { document.getElementById('login-form').style.display = 'none'; document.getElementById('register-form').style.display = 'block'; document.getElementById('auth-error').style.display = 'none'; }
-function showLogin() { document.getElementById('login-form').style.display = 'block'; document.getElementById('register-form').style.display = 'none'; document.getElementById('auth-error').style.display = 'none'; }
-sb.auth.getSession().then(({data}) => { if (data.session) onLogin(data.session.user); });
+function showAuthError(msg){const el=document.getElementById('auth-error');el.textContent=msg;el.style.display='block';}
+function showRegister(){document.getElementById('login-form').style.display='none';document.getElementById('register-form').style.display='block';document.getElementById('auth-error').style.display='none';}
+function showLogin(){document.getElementById('login-form').style.display='block';document.getElementById('register-form').style.display='none';document.getElementById('auth-error').style.display='none';}
+sb.auth.getSession().then(({data})=>{if(data.session)onLogin(data.session.user);});
 
 function initApp() {
   const today = new Date().toISOString().split('T')[0];
   const hour = new Date().getHours();
-  document.getElementById('dash-greeting').textContent = (hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening') + '! 👋';
-  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-PH', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('dash-greeting').textContent = (hour<12?'Good morning':hour<17?'Good afternoon':'Good evening')+'! 👋';
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   document.getElementById('supply-date').value = today;
-  document.getElementById('tx-date') && (document.getElementById('tx-date').value = today);
   const thisMonth = today.substring(0,7);
   document.getElementById('history-month').value = thisMonth;
   document.getElementById('fin-filter-month').value = thisMonth;
@@ -696,98 +649,94 @@ function initApp() {
   loadDashboard(); loadSupply(); loadTransactions(); loadHistory(); loadFinancials(); loadSuppliers(); loadBuyers();
 }
 
-function showPage(name, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
+function showPage(name,el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
   el.classList.add('active');
-  if (name === 'dashboard') loadDashboard();
-  if (name === 'financials') loadFinancials();
-  if (name === 'transactions') loadTransactions();
+  if(name==='dashboard') loadDashboard();
+  if(name==='financials') loadFinancials();
+  if(name==='transactions') loadTransactions();
 }
 
-function toast(msg, type='success') {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.className = 'toast show ' + type;
-  setTimeout(() => el.className = 'toast', 3000);
+function toast(msg,type='success'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show '+type;
+  setTimeout(()=>el.className='toast',3000);
 }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function updateDateLabel() {
-  const d = document.getElementById('supply-date').value;
-  document.getElementById('supply-date-label').textContent = new Date(d+'T00:00:00').toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function updateDateLabel(){
+  const d=document.getElementById('supply-date').value;
+  document.getElementById('supply-date-label').textContent=new Date(d+'T00:00:00').toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
-function stageClass(s) {
-  if (s==='For Documents') return 'badge-blue';
-  if (s==='For Summary') return 'badge-purple';
-  if (s==='For Payment') return 'badge-orange';
+function stageClass(s){
+  if(s==='For Documents') return 'badge-blue';
+  if(s==='For Summary') return 'badge-purple';
+  if(s==='For Payment') return 'badge-orange';
   return 'badge-green';
 }
-function statusClass(s) {
-  if (s==='Available') return 'badge-green';
-  if (s==='Partially Allocated') return 'badge-orange';
+function statusClass(s){
+  if(s==='Available') return 'badge-green';
+  if(s==='Partially Allocated') return 'badge-orange';
   return 'badge-red';
+}
+
+// FILE UPLOAD HELPER
+async function uploadFile(file, path) {
+  const {error} = await sb.storage.from('buyer-docs').upload(path, file, {upsert:true});
+  if (error) return null;
+  const {data} = sb.storage.from('buyer-docs').getPublicUrl(path);
+  return data.publicUrl;
 }
 
 // DASHBOARD
 async function loadDashboard() {
   const today = new Date().toISOString().split('T')[0];
-  const {data: supplyData} = await sb.from('supply_board').select('*').eq('date',today).neq('status','Fully Allocated');
-  const supplyCount = supplyData ? supplyData.length : 0;
-  const totalHeads = supplyData ? supplyData.reduce((s,r)=>s+(r.heads_available||0),0) : 0;
+  const {data:supplyData} = await sb.from('supply_board').select('*').eq('date',today).neq('status','Fully Allocated');
+  const supplyCount = supplyData?supplyData.length:0;
+  const totalHeads = supplyData?supplyData.reduce((s,r)=>s+(r.heads_available||0),0):0;
   document.getElementById('dash-supply').textContent = supplyCount;
   document.getElementById('dash-supply-sub').textContent = totalHeads.toLocaleString()+' heads available';
-
-  const {data: priceData} = await sb.from('price_log').select('*').eq('date',today).order('created_at',{ascending:false}).limit(1);
-  document.getElementById('dash-price').textContent = (priceData&&priceData.length) ? '₱'+priceData[0].price_low+' – ₱'+priceData[0].price_high : 'Not logged yet';
-
-  const {data: txData} = await sb.from('transactions').select('*').neq('stage','Completed');
-  document.getElementById('dash-payables').textContent = txData ? txData.length : 0;
-  const {data: recData} = await sb.from('transactions').select('*').eq('buyer_payment_status','Pending').neq('stage','Completed');
-  document.getElementById('dash-receivables').textContent = recData ? recData.length : 0;
-
-  const pEl = document.getElementById('dash-pending-list');
-  pEl.innerHTML = !txData||!txData.length ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No active transactions.</div>'
+  const {data:priceData} = await sb.from('price_log').select('*').eq('date',today).order('created_at',{ascending:false}).limit(1);
+  document.getElementById('dash-price').textContent = (priceData&&priceData.length)?'₱'+priceData[0].price_low+' – ₱'+priceData[0].price_high:'Not logged yet';
+  const {data:txData} = await sb.from('transactions').select('*').neq('stage','Completed');
+  document.getElementById('dash-payables').textContent = txData?txData.length:0;
+  const {data:recData} = await sb.from('transactions').select('*').eq('buyer_payment_status','Pending').neq('stage','Completed');
+  document.getElementById('dash-receivables').textContent = recData?recData.length:0;
+  document.getElementById('dash-pending-list').innerHTML = !txData||!txData.length
+    ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No active transactions.</div>'
     : txData.slice(0,8).map(r=>`<div class="dash-row-item"><div><div class="dash-item-main">${r.farm_name} → ${r.buyer_name}</div><div class="dash-item-sub">${r.date}</div></div><span class="badge ${stageClass(r.stage)}">${r.stage}</span></div>`).join('');
-
-  const sEl = document.getElementById('dash-supply-list');
-  sEl.innerHTML = !supplyData||!supplyData.length ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No supply listed for today.</div>'
+  document.getElementById('dash-supply-list').innerHTML = !supplyData||!supplyData.length
+    ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No supply listed for today.</div>'
     : supplyData.slice(0,8).map(r=>`<div class="dash-row-item"><div><div class="dash-item-main">${r.farm_name}</div><div class="dash-item-sub">${r.weight_range||''} ${r.heads_available?'· '+Number(r.heads_available).toLocaleString()+' heads':''}</div></div><span class="badge ${statusClass(r.status)}">${r.status==='Available'?'Available':r.status==='Partially Allocated'?'Partial':'Full'}</span></div>`).join('');
 }
 
-// SUPPLY BOARD
+// SUPPLY
 async function loadSupply() {
   updateDateLabel();
-  const date = document.getElementById('supply-date').value;
-  const {data} = await sb.from('supply_board').select('*').eq('date',date).order('created_at');
+  const {data} = await sb.from('supply_board').select('*').eq('date',document.getElementById('supply-date').value).order('created_at');
   allSupplyData = data||[];
   applyFilters();
 }
-
 function applyFilters() {
-  const area = document.getElementById('filter-area').value.toLowerCase();
-  const weight = document.getElementById('filter-weight').value.toLowerCase();
-  const status = document.getElementById('filter-status').value;
+  const area=document.getElementById('filter-area').value.toLowerCase();
+  const weight=document.getElementById('filter-weight').value.toLowerCase();
+  const status=document.getElementById('filter-status').value;
   renderSupply(allSupplyData.filter(r=>{
-    if (area && !(r.location||'').toLowerCase().includes(area)) return false;
-    if (weight && !(r.weight_range||'').toLowerCase().includes(weight)) return false;
-    if (status && r.status!==status) return false;
+    if(area&&!(r.location||'').toLowerCase().includes(area)) return false;
+    if(weight&&!(r.weight_range||'').toLowerCase().includes(weight)) return false;
+    if(status&&r.status!==status) return false;
     return true;
   }));
 }
-
-function clearFilters() {
-  ['filter-area','filter-weight'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('filter-status').value='';
-  applyFilters();
-}
+function clearFilters(){['filter-area','filter-weight'].forEach(id=>document.getElementById(id).value='');document.getElementById('filter-status').value='';applyFilters();}
 
 function renderSupply(data) {
   const el = document.getElementById('supply-list');
   if (!data.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No supply entries for this date.<br>Click <strong>"+ Add Farm"</strong> or use <strong>"Carry Over Unsold"</strong>.</div></div>';
-    document.getElementById('viber-section').style.display = 'none';
-    return;
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No supply entries for this date.<br>Click <strong>"+ Add Farm"</strong> or use <strong>"Carry Over Unsold"</strong>.</div></div>';
+    document.getElementById('viber-section').style.display='none'; return;
   }
   el.innerHTML = data.map(r=>{
     let allocs=[]; try{allocs=r.allocations?JSON.parse(r.allocations):[];}catch(e){}
@@ -805,13 +754,13 @@ function renderSupply(data) {
       <div><span class="badge ${statusClass(r.status)}">${r.status}</span></div>
       <div class="supply-actions">
         <button class="btn btn-primary btn-sm" onclick="openAllocateModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}','${(r.location||'').replace(/'/g,"\\'")}',${r.heads_available||0})">Allocate</button>
-        <button class="btn btn-ghost btn-sm" onclick="editSupply(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="editSupplyEntry(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteSupply('${r.id}')">Delete</button>
       </div>
     </div>`;
   }).join('');
   generateViber(data);
-  document.getElementById('viber-section').style.display = 'block';
+  document.getElementById('viber-section').style.display='block';
 }
 
 function generateViber(data) {
@@ -819,177 +768,133 @@ function generateViber(data) {
   const d = new Date(date+'T00:00:00');
   let text = `Live Sales for ${d.toLocaleDateString('en-PH',{weekday:'long'})}\n${d.toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'})}\n`;
   data.filter(r=>r.status!=='Fully Allocated').forEach(r=>{
-    text += `\n📍${r.farm_name}`;
-    if (r.heads_available) text += `\n${Number(r.heads_available).toLocaleString()} hds / ${r.weight_range||''}`;
-    else if (r.weight_range) text += `\n${r.weight_range}`;
-    if (r.location) text += `\n${r.location}`;
+    text+=`\n📍${r.farm_name}`;
+    if(r.heads_available) text+=`\n${Number(r.heads_available).toLocaleString()} hds / ${r.weight_range||''}`;
+    else if(r.weight_range) text+=`\n${r.weight_range}`;
+    if(r.location) text+=`\n${r.location}`;
   });
-  document.getElementById('viber-text').textContent = text;
+  document.getElementById('viber-text').textContent=text;
 }
-
-function copyViber() {
-  navigator.clipboard.writeText(document.getElementById('viber-text').textContent).then(()=>toast('Copied to clipboard!','success'));
-}
+function copyViber(){navigator.clipboard.writeText(document.getElementById('viber-text').textContent).then(()=>toast('Copied to clipboard!','success'));}
 
 async function carryOverSupply() {
-  const sel = document.getElementById('supply-date').value;
-  const prev = new Date(sel+'T00:00:00'); prev.setDate(prev.getDate()-1);
-  const prevStr = prev.toISOString().split('T')[0];
-  const {data:prevData} = await sb.from('supply_board').select('*').eq('date',prevStr).neq('status','Fully Allocated');
-  if (!prevData||!prevData.length) { toast('No unsold supply from previous day','error'); return; }
-  const {error} = await sb.from('supply_board').insert(prevData.map(r=>({
-    date:sel, farm_name:r.farm_name, location:r.location, heads_available:r.heads_available,
-    weight_range:r.weight_range, status:'Available', notes:r.notes, is_carryover:true, allocations:null, user_id:currentUser.id
-  })));
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  const sel=document.getElementById('supply-date').value;
+  const prev=new Date(sel+'T00:00:00'); prev.setDate(prev.getDate()-1);
+  const {data:prevData}=await sb.from('supply_board').select('*').eq('date',prev.toISOString().split('T')[0]).neq('status','Fully Allocated');
+  if(!prevData||!prevData.length){toast('No unsold supply from previous day','error');return;}
+  const {error}=await sb.from('supply_board').insert(prevData.map(r=>({date:sel,farm_name:r.farm_name,location:r.location,heads_available:r.heads_available,weight_range:r.weight_range,status:'Available',notes:r.notes,is_carryover:true,allocations:null,user_id:currentUser.id})));
+  if(error){toast('Error: '+error.message,'error');return;}
   toast(prevData.length+' farm(s) carried over!','success'); loadSupply();
 }
 
-// SUPPLY MODAL - farm dropdown
 async function openSupplyModal() {
-  document.getElementById('supply-modal-title').textContent = 'Add Farm to Supply Board';
-  document.getElementById('supply-edit-id').value = '';
+  document.getElementById('supply-modal-title').textContent='Add Farm to Supply Board';
+  document.getElementById('supply-edit-id').value='';
   ['s-location','s-heads','s-weight','s-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('s-status').value = 'Available';
-  // Populate farm dropdown
-  const {data} = await sb.from('suppliers').select('farm_name, location').order('farm_name');
-  const sel = document.getElementById('s-farm-select');
-  sel.innerHTML = '<option value="">Select from your suppliers...</option>';
-  (data||[]).forEach(s=>{
-    const o = document.createElement('option');
-    o.value = s.farm_name;
-    o.dataset.location = s.location||'';
-    o.textContent = s.farm_name;
-    sel.appendChild(o);
-  });
+  document.getElementById('s-status').value='Available';
+  const {data}=await sb.from('suppliers').select('farm_name,location').order('farm_name');
+  const sel=document.getElementById('s-farm-select');
+  sel.innerHTML='<option value="">Select from your suppliers...</option>';
+  (data||[]).forEach(s=>{const o=document.createElement('option');o.value=s.farm_name;o.dataset.location=s.location||'';o.textContent=s.farm_name;sel.appendChild(o);});
   openModal('supply-modal');
 }
+function onFarmSelect(){const sel=document.getElementById('s-farm-select');const opt=sel.options[sel.selectedIndex];if(opt&&opt.dataset.location)document.getElementById('s-location').value=opt.dataset.location;}
 
-function onFarmSelect() {
-  const sel = document.getElementById('s-farm-select');
-  const opt = sel.options[sel.selectedIndex];
-  if (opt && opt.dataset.location) {
-    document.getElementById('s-location').value = opt.dataset.location;
-  }
-}
-
-function editSupply(r) {
-  openSupplyModal().then(()=>{
-    document.getElementById('supply-modal-title').textContent = 'Edit Supply Entry';
-    document.getElementById('supply-edit-id').value = r.id;
-    // Set dropdown to match farm name
-    const sel = document.getElementById('s-farm-select');
-    for (let o of sel.options) { if (o.value === r.farm_name) { sel.value = r.farm_name; break; } }
-    document.getElementById('s-location').value = r.location||'';
-    document.getElementById('s-heads').value = r.heads_available||'';
-    document.getElementById('s-weight').value = r.weight_range||'';
-    document.getElementById('s-status').value = r.status||'Available';
-    document.getElementById('s-notes').value = r.notes||'';
-  });
+async function editSupplyEntry(r) {
+  await openSupplyModal();
+  document.getElementById('supply-modal-title').textContent='Edit Supply Entry';
+  document.getElementById('supply-edit-id').value=r.id;
+  const sel=document.getElementById('s-farm-select');
+  for(let o of sel.options){if(o.value===r.farm_name){sel.value=r.farm_name;break;}}
+  document.getElementById('s-location').value=r.location||'';
+  document.getElementById('s-heads').value=r.heads_available||'';
+  document.getElementById('s-weight').value=r.weight_range||'';
+  document.getElementById('s-status').value=r.status||'Available';
+  document.getElementById('s-notes').value=r.notes||'';
 }
 
 async function saveSupply() {
-  const id = document.getElementById('supply-edit-id').value;
-  const farmName = document.getElementById('s-farm-select').value;
-  if (!farmName) { toast('Please select a farm','error'); return; }
-  const payload = {
-    date: document.getElementById('supply-date').value,
-    farm_name: farmName,
-    location: document.getElementById('s-location').value,
-    heads_available: document.getElementById('s-heads').value||null,
-    weight_range: document.getElementById('s-weight').value,
-    status: document.getElementById('s-status').value,
-    notes: document.getElementById('s-notes').value,
-    user_id: currentUser.id
-  };
+  const id=document.getElementById('supply-edit-id').value;
+  const farmName=document.getElementById('s-farm-select').value;
+  if(!farmName){toast('Please select a farm','error');return;}
+  const payload={date:document.getElementById('supply-date').value,farm_name:farmName,location:document.getElementById('s-location').value,heads_available:document.getElementById('s-heads').value||null,weight_range:document.getElementById('s-weight').value,status:document.getElementById('s-status').value,notes:document.getElementById('s-notes').value,user_id:currentUser.id};
   let error;
-  if (id) { ({error} = await sb.from('supply_board').update(payload).eq('id',id)); }
-  else { ({error} = await sb.from('supply_board').insert(payload)); }
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  if(id){({error}=await sb.from('supply_board').update(payload).eq('id',id));}
+  else{({error}=await sb.from('supply_board').insert(payload));}
+  if(error){toast('Error: '+error.message,'error');return;}
   closeModal('supply-modal'); toast('Supply entry saved!','success'); loadSupply();
 }
+async function deleteSupply(id){if(!confirm('Delete this entry?'))return;await sb.from('supply_board').delete().eq('id',id);toast('Deleted','success');loadSupply();}
 
-async function deleteSupply(id) {
-  if (!confirm('Delete this entry?')) return;
-  await sb.from('supply_board').delete().eq('id',id);
-  toast('Deleted','success'); loadSupply();
-}
-
-// ALLOCATE → AUTO-CREATE TRANSACTION
-async function openAllocateModal(supplyId, farmName, farmLocation, heads) {
-  document.getElementById('alloc-supply-id').value = supplyId;
-  document.getElementById('alloc-farm-name-val').value = farmName;
-  document.getElementById('alloc-farm-location-val').value = farmLocation;
-  document.getElementById('alloc-farm-name').textContent = farmName;
-  document.getElementById('alloc-available').textContent = heads ? Number(heads).toLocaleString()+' heads available' : 'Volume not specified';
-  document.getElementById('alloc-volume').value = '';
-  document.getElementById('alloc-status').value = 'Partially Allocated';
-  const {data} = await sb.from('buyers').select('buyer_name').order('buyer_name');
-  const sel = document.getElementById('alloc-buyer');
-  sel.innerHTML = '<option value="">Choose a buyer...</option>';
-  (data||[]).forEach(b=>{ const o=document.createElement('option'); o.value=b.buyer_name; o.textContent=b.buyer_name; sel.appendChild(o); });
+// ALLOCATE
+async function openAllocateModal(supplyId,farmName,farmLocation,heads) {
+  document.getElementById('alloc-supply-id').value=supplyId;
+  document.getElementById('alloc-farm-name-val').value=farmName;
+  document.getElementById('alloc-farm-location-val').value=farmLocation;
+  document.getElementById('alloc-farm-name').textContent=farmName;
+  document.getElementById('alloc-available').textContent=heads?Number(heads).toLocaleString()+' heads available':'Volume not specified';
+  document.getElementById('alloc-volume').value='';
+  document.getElementById('alloc-status').value='Partially Allocated';
+  const {data}=await sb.from('buyers').select('buyer_name').order('buyer_name');
+  const sel=document.getElementById('alloc-buyer');
+  sel.innerHTML='<option value="">Choose a buyer...</option>';
+  (data||[]).forEach(b=>{const o=document.createElement('option');o.value=b.buyer_name;o.textContent=b.buyer_name;sel.appendChild(o);});
   openModal('allocate-modal');
 }
 
 async function saveAllocation() {
-  const supplyId = document.getElementById('alloc-supply-id').value;
-  const farmName = document.getElementById('alloc-farm-name-val').value;
-  const farmLocation = document.getElementById('alloc-farm-location-val').value;
-  const buyer = document.getElementById('alloc-buyer').value;
-  const volume = document.getElementById('alloc-volume').value;
-  const newStatus = document.getElementById('alloc-status').value;
-  if (!buyer) { toast('Please select a buyer','error'); return; }
-
-  // Update supply board
-  const {data:existing} = await sb.from('supply_board').select('allocations,heads_available').eq('id',supplyId).single();
-  let allocs = []; try{allocs=existing.allocations?JSON.parse(existing.allocations):[];}catch(e){}
-  allocs.push({buyer, volume:volume?parseInt(volume):null, time:new Date().toISOString()});
-  const {error:supError} = await sb.from('supply_board').update({status:newStatus, allocations:JSON.stringify(allocs)}).eq('id',supplyId);
-  if (supError) { toast('Error updating supply: '+supError.message,'error'); return; }
-
-  // Auto-create transaction
-  const txPayload = {
-    date: new Date().toISOString().split('T')[0],
-    farm_name: farmName,
-    farm_location: farmLocation,
-    buyer_name: buyer,
-    total_heads: volume ? parseInt(volume) : (existing.heads_available||null),
-    stage: 'For Documents',
-    buyer_payment_status: 'Pending',
-    supply_board_id: supplyId,
-    user_id: currentUser.id
-  };
-  const {error:txError} = await sb.from('transactions').insert(txPayload);
-  if (txError) { toast('Allocated but could not create transaction: '+txError.message,'error'); }
-  else { toast('Allocated to '+buyer+' — transaction created!','success'); }
-
+  const supplyId=document.getElementById('alloc-supply-id').value;
+  const farmName=document.getElementById('alloc-farm-name-val').value;
+  const farmLocation=document.getElementById('alloc-farm-location-val').value;
+  const buyer=document.getElementById('alloc-buyer').value;
+  const volume=document.getElementById('alloc-volume').value;
+  const newStatus=document.getElementById('alloc-status').value;
+  if(!buyer){toast('Please select a buyer','error');return;}
+  const {data:existing}=await sb.from('supply_board').select('allocations,heads_available').eq('id',supplyId).single();
+  let allocs=[]; try{allocs=existing.allocations?JSON.parse(existing.allocations):[];}catch(e){}
+  allocs.push({buyer,volume:volume?parseInt(volume):null,time:new Date().toISOString()});
+  const {error:supError}=await sb.from('supply_board').update({status:newStatus,allocations:JSON.stringify(allocs)}).eq('id',supplyId);
+  if(supError){toast('Error updating supply: '+supError.message,'error');return;}
+  const {error:txError}=await sb.from('transactions').insert({date:new Date().toISOString().split('T')[0],farm_name:farmName,farm_location:farmLocation,buyer_name:buyer,total_heads:volume?parseInt(volume):(existing.heads_available||null),stage:'For Documents',buyer_payment_status:'Pending',supply_board_id:supplyId,user_id:currentUser.id});
+  if(txError){toast('Allocated but transaction error: '+txError.message,'error');}
+  else{toast('Allocated to '+buyer+' — transaction created!','success');}
   closeModal('allocate-modal'); loadSupply(); loadTransactions(); loadDashboard();
 }
 
 // TRANSACTIONS
 async function loadTransactions() {
-  const {data} = await sb.from('transactions').select('*').neq('stage','Completed').order('date',{ascending:false});
-  const el = document.getElementById('tx-list');
-  if (!data||!data.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">💼</div><div class="empty-text">No active transactions.<br>Allocate a buyer from the Supply Board to create one.</div></div>';
-    return;
-  }
-  el.innerHTML = data.map(r => renderTxCard(r)).join('');
+  const {data}=await sb.from('transactions').select('*').neq('stage','Completed').order('date',{ascending:false});
+  const el=document.getElementById('tx-list');
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">💼</div><div class="empty-text">No active transactions.<br>Allocate from the Supply Board to create one.</div></div>';return;}
+  el.innerHTML = data.map(r=>renderTxCard(r)).join('');
 }
 
 function renderTxCard(r) {
   let trucks=[]; try{trucks=r.truck_summary?JSON.parse(r.truck_summary):[];}catch(e){}
-  const isExpanded = expandedTx[r.id];
+  const isExpanded=expandedTx[r.id];
 
-  // Get supplier info from suppliers cache
-  const truckRows = trucks.map(t=>`
-    <tr>
-      <td>${t.plate||'—'}</td>
-      <td class="mono">${t.heads||'—'}</td>
-      <td class="mono">${t.avg_weight||'—'}</td>
-      <td class="mono">${t.amount?'₱'+Number(t.amount).toLocaleString():'—'}</td>
-      <td><button class="btn btn-danger btn-xs" onclick="deleteTruckRow(event,'${r.id}',${trucks.indexOf(t)})">✕</button></td>
-    </tr>`).join('');
+  // Calculate totals
+  const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
+  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
+
+  const truckRows = trucks.length ? trucks.map((t,idx)=>`
+    <div class="truck-row">
+      <div>
+        <div class="truck-plate">${t.plate||'—'}</div>
+        ${t.permit_url?`<a href="${t.permit_url}" target="_blank" class="truck-permit-link">📄 View Transport Permit</a>`:
+        '<span style="font-size:12px;color:var(--muted-light)">No permit on file</span>'}
+      </div>
+      <div>
+        <input type="number" class="truck-input" placeholder="Heads" value="${t.heads||''}" style="width:100px" onchange="updateTruckField(${idx},'heads',this.value,'${r.id}')">
+      </div>
+      <div>
+        <input type="number" step="0.01" class="truck-input" placeholder="₱/kg" value="${t.price_per_kg||''}" style="width:110px" onchange="updateTruckField(${idx},'price_per_kg',this.value,'${r.id}')">
+        ${t.heads&&t.price_per_kg?`<div style="font-size:12px;color:var(--green);font-weight:600;margin-top:4px">₱${(parseFloat(t.price_per_kg)*parseInt(t.heads)).toLocaleString()}</div>`:''}
+      </div>
+      <div>
+        <button class="btn btn-danger btn-xs" onclick="removeTruckFromTx('${r.id}',${idx})">✕</button>
+      </div>
+    </div>`).join('') : '<div style="color:var(--muted);font-size:14px;padding:12px 0">No trucks added yet. Use the dropdown below to add trucks.</div>';
 
   return `
   <div class="tx-card" id="tx-card-${r.id}">
@@ -1000,82 +905,80 @@ function renderTxCard(r) {
       </div>
       <div>
         <span class="badge ${stageClass(r.stage)}">${r.stage}</span>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Buyer: <strong style="color:${r.buyer_payment_status==='Received'?'var(--green)':'var(--orange)'}">${r.buyer_payment_status}</strong></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:6px">Buyer payment: <strong style="color:${r.buyer_payment_status==='Received'?'var(--green)':'var(--orange)'}">${r.buyer_payment_status}</strong></div>
       </div>
-      <div>
-        <div class="tx-stat-label">Heads</div>
-        <div class="tx-stat">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</div>
-      </div>
-      <div>
-        <div class="tx-stat-label">Total Amount</div>
-        <div class="tx-stat" style="color:var(--green)">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div>
-      </div>
+      <div><div class="tx-stat-label">Heads</div><div class="tx-stat">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</div></div>
+      <div><div class="tx-stat-label">Total Amount</div><div class="tx-stat" style="color:var(--green)">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div></div>
       <div class="tx-actions" onclick="event.stopPropagation()">
         <button class="btn btn-primary btn-sm" onclick="openStageModal('${r.id}','${r.farm_name.replace(/'/g,"\\'")}','${r.buyer_name.replace(/'/g,"\\'")}','${r.stage}')">→ Advance</button>
         <button class="btn btn-danger btn-sm" onclick="deleteTx('${r.id}')">Delete</button>
       </div>
     </div>
+
     <div class="tx-detail ${isExpanded?'open':''}" id="tx-detail-${r.id}">
-      <div class="tx-detail-grid">
-        <div class="tx-detail-section">
-          <div class="tx-detail-section-title">🏭 Farm Details</div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Farm</div><div class="tx-detail-value">${r.farm_name}</div></div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Location</div><div class="tx-detail-value">${r.farm_location||'—'}</div></div>
+
+      <!-- INFO BOXES -->
+      <div class="tx-info-grid">
+        <div class="tx-info-box">
+          <div class="tx-info-box-title">🏭 Farm</div>
+          <div class="tx-info-row"><div class="tx-info-label">Name</div><div class="tx-info-value">${r.farm_name}</div></div>
+          <div class="tx-info-row"><div class="tx-info-label">Location</div><div class="tx-info-value">${r.farm_location||'—'}</div></div>
         </div>
-        <div class="tx-detail-section">
-          <div class="tx-detail-section-title">👤 Buyer Details</div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Buyer</div><div class="tx-detail-value">${r.buyer_name}</div></div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Payment</div><div class="tx-detail-value"><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status}</span></div></div>
+        <div class="tx-info-box">
+          <div class="tx-info-box-title">👤 Buyer</div>
+          <div class="tx-info-row"><div class="tx-info-label">Name</div><div class="tx-info-value">${r.buyer_name}</div></div>
+          <div class="tx-info-row"><div class="tx-info-label">Payment</div><div class="tx-info-value"><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status}</span></div></div>
         </div>
-        <div class="tx-detail-section">
-          <div class="tx-detail-section-title">📦 Allocation</div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Heads Ordered</div><div class="tx-detail-value">${r.total_heads?Number(r.total_heads).toLocaleString()+' heads':'—'}</div></div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Price / kg</div><div class="tx-detail-value">${r.price_per_kg?'₱'+r.price_per_kg:'Not set'}</div></div>
-          <div class="tx-detail-row"><div class="tx-detail-label">Grand Total</div><div class="tx-detail-value" style="color:var(--green);font-weight:700">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div></div>
+        <div class="tx-info-box">
+          <div class="tx-info-box-title">📦 Allocation</div>
+          <div class="tx-info-row"><div class="tx-info-label">Heads Ordered</div><div class="tx-info-value">${r.total_heads?Number(r.total_heads).toLocaleString()+' heads':'—'}</div></div>
+          <div class="tx-info-row"><div class="tx-info-label">Grand Total</div><div class="tx-info-value" style="color:var(--green);font-weight:700">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</div></div>
         </div>
       </div>
 
-      <!-- TRUCK SECTION -->
-      <div class="truck-section">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <div class="tx-detail-section-title" style="margin-bottom:0">🚛 Trucks — Step 1: Add trucks going to ${r.farm_name}</div>
-          <button class="btn btn-ghost btn-sm" onclick="addTruckToTx(event,'${r.id}')">+ Add Truck</button>
+      <!-- PERMITS -->
+      <div class="permits-section" id="permits-${r.id}">
+        <div class="permits-title">📋 Documents to Send to Farm</div>
+        <div class="permits-grid" id="permits-grid-${r.id}">
+          <div style="color:var(--muted);font-size:13px">Loading permits...</div>
         </div>
-        ${trucks.length ? `
-        <table class="truck-table">
-          <thead><tr><th>Plate Number</th><th>Heads to Pick Up</th><th>Weight (kg)</th><th>Amount (₱)</th><th></th></tr></thead>
-          <tbody id="trucks-${r.id}">${truckRows}</tbody>
-        </table>` : `<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No trucks added yet. Click <strong>+ Add Truck</strong> to start.</div>`}
+      </div>
 
-        <!-- PRICE AND TOTALS -->
-        <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-          <div>
-            <div class="tx-detail-label" style="margin-bottom:6px">Price per kg (₱)</div>
-            <input type="number" step="0.01" class="truck-input" id="inline-price-${r.id}" value="${r.price_per_kg||''}" placeholder="e.g. 185">
-          </div>
-          <div>
-            <div class="tx-detail-label" style="margin-bottom:6px">Grand Total Heads</div>
-            <input type="number" class="truck-input" id="inline-grand-heads-${r.id}" value="${r.grand_total_heads||''}" placeholder="From harvest summary">
-          </div>
-          <div>
-            <div class="tx-detail-label" style="margin-bottom:6px">Grand Total Amount (₱)</div>
-            <input type="number" step="0.01" class="truck-input" id="inline-grand-total-${r.id}" value="${r.grand_total_amount||''}" placeholder="From harvest summary">
-          </div>
-        </div>
-        <div style="margin-top:8px">
-          <div class="tx-detail-label" style="margin-bottom:6px">Buyer Payment Status</div>
-          <select class="truck-input" id="inline-buyer-payment-${r.id}" style="width:200px">
-            <option value="Pending" ${r.buyer_payment_status==='Pending'?'selected':''}>Pending</option>
-            <option value="Received" ${r.buyer_payment_status==='Received'?'selected':''}>Received</option>
-            <option value="Partial" ${r.buyer_payment_status==='Partial'?'selected':''}>Partial</option>
+      <!-- TRUCKS -->
+      <div class="truck-assign-section">
+        <div class="truck-assign-title">🚛 Trucks — Add the trucks going to ${r.farm_name}</div>
+        <div id="truck-rows-${r.id}">${truckRows}</div>
+
+        <!-- ADD TRUCK DROPDOWN -->
+        <div class="add-truck-row">
+          <select class="filter-select" id="truck-select-${r.id}" style="width:100%">
+            <option value="">Select a registered truck to add...</option>
           </select>
+          <button class="btn btn-ghost btn-sm" onclick="addTruckFromDropdown('${r.id}','${r.buyer_name.replace(/'/g,"\\'")}')">+ Add Truck</button>
         </div>
-        <div style="margin-top:12px">
-          <div class="tx-detail-label" style="margin-bottom:6px">Notes</div>
-          <textarea class="truck-input" id="inline-notes-${r.id}" rows="2" style="resize:vertical">${r.notes||''}</textarea>
-        </div>
-        <div style="margin-top:14px;display:flex;justify-content:flex-end">
-          <button class="btn btn-primary btn-sm" onclick="saveTxInline(event,'${r.id}')">💾 Save Changes</button>
+
+        <!-- TOTALS -->
+        ${trucks.length ? `
+        <div class="totals-bar">
+          <div><div class="total-item-label">Trucks</div><div class="total-item-value">${trucks.length}</div></div>
+          <div><div class="total-item-label">Total Heads</div><div class="total-item-value">${totalHeads.toLocaleString()}</div></div>
+          <div><div class="total-item-label">Grand Total</div><div class="total-item-value">₱${totalAmount.toLocaleString()}</div></div>
+          <div>
+            <div class="total-item-label">Buyer Payment</div>
+            <select class="truck-input" id="inline-buyer-payment-${r.id}" style="width:130px;font-size:13px" onchange="updateBuyerPayment('${r.id}',this.value)">
+              <option value="Pending" ${r.buyer_payment_status==='Pending'?'selected':''}>Pending</option>
+              <option value="Received" ${r.buyer_payment_status==='Received'?'selected':''}>Received</option>
+              <option value="Partial" ${r.buyer_payment_status==='Partial'?'selected':''}>Partial</option>
+            </select>
+          </div>
+        </div>` : ''}
+
+        <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Notes</div>
+            <textarea class="truck-input" id="inline-notes-${r.id}" rows="2" style="resize:vertical">${r.notes||''}</textarea>
+          </div>
+          <button class="btn btn-primary btn-sm" style="align-self:flex-end" onclick="saveTxInline(event,'${r.id}')">💾 Save</button>
         </div>
       </div>
     </div>
@@ -1085,297 +988,247 @@ function renderTxCard(r) {
 function toggleTx(id) {
   expandedTx[id] = !expandedTx[id];
   const detail = document.getElementById('tx-detail-'+id);
-  if (detail) detail.classList.toggle('open', expandedTx[id]);
+  if (detail) {
+    detail.classList.toggle('open', expandedTx[id]);
+    if (expandedTx[id]) loadTxPermitsAndTrucks(id);
+  }
 }
 
-async function addTruckToTx(event, txId) {
-  event.stopPropagation();
+async function loadTxPermitsAndTrucks(txId) {
+  // Get the transaction to find the buyer
+  const {data:tx} = await sb.from('transactions').select('buyer_name').eq('id',txId).single();
+  if (!tx) return;
+
+  // Get buyer info
+  const {data:buyer} = await sb.from('buyers').select('*').eq('buyer_name',tx.buyer_name).single();
+  if (!buyer) return;
+
+  let trucks=[]; try{trucks=buyer.trucks?JSON.parse(buyer.trucks):[];}catch(e){}
+  let handlerPermit=null; try{handlerPermit=buyer.handlers_permit?JSON.parse(buyer.handlers_permit):null;}catch(e){}
+
+  // Populate permits section
+  const permitsGrid = document.getElementById('permits-grid-'+txId);
+  if (permitsGrid) {
+    let permitsHtml = '';
+    if (handlerPermit && handlerPermit.url) {
+      permitsHtml += `<a href="${handlerPermit.url}" target="_blank" class="permit-pill">📋 Handlers Permit — ${buyer.buyer_name}</a>`;
+    } else {
+      permitsHtml += `<span class="permit-pill permit-pill-gray">📋 No Handlers Permit on file</span>`;
+    }
+    trucks.forEach(t=>{
+      if(t.permit_url) permitsHtml += `<a href="${t.permit_url}" target="_blank" class="permit-pill">🚛 Transport Permit — ${t.plate}</a>`;
+      else permitsHtml += `<span class="permit-pill permit-pill-gray">🚛 ${t.plate} — No permit</span>`;
+    });
+    permitsGrid.innerHTML = permitsHtml || '<span style="color:var(--muted);font-size:13px">No documents on file for this buyer.</span>';
+  }
+
+  // Populate truck dropdown
+  const truckSel = document.getElementById('truck-select-'+txId);
+  if (truckSel) {
+    truckSel.innerHTML = '<option value="">Select a registered truck to add...</option>';
+    trucks.forEach(t=>{
+      const o = document.createElement('option');
+      o.value = t.plate;
+      o.dataset.permitUrl = t.permit_url||'';
+      o.textContent = t.plate + (t.permit_url?' ✓':' (no permit)');
+      truckSel.appendChild(o);
+    });
+  }
+}
+
+async function addTruckFromDropdown(txId, buyerName) {
+  const sel = document.getElementById('truck-select-'+txId);
+  const plate = sel.value;
+  const permitUrl = sel.options[sel.selectedIndex]?.dataset?.permitUrl||'';
+  if (!plate) { toast('Please select a truck','error'); return; }
+
   const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
   let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
-  trucks.push({plate:'',heads:null,avg_weight:null,amount:null});
-  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks)}).eq('id',txId);
+
+  // Check if already added
+  if (trucks.find(t=>t.plate===plate)) { toast('This truck is already added','error'); return; }
+  trucks.push({plate, permit_url:permitUrl, heads:null, price_per_kg:null, subtotal:0});
+
+  const {error} = await sb.from('transactions').update({truck_summary:JSON.stringify(trucks)}).eq('id',txId);
+  if (error) { toast('Error: '+error.message,'error'); return; }
   expandedTx[txId] = true;
-  loadTransactions();
+  toast('Truck added!','success');
+  loadTransactions().then(()=>loadTxPermitsAndTrucks(txId));
 }
 
-async function deleteTruckRow(event, txId, idx) {
-  event.stopPropagation();
+async function updateTruckField(idx, field, value, txId) {
+  const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
+  let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
+  if (trucks[idx]) {
+    trucks[idx][field] = value ? parseFloat(value) : null;
+    // Recalculate subtotal
+    if (trucks[idx].heads && trucks[idx].price_per_kg) {
+      trucks[idx].subtotal = parseFloat(trucks[idx].heads) * parseFloat(trucks[idx].price_per_kg);
+    } else { trucks[idx].subtotal = 0; }
+  }
+  const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
+  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
+  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null,grand_total_amount:totalAmount||null}).eq('id',txId);
+}
+
+async function removeTruckFromTx(txId, idx) {
   const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
   let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
   trucks.splice(idx,1);
-  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks)}).eq('id',txId);
-  expandedTx[txId] = true;
-  loadTransactions();
+  const totalHeads = trucks.reduce((s,t)=>s+(parseInt(t.heads)||0),0);
+  const totalAmount = trucks.reduce((s,t)=>s+(parseFloat(t.subtotal)||0),0);
+  await sb.from('transactions').update({truck_summary:JSON.stringify(trucks),grand_total_heads:totalHeads||null,grand_total_amount:totalAmount||null}).eq('id',txId);
+  expandedTx[txId]=true;
+  loadTransactions().then(()=>loadTxPermitsAndTrucks(txId));
+}
+
+async function updateBuyerPayment(txId, value) {
+  await sb.from('transactions').update({buyer_payment_status:value}).eq('id',txId);
+  loadDashboard();
 }
 
 async function saveTxInline(event, txId) {
   event.stopPropagation();
-  // Collect current truck rows from DOM if visible
-  const {data:tx} = await sb.from('transactions').select('truck_summary').eq('id',txId).single();
-  let trucks=[]; try{trucks=tx.truck_summary?JSON.parse(tx.truck_summary):[];}catch(e){}
-
-  const update = {
-    price_per_kg: document.getElementById('inline-price-'+txId)?.value||null,
-    grand_total_heads: document.getElementById('inline-grand-heads-'+txId)?.value||null,
-    grand_total_amount: document.getElementById('inline-grand-total-'+txId)?.value||null,
-    buyer_payment_status: document.getElementById('inline-buyer-payment-'+txId)?.value||'Pending',
-    notes: document.getElementById('inline-notes-'+txId)?.value||null,
-  };
-  const {error} = await sb.from('transactions').update(update).eq('id',txId);
+  const notes = document.getElementById('inline-notes-'+txId)?.value||null;
+  const {error} = await sb.from('transactions').update({notes}).eq('id',txId);
   if (error) { toast('Error: '+error.message,'error'); return; }
-  toast('Transaction updated!','success');
-  expandedTx[txId] = true;
-  loadTransactions(); loadDashboard();
+  toast('Saved!','success');
+  expandedTx[txId]=true;
+  loadTransactions().then(()=>loadTxPermitsAndTrucks(txId));
 }
 
 function openTxModal() {
-  document.getElementById('tx-modal-title').textContent = 'New Transaction';
-  document.getElementById('tx-edit-id').value = '';
-  ['tx-farm','tx-buyer','tx-heads','tx-price','tx-grand-total','tx-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('tx-stage').value = 'For Documents';
-  document.getElementById('tx-buyer-payment').value = 'Pending';
+  document.getElementById('tx-edit-id').value='';
+  ['tx-farm','tx-buyer','tx-heads','tx-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('tx-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('tx-stage').value='For Documents';
+  document.getElementById('tx-buyer-payment').value='Pending';
   openModal('tx-modal');
 }
 
 async function saveTransaction() {
-  const id = document.getElementById('tx-edit-id').value;
-  const payload = {
-    date: document.getElementById('tx-date').value,
-    farm_name: document.getElementById('tx-farm').value,
-    buyer_name: document.getElementById('tx-buyer').value,
-    total_heads: document.getElementById('tx-heads').value||null,
-    price_per_kg: document.getElementById('tx-price').value||null,
-    stage: document.getElementById('tx-stage').value,
-    buyer_payment_status: document.getElementById('tx-buyer-payment').value,
-    grand_total_amount: document.getElementById('tx-grand-total').value||null,
-    notes: document.getElementById('tx-notes').value,
-    user_id: currentUser.id
-  };
-  if (!payload.farm_name||!payload.buyer_name) { toast('Farm and buyer required','error'); return; }
+  const id=document.getElementById('tx-edit-id').value;
+  const payload={date:document.getElementById('tx-date').value,farm_name:document.getElementById('tx-farm').value,buyer_name:document.getElementById('tx-buyer').value,total_heads:document.getElementById('tx-heads').value||null,stage:document.getElementById('tx-stage').value,buyer_payment_status:document.getElementById('tx-buyer-payment').value,notes:document.getElementById('tx-notes').value,user_id:currentUser.id};
+  if(!payload.farm_name||!payload.buyer_name){toast('Farm and buyer required','error');return;}
   let error;
-  if (id) { ({error}=await sb.from('transactions').update(payload).eq('id',id)); }
-  else { ({error}=await sb.from('transactions').insert(payload)); }
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  if(id){({error}=await sb.from('transactions').update(payload).eq('id',id));}
+  else{({error}=await sb.from('transactions').insert(payload));}
+  if(error){toast('Error: '+error.message,'error');return;}
   closeModal('tx-modal'); toast('Transaction saved!','success'); loadTransactions(); loadDashboard();
 }
 
-function openStageModal(id, farm, buyer, currentStage) {
-  document.getElementById('stage-tx-id').value = id;
-  document.getElementById('stage-tx-info').textContent = farm+' → '+buyer;
-  document.getElementById('stage-notes').value = '';
-  const stages = ['For Documents','For Summary','For Payment','Completed'];
-  document.getElementById('stage-next').value = stages[Math.min(stages.indexOf(currentStage)+1, stages.length-1)];
+function openStageModal(id,farm,buyer,currentStage) {
+  document.getElementById('stage-tx-id').value=id;
+  document.getElementById('stage-tx-info').textContent=farm+' → '+buyer;
+  document.getElementById('stage-notes').value='';
+  const stages=['For Documents','For Summary','For Payment','Completed'];
+  document.getElementById('stage-next').value=stages[Math.min(stages.indexOf(currentStage)+1,stages.length-1)];
   openModal('stage-modal');
 }
 
 async function saveStage() {
-  const id = document.getElementById('stage-tx-id').value;
-  const nextStage = document.getElementById('stage-next').value;
-  const notes = document.getElementById('stage-notes').value;
-  const update = {stage:nextStage};
-  if (notes) update.notes = notes;
-  const {error} = await sb.from('transactions').update(update).eq('id',id);
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  const id=document.getElementById('stage-tx-id').value;
+  const nextStage=document.getElementById('stage-next').value;
+  const notes=document.getElementById('stage-notes').value;
+  const update={stage:nextStage};
+  if(notes) update.notes=notes;
+  const {error}=await sb.from('transactions').update(update).eq('id',id);
+  if(error){toast('Error: '+error.message,'error');return;}
   closeModal('stage-modal');
   toast(nextStage==='Completed'?'Completed! Moved to History.':'Stage: '+nextStage,'success');
-  expandedTx[id] = false;
+  expandedTx[id]=false;
   loadTransactions(); loadHistory(); loadDashboard();
 }
 
-async function deleteTx(id) {
-  if (!confirm('Delete this transaction?')) return;
-  await sb.from('transactions').delete().eq('id',id);
-  toast('Deleted','success'); loadTransactions(); loadDashboard();
-}
+async function deleteTx(id){if(!confirm('Delete this transaction?'))return;await sb.from('transactions').delete().eq('id',id);toast('Deleted','success');loadTransactions();loadDashboard();}
 
 // HISTORY
 async function loadHistory() {
-  const month = document.getElementById('history-month').value;
-  const {data} = await sb.from('transactions').select('*').eq('stage','Completed').gte('date',month+'-01').lte('date',month+'-31').order('date',{ascending:false});
-  const el = document.getElementById('history-list');
-  if (!data||!data.length) { el.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No completed transactions for this month.</div></div></td></tr>'; return; }
-  el.innerHTML = data.map(r=>`
-    <tr>
-      <td class="mono">${r.date}</td><td><strong>${r.farm_name}</strong></td><td>${r.buyer_name}</td>
-      <td class="mono">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</td>
-      <td class="mono">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</td>
-      <td class="mono" style="color:var(--green);font-weight:600">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</td>
-      <td><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status||'—'}</span></td>
-      <td style="color:var(--muted);font-size:13px">${r.notes||''}</td>
-    </tr>`).join('');
+  const month=document.getElementById('history-month').value;
+  const {data}=await sb.from('transactions').select('*').eq('stage','Completed').gte('date',month+'-01').lte('date',month+'-31').order('date',{ascending:false});
+  const el=document.getElementById('history-list');
+  if(!data||!data.length){el.innerHTML='<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No completed transactions for this month.</div></div></td></tr>';return;}
+  el.innerHTML=data.map(r=>`<tr><td class="mono">${r.date}</td><td><strong>${r.farm_name}</strong></td><td>${r.buyer_name}</td><td class="mono">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</td><td class="mono">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</td><td class="mono" style="color:var(--green);font-weight:600">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</td><td><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status||'—'}</span></td><td style="color:var(--muted);font-size:13px">${r.notes||''}</td></tr>`).join('');
 }
 
 // FINANCIALS
 async function loadFinancials() {
-  const supFilter = document.getElementById('fin-filter-supplier').value;
-  const buyFilter = document.getElementById('fin-filter-buyer').value;
-  const month = document.getElementById('fin-filter-month').value;
-  let query = sb.from('transactions').select('*').eq('stage','Completed');
-  if (month) { query = query.gte('date',month+'-01').lte('date',month+'-31'); }
-  if (supFilter) query = query.eq('farm_name',supFilter);
-  if (buyFilter) query = query.eq('buyer_name',buyFilter);
-  const {data} = await query.order('date',{ascending:false});
-  const {data:allTx} = await sb.from('transactions').select('farm_name,buyer_name').eq('stage','Completed');
-  if (allTx) {
-    const farms = [...new Set(allTx.map(r=>r.farm_name))].sort();
-    const buyers = [...new Set(allTx.map(r=>r.buyer_name))].sort();
-    const cs = document.getElementById('fin-filter-supplier').value;
-    const cb = document.getElementById('fin-filter-buyer').value;
-    document.getElementById('fin-filter-supplier').innerHTML = '<option value="">All Suppliers</option>'+farms.map(f=>`<option value="${f}"${f===cs?' selected':''}>${f}</option>`).join('');
-    document.getElementById('fin-filter-buyer').innerHTML = '<option value="">All Buyers</option>'+buyers.map(b=>`<option value="${b}"${b===cb?' selected':''}>${b}</option>`).join('');
+  const supFilter=document.getElementById('fin-filter-supplier').value;
+  const buyFilter=document.getElementById('fin-filter-buyer').value;
+  const month=document.getElementById('fin-filter-month').value;
+  let query=sb.from('transactions').select('*').eq('stage','Completed');
+  if(month){query=query.gte('date',month+'-01').lte('date',month+'-31');}
+  if(supFilter) query=query.eq('farm_name',supFilter);
+  if(buyFilter) query=query.eq('buyer_name',buyFilter);
+  const {data}=await query.order('date',{ascending:false});
+  const {data:allTx}=await sb.from('transactions').select('farm_name,buyer_name').eq('stage','Completed');
+  if(allTx){
+    const farms=[...new Set(allTx.map(r=>r.farm_name))].sort();
+    const buyers=[...new Set(allTx.map(r=>r.buyer_name))].sort();
+    const cs=document.getElementById('fin-filter-supplier').value;
+    const cb=document.getElementById('fin-filter-buyer').value;
+    document.getElementById('fin-filter-supplier').innerHTML='<option value="">All Suppliers</option>'+farms.map(f=>`<option value="${f}"${f===cs?' selected':''}>${f}</option>`).join('');
+    document.getElementById('fin-filter-buyer').innerHTML='<option value="">All Buyers</option>'+buyers.map(b=>`<option value="${b}"${b===cb?' selected':''}>${b}</option>`).join('');
   }
-  if (!data||!data.length) {
-    ['fin-list'].forEach(id=>document.getElementById(id).innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">No completed transactions found.</div></div></td></tr>');
-    document.getElementById('fin-total-heads').textContent='0';
-    document.getElementById('fin-total-paid').textContent='₱0';
-    document.getElementById('fin-total-received').textContent='₱0';
+  if(!data||!data.length){
+    document.getElementById('fin-list').innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">No completed transactions found.</div></div></td></tr>';
+    ['fin-total-heads','fin-total-paid','fin-total-received'].forEach(id=>document.getElementById(id).textContent='—');
     return;
   }
-  const totalHeads = data.reduce((s,r)=>s+(parseFloat(r.grand_total_heads||r.total_heads)||0),0);
-  const totalPaid = data.reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
-  const totalReceived = data.filter(r=>r.buyer_payment_status==='Received').reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
-  document.getElementById('fin-total-heads').textContent = totalHeads.toLocaleString();
-  document.getElementById('fin-total-paid').textContent = '₱'+totalPaid.toLocaleString();
-  document.getElementById('fin-total-received').textContent = '₱'+totalReceived.toLocaleString();
-  document.getElementById('fin-list').innerHTML = data.map(r=>`
-    <tr>
-      <td class="mono">${r.date}</td><td><strong>${r.farm_name}</strong></td><td>${r.buyer_name}</td>
-      <td class="mono">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</td>
-      <td class="mono">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</td>
-      <td class="mono" style="color:var(--green);font-weight:600">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</td>
-      <td><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status||'—'}</span></td>
-    </tr>`).join('');
+  const totalHeads=data.reduce((s,r)=>s+(parseFloat(r.grand_total_heads||r.total_heads)||0),0);
+  const totalPaid=data.reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
+  const totalReceived=data.filter(r=>r.buyer_payment_status==='Received').reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
+  document.getElementById('fin-total-heads').textContent=totalHeads.toLocaleString();
+  document.getElementById('fin-total-paid').textContent='₱'+totalPaid.toLocaleString();
+  document.getElementById('fin-total-received').textContent='₱'+totalReceived.toLocaleString();
+  document.getElementById('fin-list').innerHTML=data.map(r=>`<tr><td class="mono">${r.date}</td><td><strong>${r.farm_name}</strong></td><td>${r.buyer_name}</td><td class="mono">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</td><td class="mono">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</td><td class="mono" style="color:var(--green);font-weight:600">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</td><td><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status||'—'}</span></td></tr>`).join('');
 }
-
-function clearFinFilters() {
-  document.getElementById('fin-filter-supplier').value='';
-  document.getElementById('fin-filter-buyer').value='';
-  document.getElementById('fin-filter-month').value=new Date().toISOString().substring(0,7);
-  loadFinancials();
-}
+function clearFinFilters(){document.getElementById('fin-filter-supplier').value='';document.getElementById('fin-filter-buyer').value='';document.getElementById('fin-filter-month').value=new Date().toISOString().substring(0,7);loadFinancials();}
 
 // SUPPLIERS
 async function loadSuppliers() {
-  const {data} = await sb.from('suppliers').select('*').order('farm_name');
-  allSuppliers = data||[];
-  const el = document.getElementById('supplier-list');
-  if (!data||!data.length) { el.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🏭</div><div class="empty-text">No suppliers yet.</div></div></td></tr>'; return; }
-  el.innerHTML = data.map(r=>`
-    <tr>
-      <td><strong>${r.farm_name}</strong></td>
-      <td>${r.owner_name||'—'}</td>
-      <td>${r.contact_number||'—'}</td>
-      <td>${r.location||'—'}</td>
-      <td>${r.bank_name?`<span class="badge badge-green">${r.bank_name}</span>`:'—'}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-ghost btn-xs" onclick="viewSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button>
-        <button class="btn btn-ghost btn-xs" onclick="editSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
-        <button class="btn btn-danger btn-xs" onclick="deleteSupplier('${r.id}')">Delete</button>
-      </td>
-    </tr>`).join('');
+  const {data}=await sb.from('suppliers').select('*').order('farm_name');
+  const el=document.getElementById('supplier-list');
+  if(!data||!data.length){el.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🏭</div><div class="empty-text">No suppliers yet.</div></div></td></tr>';return;}
+  el.innerHTML=data.map(r=>`<tr><td><strong>${r.farm_name}</strong></td><td>${r.owner_name||'—'}</td><td>${r.contact_number||'—'}</td><td>${r.location||'—'}</td><td>${r.bank_name?`<span class="badge badge-green">${r.bank_name}</span>`:'—'}</td><td style="display:flex;gap:6px"><button class="btn btn-ghost btn-xs" onclick="viewSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button><button class="btn btn-ghost btn-xs" onclick="editSupplier(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteSupplier('${r.id}')">Delete</button></td></tr>`).join('');
 }
 
 function viewSupplier(r) {
-  document.getElementById('supplier-detail-content').innerHTML = `
-    <div style="display:grid;gap:16px">
-      <div class="detail-row"><div class="detail-label">Farm Name</div><div class="detail-value" style="font-size:18px;font-weight:700">${r.farm_name}</div></div>
-      <div class="form-grid-2">
-        <div class="detail-row"><div class="detail-label">Owner</div><div class="detail-value">${r.owner_name||'—'}</div></div>
-        <div class="detail-row"><div class="detail-label">Contact</div><div class="detail-value">${r.contact_number||'—'}</div></div>
-      </div>
-      <div class="detail-row"><div class="detail-label">Location</div><div class="detail-value">${r.location||'—'}</div></div>
-      ${r.bank_name?`
-        <hr class="section-divider">
-        <div class="section-title">🏦 Bank Details</div>
-        <div class="bank-section">
-          <div class="form-grid-2" style="margin-bottom:12px">
-            <div class="detail-row"><div class="detail-label">Bank</div><div class="detail-value">${r.bank_name}</div></div>
-            <div class="detail-row"><div class="detail-label">Account Name</div><div class="detail-value">${r.bank_account_name||'—'}</div></div>
-          </div>
-          <div class="form-grid-2">
-            <div class="detail-row"><div class="detail-label">Account Number</div><div class="detail-value" style="font-family:var(--mono);font-size:18px;color:var(--green);font-weight:700">${r.bank_account_number||'—'}</div></div>
-            <div class="detail-row"><div class="detail-label">Branch</div><div class="detail-value">${r.bank_branch||'—'}</div></div>
-          </div>
-        </div>`:''}
-    </div>`;
+  document.getElementById('supplier-detail-content').innerHTML=`<div style="display:grid;gap:16px"><div class="detail-row"><div class="detail-label">Farm Name</div><div class="detail-value" style="font-size:18px;font-weight:700">${r.farm_name}</div></div><div class="form-grid-2"><div class="detail-row"><div class="detail-label">Owner</div><div class="detail-value">${r.owner_name||'—'}</div></div><div class="detail-row"><div class="detail-label">Contact</div><div class="detail-value">${r.contact_number||'—'}</div></div></div><div class="detail-row"><div class="detail-label">Location</div><div class="detail-value">${r.location||'—'}</div></div>${r.bank_name?`<hr class="section-divider"><div class="section-title">🏦 Bank Details</div><div class="bank-section"><div class="form-grid-2" style="margin-bottom:12px"><div class="detail-row"><div class="detail-label">Bank</div><div class="detail-value">${r.bank_name}</div></div><div class="detail-row"><div class="detail-label">Account Name</div><div class="detail-value">${r.bank_account_name||'—'}</div></div></div><div class="form-grid-2"><div class="detail-row"><div class="detail-label">Account Number</div><div class="detail-value" style="font-family:var(--mono);font-size:18px;color:var(--green);font-weight:700">${r.bank_account_number||'—'}</div></div><div class="detail-row"><div class="detail-label">Branch</div><div class="detail-value">${r.bank_branch||'—'}</div></div></div></div>`:''}`;
   openModal('supplier-detail-modal');
 }
 
-function openSupplierModal() {
-  document.getElementById('supplier-modal-title').textContent = 'Add Supplier';
-  document.getElementById('sup-edit-id').value = '';
-  ['sup-farm','sup-owner','sup-contact','sup-location','sup-bank-name','sup-bank-acct-name','sup-bank-acct-num','sup-bank-branch'].forEach(id=>document.getElementById(id).value='');
-  openModal('supplier-modal');
-}
-
-function editSupplier(r) {
-  document.getElementById('supplier-modal-title').textContent = 'Edit Supplier';
-  document.getElementById('sup-edit-id').value = r.id;
-  document.getElementById('sup-farm').value = r.farm_name||'';
-  document.getElementById('sup-owner').value = r.owner_name||'';
-  document.getElementById('sup-contact').value = r.contact_number||'';
-  document.getElementById('sup-location').value = r.location||'';
-  document.getElementById('sup-bank-name').value = r.bank_name||'';
-  document.getElementById('sup-bank-acct-name').value = r.bank_account_name||'';
-  document.getElementById('sup-bank-acct-num').value = r.bank_account_number||'';
-  document.getElementById('sup-bank-branch').value = r.bank_branch||'';
-  openModal('supplier-modal');
-}
+function openSupplierModal(){document.getElementById('supplier-modal-title').textContent='Add Supplier';document.getElementById('sup-edit-id').value='';['sup-farm','sup-owner','sup-contact','sup-location','sup-bank-name','sup-bank-acct-name','sup-bank-acct-num','sup-bank-branch'].forEach(id=>document.getElementById(id).value='');openModal('supplier-modal');}
+function editSupplier(r){document.getElementById('supplier-modal-title').textContent='Edit Supplier';document.getElementById('sup-edit-id').value=r.id;document.getElementById('sup-farm').value=r.farm_name||'';document.getElementById('sup-owner').value=r.owner_name||'';document.getElementById('sup-contact').value=r.contact_number||'';document.getElementById('sup-location').value=r.location||'';document.getElementById('sup-bank-name').value=r.bank_name||'';document.getElementById('sup-bank-acct-name').value=r.bank_account_name||'';document.getElementById('sup-bank-acct-num').value=r.bank_account_number||'';document.getElementById('sup-bank-branch').value=r.bank_branch||'';openModal('supplier-modal');}
 
 async function saveSupplier() {
-  const id = document.getElementById('sup-edit-id').value;
-  const payload = {
-    farm_name: document.getElementById('sup-farm').value,
-    owner_name: document.getElementById('sup-owner').value,
-    contact_number: document.getElementById('sup-contact').value,
-    location: document.getElementById('sup-location').value,
-    bank_name: document.getElementById('sup-bank-name').value,
-    bank_account_name: document.getElementById('sup-bank-acct-name').value,
-    bank_account_number: document.getElementById('sup-bank-acct-num').value,
-    bank_branch: document.getElementById('sup-bank-branch').value,
-    user_id: currentUser.id
-  };
-  if (!payload.farm_name) { toast('Farm name is required','error'); return; }
+  const id=document.getElementById('sup-edit-id').value;
+  const payload={farm_name:document.getElementById('sup-farm').value,owner_name:document.getElementById('sup-owner').value,contact_number:document.getElementById('sup-contact').value,location:document.getElementById('sup-location').value,bank_name:document.getElementById('sup-bank-name').value,bank_account_name:document.getElementById('sup-bank-acct-name').value,bank_account_number:document.getElementById('sup-bank-acct-num').value,bank_branch:document.getElementById('sup-bank-branch').value,user_id:currentUser.id};
+  if(!payload.farm_name){toast('Farm name required','error');return;}
   let error;
-  if (id) { ({error}=await sb.from('suppliers').update(payload).eq('id',id)); }
-  else { ({error}=await sb.from('suppliers').insert(payload)); }
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  if(id){({error}=await sb.from('suppliers').update(payload).eq('id',id));}
+  else{({error}=await sb.from('suppliers').insert(payload));}
+  if(error){toast('Error: '+error.message,'error');return;}
   closeModal('supplier-modal'); toast('Supplier saved!','success'); loadSuppliers();
 }
-
-async function deleteSupplier(id) {
-  if (!confirm('Delete this supplier?')) return;
-  await sb.from('suppliers').delete().eq('id',id);
-  toast('Deleted','success'); loadSuppliers();
-}
+async function deleteSupplier(id){if(!confirm('Delete?'))return;await sb.from('suppliers').delete().eq('id',id);toast('Deleted','success');loadSuppliers();}
 
 // BUYERS
 async function loadBuyers() {
-  const {data} = await sb.from('buyers').select('*').order('buyer_name');
-  const el = document.getElementById('buyer-list');
-  if (!data||!data.length) { el.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No buyers yet.</div></div></td></tr>'; return; }
-  el.innerHTML = data.map(r=>{
-    let docs=[]; try{docs=r.documents?JSON.parse(r.documents):[];}catch(e){}
-    return `
-    <tr>
-      <td><strong>${r.buyer_name}</strong></td>
-      <td>${r.contact_number||'—'}</td>
-      <td>${r.location||'—'}</td>
-      <td class="mono">${r.usual_volume?Number(r.usual_volume).toLocaleString()+' heads':'—'}</td>
-      <td>${docs.length?`<span class="badge badge-blue">${docs.length} file(s)</span>`:'—'}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-ghost btn-xs" onclick="viewBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button>
-        <button class="btn btn-ghost btn-xs" onclick="editBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button>
-        <button class="btn btn-danger btn-xs" onclick="deleteBuyer('${r.id}')">Delete</button>
-      </td>
-    </tr>`;
+  const {data}=await sb.from('buyers').select('*').order('buyer_name');
+  const el=document.getElementById('buyer-list');
+  if(!data||!data.length){el.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No buyers yet.</div></div></td></tr>';return;}
+  el.innerHTML=data.map(r=>{
+    let trucks=[]; try{trucks=r.trucks?JSON.parse(r.trucks):[];}catch(e){}
+    let hp=null; try{hp=r.handlers_permit?JSON.parse(r.handlers_permit):null;}catch(e){}
+    return `<tr><td><strong>${r.buyer_name}</strong></td><td>${r.contact_number||'—'}</td><td>${r.location||'—'}</td><td class="mono">${r.usual_volume?Number(r.usual_volume).toLocaleString()+' heads':'—'}</td><td>${trucks.length?`<span class="badge badge-blue">${trucks.length} truck(s)</span>`:'—'}</td><td>${hp&&hp.url?`<a href="${hp.url}" target="_blank" class="badge badge-green" style="text-decoration:none">📋 View</a>`:'—'}</td><td style="display:flex;gap:6px"><button class="btn btn-ghost btn-xs" onclick="viewBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">View</button><button class="btn btn-ghost btn-xs" onclick="editBuyer(${JSON.stringify(r).replace(/"/g,'&quot;')})">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteBuyer('${r.id}')">Delete</button></td></tr>`;
   }).join('');
 }
 
 function viewBuyer(r) {
-  let docs=[]; try{docs=r.documents?JSON.parse(r.documents):[];}catch(e){}
-  document.getElementById('buyer-detail-content').innerHTML = `
+  let trucks=[]; try{trucks=r.trucks?JSON.parse(r.trucks):[];}catch(e){}
+  let hp=null; try{hp=r.handlers_permit?JSON.parse(r.handlers_permit):null;}catch(e){}
+  document.getElementById('buyer-detail-content').innerHTML=`
     <div style="display:grid;gap:16px">
       <div class="detail-row"><div class="detail-label">Buyer Name</div><div class="detail-value" style="font-size:18px;font-weight:700">${r.buyer_name}</div></div>
       <div class="form-grid-2">
@@ -1384,72 +1237,148 @@ function viewBuyer(r) {
       </div>
       <div class="detail-row"><div class="detail-label">Usual Volume</div><div class="detail-value">${r.usual_volume?Number(r.usual_volume).toLocaleString()+' heads':'—'}</div></div>
       ${r.notes?`<div class="detail-row"><div class="detail-label">Notes</div><div class="detail-value">${r.notes}</div></div>`:''}
-      ${docs.length?`<hr class="section-divider"><div class="section-title">📎 Documents</div><div class="doc-list">${docs.map(d=>`<div class="doc-item"><a class="doc-link" href="${d.url}" target="_blank">📄 ${d.name}</a></div>`).join('')}</div>`:''}
+      <hr class="section-divider">
+      <div class="section-title">📋 Handlers Permit</div>
+      ${hp&&hp.url?`<a href="${hp.url}" target="_blank" class="permit-pill" style="display:inline-flex">📋 View Handlers Permit</a>`:'<span style="color:var(--muted);font-size:14px">No handlers permit on file.</span>'}
+      ${trucks.length?`
+        <hr class="section-divider">
+        <div class="section-title">🚛 Registered Trucks</div>
+        <table class="buyer-trucks-table">
+          <thead><tr><th>Plate Number</th><th>Transport Permit</th></tr></thead>
+          <tbody>${trucks.map(t=>`<tr><td style="font-weight:600;font-family:var(--mono)">${t.plate}</td><td>${t.permit_url?`<a href="${t.permit_url}" target="_blank" class="permit-pill" style="display:inline-flex">📄 View Permit</a>`:'No permit on file'}</td></tr>`).join('')}</tbody>
+        </table>`:''}
     </div>`;
   openModal('buyer-detail-modal');
 }
 
-function handleDocUpload(event) {
-  pendingDocFiles = Array.from(event.target.files);
-  document.getElementById('doc-upload-list').innerHTML = pendingDocFiles.map(f=>`<div class="doc-item">📄 ${f.name} <span style="color:var(--muted);font-size:12px">${(f.size/1024).toFixed(1)} KB</span></div>`).join('');
+// TRUCK FIELDS IN BUYER MODAL
+function addTruckField(truck=null) {
+  truckFieldCount++;
+  const n = truckFieldCount;
+  const div = document.createElement('div');
+  div.className = 'truck-registry-item';
+  div.id = 'truck-field-'+n;
+  div.innerHTML = `
+    <div class="truck-registry-header">
+      <div class="truck-registry-plate">🚛 Truck ${n}</div>
+      <button class="btn btn-danger btn-xs" onclick="document.getElementById('truck-field-${n}').remove()">Remove</button>
+    </div>
+    <div class="form-row"><label class="form-label">Plate Number *</label><input type="text" class="form-input" id="truck-plate-${n}" placeholder="e.g. ABC 1234" value="${truck?truck.plate:''}"></div>
+    <div class="form-row"><label class="form-label">Transport Carrier Permit</label>
+      ${truck&&truck.permit_url?`<div style="margin-bottom:8px"><a href="${truck.permit_url}" target="_blank" class="permit-pill" style="display:inline-flex">📄 Current Permit</a></div>`:''}
+      <div class="doc-upload-area" onclick="document.getElementById('truck-permit-${n}').click()">
+        <div class="doc-upload-label">📂 Upload Transport Carrier Permit</div>
+        <input type="file" id="truck-permit-${n}" style="display:none" accept="image/*,.pdf" onchange="handleTruckPermitUpload(${n},event,'${truck?truck.permit_url:''}')">
+      </div>
+      <div id="truck-permit-preview-${n}">${truck&&truck.permit_url?'<div class="doc-item" style="margin-top:8px">📄 Permit on file</div>':''}</div>
+      <input type="hidden" id="truck-permit-url-${n}" value="${truck?truck.permit_url:''}">
+    </div>`;
+  document.getElementById('truck-registry-list').appendChild(div);
+}
+
+function handleHandlersUpload(event) {
+  pendingHandlersFile = event.target.files[0];
+  if (pendingHandlersFile) {
+    document.getElementById('handlers-permit-list').innerHTML = `<div class="doc-item">📋 ${pendingHandlersFile.name} <span style="color:var(--muted);font-size:12px">${(pendingHandlersFile.size/1024).toFixed(1)} KB — will upload on save</span></div>`;
+  }
+}
+
+function handleTruckPermitUpload(n, event, existingUrl) {
+  pendingTruckPermitFiles[n] = event.target.files[0];
+  if (pendingTruckPermitFiles[n]) {
+    document.getElementById('truck-permit-preview-'+n).innerHTML = `<div class="doc-item" style="margin-top:8px">📄 ${pendingTruckPermitFiles[n].name} — will upload on save</div>`;
+  }
 }
 
 function openBuyerModal() {
-  document.getElementById('buyer-modal-title').textContent = 'Add Buyer';
-  document.getElementById('buy-edit-id').value = '';
+  document.getElementById('buyer-modal-title').textContent='Add Buyer';
+  document.getElementById('buy-edit-id').value='';
   ['buy-name','buy-contact','buy-location','buy-volume','buy-notes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('doc-upload-list').innerHTML = '';
-  pendingDocFiles = [];
+  document.getElementById('handlers-permit-list').innerHTML='';
+  document.getElementById('truck-registry-list').innerHTML='';
+  pendingHandlersFile=null; pendingTruckPermitFiles={}; truckFieldCount=0;
   openModal('buyer-modal');
 }
 
 function editBuyer(r) {
-  document.getElementById('buyer-modal-title').textContent = 'Edit Buyer';
-  document.getElementById('buy-edit-id').value = r.id;
-  document.getElementById('buy-name').value = r.buyer_name||'';
-  document.getElementById('buy-contact').value = r.contact_number||'';
-  document.getElementById('buy-location').value = r.location||'';
-  document.getElementById('buy-volume').value = r.usual_volume||'';
-  document.getElementById('buy-notes').value = r.notes||'';
-  let docs=[]; try{docs=r.documents?JSON.parse(r.documents):[];}catch(e){}
-  document.getElementById('doc-upload-list').innerHTML = docs.map(d=>`<div class="doc-item"><a class="doc-link" href="${d.url}" target="_blank">📄 ${d.name}</a></div>`).join('');
-  pendingDocFiles = [];
+  document.getElementById('buyer-modal-title').textContent='Edit Buyer';
+  document.getElementById('buy-edit-id').value=r.id;
+  document.getElementById('buy-name').value=r.buyer_name||'';
+  document.getElementById('buy-contact').value=r.contact_number||'';
+  document.getElementById('buy-location').value=r.location||'';
+  document.getElementById('buy-volume').value=r.usual_volume||'';
+  document.getElementById('buy-notes').value=r.notes||'';
+  document.getElementById('truck-registry-list').innerHTML='';
+  pendingHandlersFile=null; pendingTruckPermitFiles={}; truckFieldCount=0;
+
+  // Show existing handlers permit
+  let hp=null; try{hp=r.handlers_permit?JSON.parse(r.handlers_permit):null;}catch(e){}
+  document.getElementById('handlers-permit-list').innerHTML = hp&&hp.url?`<div class="doc-item">📋 <a href="${hp.url}" target="_blank" class="doc-link">Current Handlers Permit</a></div>`:'';
+
+  // Load existing trucks
+  let trucks=[]; try{trucks=r.trucks?JSON.parse(r.trucks):[];}catch(e){}
+  trucks.forEach(t=>addTruckField(t));
+
   openModal('buyer-modal');
 }
 
 async function saveBuyer() {
   const id = document.getElementById('buy-edit-id').value;
-  let existingDocs = [];
-  if (id) { const {data:ex}=await sb.from('buyers').select('documents').eq('id',id).single(); try{existingDocs=ex.documents?JSON.parse(ex.documents):[];}catch(e){} }
-  for (const file of pendingDocFiles) {
-    const filePath = `buyers/${currentUser.id}/${Date.now()}_${file.name}`;
-    const {error:upErr} = await sb.storage.from('buyer-docs').upload(filePath,file);
-    if (upErr) { toast('Upload error: '+upErr.message,'error'); continue; }
-    const {data:urlData} = sb.storage.from('buyer-docs').getPublicUrl(filePath);
-    existingDocs.push({name:file.name, url:urlData.publicUrl, path:filePath});
+  const buyerName = document.getElementById('buy-name').value;
+  if (!buyerName) { toast('Buyer name required','error'); return; }
+
+  // Upload handlers permit if new file selected
+  let handlerPermitData = null;
+  if (id) {
+    const {data:ex}=await sb.from('buyers').select('handlers_permit').eq('id',id).single();
+    try{handlerPermitData=ex.handlers_permit?JSON.parse(ex.handlers_permit):null;}catch(e){}
   }
+  if (pendingHandlersFile) {
+    const path = `buyers/${currentUser.id}/handlers_${Date.now()}_${pendingHandlersFile.name}`;
+    const url = await uploadFile(pendingHandlersFile, path);
+    if (url) handlerPermitData = {name:pendingHandlersFile.name, url, path};
+  }
+
+  // Collect trucks from modal fields
+  const trucks = [];
+  document.querySelectorAll('[id^="truck-field-"]').forEach(div=>{
+    const n = div.id.replace('truck-field-','');
+    const plate = document.getElementById('truck-plate-'+n)?.value;
+    if (!plate) return;
+    let permitUrl = document.getElementById('truck-permit-url-'+n)?.value||'';
+    trucks.push({plate, permit_url:permitUrl, _pendingFile:n});
+  });
+
+  // Upload any new truck permits
+  for (const truck of trucks) {
+    const n = truck._pendingFile;
+    if (pendingTruckPermitFiles[n]) {
+      const path = `buyers/${currentUser.id}/truck_${truck.plate.replace(/\s/g,'_')}_${Date.now()}`;
+      const url = await uploadFile(pendingTruckPermitFiles[n], path);
+      if (url) truck.permit_url = url;
+    }
+    delete truck._pendingFile;
+  }
+
   const payload = {
-    buyer_name: document.getElementById('buy-name').value,
+    buyer_name: buyerName,
     contact_number: document.getElementById('buy-contact').value,
     location: document.getElementById('buy-location').value,
     usual_volume: document.getElementById('buy-volume').value||null,
     notes: document.getElementById('buy-notes').value,
-    documents: JSON.stringify(existingDocs),
+    handlers_permit: handlerPermitData ? JSON.stringify(handlerPermitData) : null,
+    trucks: trucks.length ? JSON.stringify(trucks) : null,
     user_id: currentUser.id
   };
-  if (!payload.buyer_name) { toast('Buyer name required','error'); return; }
+
   let error;
-  if (id) { ({error}=await sb.from('buyers').update(payload).eq('id',id)); }
-  else { ({error}=await sb.from('buyers').insert(payload)); }
-  if (error) { toast('Error: '+error.message,'error'); return; }
+  if(id){({error}=await sb.from('buyers').update(payload).eq('id',id));}
+  else{({error}=await sb.from('buyers').insert(payload));}
+  if(error){toast('Error: '+error.message,'error');return;}
   closeModal('buyer-modal'); toast('Buyer saved!','success'); loadBuyers();
 }
 
-async function deleteBuyer(id) {
-  if (!confirm('Delete this buyer?')) return;
-  await sb.from('buyers').delete().eq('id',id);
-  toast('Deleted','success'); loadBuyers();
-}
+async function deleteBuyer(id){if(!confirm('Delete this buyer?'))return;await sb.from('buyers').delete().eq('id',id);toast('Deleted','success');loadBuyers();}
 </script>
 </body>
 </html>
