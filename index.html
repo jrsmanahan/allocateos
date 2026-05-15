@@ -293,7 +293,6 @@
       <div class="nav-item" onclick="showPage('supply',this)"><span>📋</span> Supply Board</div>
       <div class="nav-item" onclick="showPage('transactions',this)"><span>💼</span> Transactions</div>
       <div class="nav-item" onclick="showPage('history',this)"><span>📁</span> History</div>
-      <div class="nav-item" onclick="showPage('financials',this)"><span>💰</span> Financials</div>
       <div class="nav-section">Directory</div>
       <div class="nav-item" onclick="showPage('suppliers',this)"><span>🏭</span> Suppliers</div>
       <div class="nav-item" onclick="showPage('buyers',this)"><span>👥</span> Buyers</div>
@@ -366,28 +365,6 @@
           <table class="data-table">
             <thead><tr><th>Date</th><th>Farm</th><th>Buyer</th><th>Actual Heads</th><th>Actual kg</th><th>Price/kg</th><th>Total Amount</th><th>Buyer Payment</th><th>Notes</th></tr></thead>
             <tbody id="history-list"><tr><td colspan="8" class="loading">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FINANCIALS -->
-      <div class="page" id="page-financials">
-        <div class="page-header"><div class="page-title">Financials</div></div>
-        <div class="fin-filters">
-          <select class="filter-select" id="fin-filter-supplier" onchange="loadFinancials()" style="width:200px"><option value="">All Suppliers</option></select>
-          <select class="filter-select" id="fin-filter-buyer" onchange="loadFinancials()" style="width:200px"><option value="">All Buyers</option></select>
-          <input type="month" class="filter-input" id="fin-filter-month" onchange="loadFinancials()">
-          <button class="btn btn-ghost btn-sm" onclick="clearFinFilters()">Clear Filters</button>
-        </div>
-        <div class="fin-summary">
-          <div class="fin-card"><div class="fin-label">Total Volume</div><div class="fin-value" id="fin-total-heads" style="color:var(--green)">—</div></div>
-          <div class="fin-card"><div class="fin-label">Total Paid to Farms</div><div class="fin-value" id="fin-total-paid" style="color:var(--blue)">—</div></div>
-          <div class="fin-card"><div class="fin-label">Total Received from Buyers</div><div class="fin-value" id="fin-total-received" style="color:var(--purple)">—</div></div>
-        </div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead><tr><th>Date</th><th>Farm</th><th>Buyer</th><th>Heads</th><th>Price/kg</th><th>Total</th><th>Buyer Payment</th></tr></thead>
-            <tbody id="fin-list"><tr><td colspan="7" class="loading">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -654,9 +631,9 @@ function initApp() {
   document.getElementById('supply-date').value = today;
   const thisMonth = today.substring(0,7);
   document.getElementById('history-month').value = thisMonth;
-  document.getElementById('fin-filter-month').value = thisMonth;
+  
   updateDateLabel();
-  loadDashboard(); loadSupply(); loadTransactions(); loadHistory(); loadFinancials(); loadSuppliers(); loadBuyers();
+  loadDashboard(); loadSupply(); loadTransactions(); loadHistory(); loadSuppliers(); loadBuyers();
 }
 
 function showPage(name,el) {
@@ -665,7 +642,7 @@ function showPage(name,el) {
   document.getElementById('page-'+name).classList.add('active');
   el.classList.add('active');
   if(name==='dashboard') loadDashboard();
-  if(name==='financials') loadFinancials();
+  
   if(name==='transactions') loadTransactions();
 }
 
@@ -1390,40 +1367,6 @@ async function updateHistoryPayment(txId, value) {
   toast('Payment status updated!','success');
   loadHistory(); loadDashboard();
 }
-
-// FINANCIALS
-async function loadFinancials() {
-  const supFilter=document.getElementById('fin-filter-supplier').value;
-  const buyFilter=document.getElementById('fin-filter-buyer').value;
-  const month=document.getElementById('fin-filter-month').value;
-  let query=sb.from('transactions').select('*').eq('stage','Completed');
-  if(month){query=query.gte('date',month+'-01').lte('date',month+'-31');}
-  if(supFilter) query=query.eq('farm_name',supFilter);
-  if(buyFilter) query=query.eq('buyer_name',buyFilter);
-  const {data}=await query.order('date',{ascending:false});
-  const {data:allTx}=await sb.from('transactions').select('farm_name,buyer_name').eq('stage','Completed');
-  if(allTx){
-    const farms=[...new Set(allTx.map(r=>r.farm_name))].sort();
-    const buyers=[...new Set(allTx.map(r=>r.buyer_name))].sort();
-    const cs=document.getElementById('fin-filter-supplier').value;
-    const cb=document.getElementById('fin-filter-buyer').value;
-    document.getElementById('fin-filter-supplier').innerHTML='<option value="">All Suppliers</option>'+farms.map(f=>`<option value="${f}"${f===cs?' selected':''}>${f}</option>`).join('');
-    document.getElementById('fin-filter-buyer').innerHTML='<option value="">All Buyers</option>'+buyers.map(b=>`<option value="${b}"${b===cb?' selected':''}>${b}</option>`).join('');
-  }
-  if(!data||!data.length){
-    document.getElementById('fin-list').innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">No completed transactions found.</div></div></td></tr>';
-    ['fin-total-heads','fin-total-paid','fin-total-received'].forEach(id=>document.getElementById(id).textContent='—');
-    return;
-  }
-  const totalHeads=data.reduce((s,r)=>s+(parseFloat(r.grand_total_heads||r.total_heads)||0),0);
-  const totalPaid=data.reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
-  const totalReceived=data.filter(r=>r.buyer_payment_status==='Received').reduce((s,r)=>s+(parseFloat(r.grand_total_amount)||0),0);
-  document.getElementById('fin-total-heads').textContent=totalHeads.toLocaleString();
-  document.getElementById('fin-total-paid').textContent='₱'+totalPaid.toLocaleString();
-  document.getElementById('fin-total-received').textContent='₱'+totalReceived.toLocaleString();
-  document.getElementById('fin-list').innerHTML=data.map(r=>`<tr><td class="mono">${r.date}</td><td><strong>${r.farm_name}</strong></td><td>${r.buyer_name}</td><td class="mono">${r.grand_total_heads?Number(r.grand_total_heads).toLocaleString():r.total_heads?Number(r.total_heads).toLocaleString():'—'}</td><td class="mono">${r.price_per_kg?'₱'+r.price_per_kg:'—'}</td><td class="mono" style="color:var(--green);font-weight:600">${r.grand_total_amount?'₱'+Number(r.grand_total_amount).toLocaleString():'—'}</td><td><span class="badge ${r.buyer_payment_status==='Received'?'badge-green':r.buyer_payment_status==='Partial'?'badge-orange':'badge-red'}">${r.buyer_payment_status||'—'}</span></td></tr>`).join('');
-}
-function clearFinFilters(){document.getElementById('fin-filter-supplier').value='';document.getElementById('fin-filter-buyer').value='';document.getElementById('fin-filter-month').value=new Date().toISOString().substring(0,7);loadFinancials();}
 
 // SUPPLIERS
 async function loadSuppliers() {
