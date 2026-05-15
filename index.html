@@ -307,8 +307,8 @@
         <div class="dash-grid">
           <div class="dash-card"><div class="dash-card-icon">🐔</div><div class="dash-label">Supply Available Today</div><div class="dash-value" style="color:var(--green)" id="dash-supply">—</div><div class="dash-sub" id="dash-supply-sub">farms with stock</div></div>
           <div class="dash-card"><div class="dash-card-icon">📊</div><div class="dash-label">Today's Price Range</div><div class="dash-value" style="color:var(--orange);font-size:20px;margin-top:6px" id="dash-price">—</div><div class="dash-sub">₱ per kg</div></div>
-          <div class="dash-card"><div class="dash-card-icon">📤</div><div class="dash-label">Pending Payables</div><div class="dash-value" style="color:var(--blue)" id="dash-payables">—</div><div class="dash-sub">transactions in progress</div></div>
-          <div class="dash-card"><div class="dash-card-icon">📥</div><div class="dash-label">Pending Receivables</div><div class="dash-value" style="color:var(--purple)" id="dash-receivables">—</div><div class="dash-sub">buyer payments pending</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📤</div><div class="dash-label">Pending Payables</div><div class="dash-value" style="color:var(--blue)" id="dash-payables">—</div><div class="dash-sub">active non-completed transactions</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📥</div><div class="dash-label">Pending Receivables</div><div class="dash-value" style="color:var(--purple)" id="dash-receivables">—</div><div class="dash-sub">buyers haven't paid yet</div></div>
         </div>
         <div class="dash-row">
           <div class="dash-panel"><div class="dash-panel-title">📋 Active Transactions</div><div id="dash-pending-list"><div class="loading">Loading...</div></div></div>
@@ -712,11 +712,24 @@ async function loadDashboard() {
   const totalHeads = supplyData?supplyData.reduce((s,r)=>s+(r.heads_available||0),0):0;
   document.getElementById('dash-supply').textContent = supplyCount;
   document.getElementById('dash-supply-sub').textContent = totalHeads.toLocaleString()+' heads available';
-  const {data:priceData} = await sb.from('price_log').select('*').eq('date',today).order('created_at',{ascending:false}).limit(1);
-  document.getElementById('dash-price').textContent = (priceData&&priceData.length)?'₱'+priceData[0].price_low+' – ₱'+priceData[0].price_high:'Not logged yet';
+
+  // Price range from active transaction prices
+  const {data:priceData} = await sb.from('transactions').select('price_per_kg').not('price_per_kg','is',null);
+  if (priceData&&priceData.length) {
+    const prices = priceData.map(r=>parseFloat(r.price_per_kg)).filter(p=>p>0);
+    if (prices.length) {
+      const low = Math.min(...prices);
+      const high = Math.max(...prices);
+      document.getElementById('dash-price').textContent = low===high ? '₱'+low : '₱'+low+' – ₱'+high;
+    } else { document.getElementById('dash-price').textContent = 'Not logged yet'; }
+  } else { document.getElementById('dash-price').textContent = 'Not logged yet'; }
+
+  // Pending payables = all transactions not yet completed
   const {data:txData} = await sb.from('transactions').select('*').neq('stage','Completed');
   document.getElementById('dash-payables').textContent = txData?txData.length:0;
-  const {data:recData} = await sb.from('transactions').select('*').eq('buyer_payment_status','Pending').neq('stage','Completed');
+
+  // Pending receivables = all transactions where buyer hasn't paid yet
+  const {data:recData} = await sb.from('transactions').select('*').eq('buyer_payment_status','Pending');
   document.getElementById('dash-receivables').textContent = recData?recData.length:0;
   document.getElementById('dash-pending-list').innerHTML = !txData||!txData.length
     ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No active transactions.</div>'
