@@ -728,8 +728,8 @@ async function loadDashboard() {
   const {data:txData} = await sb.from('transactions').select('*').neq('stage','Completed');
   document.getElementById('dash-payables').textContent = txData?txData.length:0;
 
-  // Pending receivables = all transactions where buyer hasn't paid yet
-  const {data:recData} = await sb.from('transactions').select('*').eq('buyer_payment_status','Pending');
+  // Pending receivables = all transactions where buyer hasn't fully paid yet
+  const {data:recData} = await sb.from('transactions').select('*').in('buyer_payment_status',['Pending','Partial']);
   document.getElementById('dash-receivables').textContent = recData?recData.length:0;
   document.getElementById('dash-pending-list').innerHTML = !txData||!txData.length
     ? '<div style="color:var(--muted);font-size:14px;padding:16px 0;text-align:center">No active transactions.</div>'
